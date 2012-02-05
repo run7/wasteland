@@ -2,32 +2,32 @@
 // @name           Box-z Price History Image
 // @namespace      http://qixinglu.com
 // @description    在网上商店产品页面，自动插入一张从 www.box-z.com 里的价格历史波动图片。
-// @match          http://mvd.360buy.com/*
-// @match          http://book.360buy.com/*
-// @match          http://www.360buy.com/product/*
-// @match          http://www.newegg.com.cn/product/*
-// @match          http://www.newegg.com.cn/Product/*
-// @match          http://www.amazon.cn/gp/product/*
-// @match          http://www.amazon.cn/*/dp/*
-// @match          http://www.amazon.cn/mn/detailApp*
-// @match          http://product.dangdang.com/product.aspx?product_id=*
-// @match          http://product.dangdang.com/Product.aspx?product_id=*
-// @match          http://item.51buy.com/item-*
-// @match          http://www.suning.com/webapp/wcs/stores/servlet/prd_10052_10051_-7_*
-// @match          http://www.gome.com.cn/product/*
-// @match          http://www.lusen.com/product-*
-// @match          http://www.efeihu.com/Pages/ProductShow/ProductDetails.aspx?*
-// @match          http://www.tao3c.com/product/*
-// @match          http://www.coo8.com/product/*
-// @match          http://www.yihaodian.com/product/detail.do?*
-// @match          http://www.yihaodian.com/product/*
-// @match          http://www.ouku.com/goods*
-// @match          http://www.bookschina.com/*
-// @match          http://www.wl.cn/*
-// @match          http://product.china-pub.com/*
-// @match          http://www.winxuan.com/product/book_1_*
-// @match          http://www.99read.com/product/*
-// @match          http://www.new7.com/product/*
+// @include        http://mvd.360buy.com/*
+// @include        http://book.360buy.com/*
+// @include        http://www.360buy.com/product/*
+// @include        http://www.newegg.com.cn/product/*
+// @include        http://www.newegg.com.cn/Product/*
+// @include        http://www.amazon.cn/gp/product/*
+// @include        http://www.amazon.cn/*/dp/*
+// @include        http://www.amazon.cn/mn/detailApp*
+// @include        http://product.dangdang.com/product.aspx?product_id=*
+// @include        http://product.dangdang.com/Product.aspx?product_id=*
+// @include        http://item.51buy.com/item-*
+// @include        http://www.suning.com/webapp/wcs/stores/servlet/prd_10052_10051_-7_*
+// @include        http://www.gome.com.cn/product/*
+// @include        http://www.lusen.com/product-*
+// @include        http://www.efeihu.com/Pages/ProductShow/ProductDetails.aspx?*
+// @include        http://www.tao3c.com/product/*
+// @include        http://www.coo8.com/product/*
+// @include        http://www.yihaodian.com/product/detail.do?*
+// @include        http://www.yihaodian.com/product/*
+// @include        http://www.ouku.com/goods*
+// @include        http://www.bookschina.com/*
+// @include        http://www.wl.cn/*
+// @include        http://product.china-pub.com/*
+// @include        http://www.winxuan.com/product/book_1_*
+// @include        http://www.99read.com/product/*
+// @include        http://www.new7.com/product/*
 // ==/UserScript==
 
 // 获得价格历史图片

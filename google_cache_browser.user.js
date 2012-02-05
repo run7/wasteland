@@ -2,8 +2,8 @@
 // @name           Google Cache Browser
 // @namespace      http://qixinglu.com
 // @description    Continue browsing the page in Google cache
-// @match          http://webcache.googleusercontent.com/search?*
-// @match          https://webcache.googleusercontent.com/search?*
+// @include        http://webcache.googleusercontent.com/search?*
+// @include        https://webcache.googleusercontent.com/search?*
 // ==/UserScript==
 
 var parts = document.location.href.split(/q=cache:[^&]+/);

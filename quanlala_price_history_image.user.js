@@ -2,14 +2,14 @@
 // @name           Quanlala Price History Image
 // @namespace      http://qixinglu.com
 // @description    在京东/新蛋/亚马逊中国的产品页面，自动插入一张从 quanlala.com 里的价格历史波动图片。
-// @match          http://mvd.360buy.com/*
-// @match          http://book.360buy.com/*
-// @match          http://www.360buy.com/product/*
-// @match          http://www.newegg.com.cn/product/*
-// @match          http://www.newegg.com.cn/Product/*
-// @match          http://www.amazon.cn/gp/product/*
-// @match          http://www.amazon.cn/*/dp/*
-// @match          http://www.amazon.cn/mn/detailApp*
+// @include        http://mvd.360buy.com/*
+// @include        http://book.360buy.com/*
+// @include        http://www.360buy.com/product/*
+// @include        http://www.newegg.com.cn/product/*
+// @include        http://www.newegg.com.cn/Product/*
+// @include        http://www.amazon.cn/gp/product/*
+// @include        http://www.amazon.cn/*/dp/*
+// @include        http://www.amazon.cn/mn/detailApp*
 // ==/UserScript==
 
 // 使用域名

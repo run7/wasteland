@@ -2,7 +2,7 @@
 // @name           VeryCD File Show Link
 // @namespace      http://qixinglu.com
 // @description    VeryCD 的文件页面直接显示下载地址而不是js按钮。
-// @match          http://www.verycd.com/files/*
+// @include        http://www.verycd.com/files/*
 // ==/UserScript==
 
 var button_node = document.getElementById('downloadButton');

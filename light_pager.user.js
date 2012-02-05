@@ -2,8 +2,8 @@
 // @name           Light Pager
 // @namespace      http://qixinglu.com
 // @description    Append next page content to current page.
-// @match          http://www.google.com/search?*
-// @match          https://www.google.com/search?*
+// @include        http://www.google.com/search?*
+// @include        https://www.google.com/search?*
 // ==/UserScript==
 
 // site rules
