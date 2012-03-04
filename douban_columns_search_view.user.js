@@ -13,41 +13,39 @@ var music_search_url = search_links[2].href;
 var content_node = document.getElementById('content');
 var result_container_node = document.createElement('div');
 result_container_node.id = 'result_container';
-result_container_node.innerHTML = (<![CDATA[
-    <div id="book_result" class="extra_result">
-        <h3><a href="#">图书</a></h3>
-    </div>
-    <div id="movie_result" class="extra_result">
-        <h3><a href="#">电影</a></h3>
-    </div>
-    <div id="music_result" class="extra_result">
-        <h3><a href="#">音乐</a></h3>
-    </div>
-]]>).toString();
-GM_addStyle((<![CDATA[
-    .extra_result { 
-        float: left; 
-        margin-right: 10px; 
-    }
-    #result_container { 
-        float: left; 
-    }
-    #book_result {
-        width: 360px; 
-    }
-    #movie_result {
-        width: 450px; 
-    }
-    #music_result {
-        width: 300px; 
-    }
-    #wrapper { 
-        width: 1140px; 
-    }
-    #db-nav-main .bd {
-        width: 964px;
-    }
-]]>).toString());
+result_container_node.innerHTML = '' +
+'<div id="book_result" class="extra_result">' +
+    '<h3><a href="#">图书</a></h3>' +
+'</div>' +
+'<div id="movie_result" class="extra_result">' +
+    '<h3><a href="#">电影</a></h3>' +
+'</div>' +
+'<div id="music_result" class="extra_result">' +
+    '<h3><a href="#">音乐</a></h3>' +
+'</div>';
+GM_addStyle('' +
+'.extra_result { ' +
+    'float: left; ' +
+    'margin-right: 10px; ' +
+'}' +
+'#result_container { ' +
+    'float: left; ' +
+'}' +
+'#book_result {' +
+    'width: 360px; ' +
+'}' +
+'#movie_result {' +
+    'width: 450px; ' +
+'}' +
+'#music_result {' +
+    'width: 300px; ' +
+'}' +
+'#wrapper { ' +
+    'width: 1140px; ' +
+'}' +
+'#db-nav-main .bd {' +
+    'width: 964px;' +
+'}');
 content_node.replaceChild(result_container_node, content_node.lastElementChild);
 
 var get_result_node = function(response) {
