@@ -68,7 +68,7 @@ GM_xmlhttpRequest({
         var i, link_node;
         for (i = 0; i < link_nodes.length; i += 1) {
             link_node = link_nodes[i];
-            link_node.href.replace('/', 'http://book.douban.com/subject_search');
+            link_node.href = link_node.href.replace('http://www', 'http://book');
         }
     }
 });
@@ -81,12 +81,6 @@ GM_xmlhttpRequest({
         var result_container_node = document.getElementById('movie_result');
         result_container_node.appendChild(result_node);
         document.querySelector('#movie_result a').href = movie_search_url;
-        var link_nodes = result_node.querySelectorAll('.paginator a')
-        var i, link_node;
-        for (i = 0; i < link_nodes.length; i += 1) {
-            link_node = link_nodes[i];
-            link_node.href.replace('/', 'http://movie.douban.com/subject_search');
-        }
     }
 });
 
@@ -98,11 +92,5 @@ GM_xmlhttpRequest({
         var result_container_node = document.getElementById('music_result');
         result_container_node.appendChild(result_node);
         document.querySelector('#music_result a').href = music_search_url;
-        var link_nodes = result_node.querySelectorAll('.paginator a')
-        var i, link_node;
-        for (i = 0; i < link_nodes.length; i += 1) {
-            link_node = link_nodes[i];
-            link_node.href.replace('/', 'http://music.douban.com/subject_search');
-        }
     }
 });
