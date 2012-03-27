@@ -14,10 +14,9 @@ var sites = [
     {
         domain: 'youku.com',
         handler: function() {
-            var source_link_node = document.getElementById('fn_download');
+            var source_link_node = document.getElementById('fn_favodownload').lastElementChild;
             var new_link_node = document.createElement('a');
-            new_link_node.id = source_link_node.id;
-            new_link_node.text = source_link_node.text;
+            new_link_node.text = '下载';
             new_link_node.href = create_flvcd_url();
             source_link_node.parentNode.replaceChild(new_link_node, source_link_node);
         }
