@@ -4,6 +4,7 @@
 // @description    Append next page content to current page.
 // @include        http://www.google.com/search?*
 // @include        https://www.google.com/search?*
+// @include        http://stackoverflow.com/questions*
 // ==/UserScript==
 
 // site rules
@@ -13,13 +14,20 @@ var SITES = [
         next: '#pnnext',
         content: '#center_col',
         removes: '#topstuff, #extrares',
-        count : 2,
+        count : 3,
+        height: 0.9
+    },
+    {
+        urls: 'http://stackoverflow.com/questions',
+        next: 'a[rel="next"]',
+        content: '#mainbar',
+        count : 3,
         height: 0.9
     }
 ];
 
 // global default options
-var COUNT = 3;
+var COUNT = 5;
 var HEIGHT = 0.9;
 
 var light_pager = function(site) {
@@ -97,25 +105,47 @@ var light_pager = function(site) {
         });
     };
 
-    var stop_scroll_listener = function() {
-        appending = false;
-        window.removeEventListener("scroll", scroll_listener, false);
+    var reach_append_height = function() {
+        var current_height = window.scrollMaxY - window.scrollY;
+        return site.height > current_height;
     };
 
     var scroll_listener = function() {
         if (appending) {
             return;
         }
-        current_height = window.scrollMaxY - window.scrollY;
-        if (site.height > current_height) {
+        if (reach_append_height()) {
             append_next();
         }
     };
 
-    if (window.scrollMaxY === 0) {
-        append_next();
+    var start_scroll_listener = function() {
+        if (reach_append_height()) {
+            append_next();
+        }
+        window.addEventListener("scroll", scroll_listener, false);
     }
-    window.addEventListener("scroll", scroll_listener, false);
+
+    var stop_scroll_listener = function() {
+        appending = false;
+        window.removeEventListener("scroll", scroll_listener, false);
+    };
+
+    var control = {
+        'start_paging' : function() {
+            site.appended_count = 0;
+            start_scroll_listener();
+        },
+        'continue_paging' : function() {
+            start_scroll_listener();
+        },
+        'stop_paging' : function() {
+            stop_scroll_listener();
+        }
+    };
+
+    start_scroll_listener();
+    return control;
 }
 
 var select_site = function(sites) {
@@ -147,5 +177,9 @@ if (site !== null) {
     if (site.count === undefined) {
         site.count = COUNT;
     }
-    light_pager(site);
+    control = light_pager(site);
+    GM_registerMenuCommand("Start", control.start_paging, "s");
+    GM_registerMenuCommand("Continue", control.continue_paging, "c");
+    GM_registerMenuCommand("Stop", control.stop_paging, "t");
 }
+
