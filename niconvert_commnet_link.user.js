@@ -25,7 +25,7 @@ var do_bilibili = function() {
 var do_acfun = function() {
     var reg = new RegExp('flashvars=".+?id=(.+?)"');
     var commnet_uid = document.documentElement.innerHTML.match(reg)[1];
-    var commnet_url = "http://122.224.11.162/" + commnet_uid + ".json";
+    var commnet_url = "http://comment.acfun.tv/" + commnet_uid + ".json";
     var link = create_link(commnet_url);
     document.querySelector('a[href=""]').parentNode.appendChild(link);
 }
