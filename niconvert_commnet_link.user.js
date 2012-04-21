@@ -23,11 +23,21 @@ var do_bilibili = function() {
 }
 
 var do_acfun = function() {
-    var reg = new RegExp('flashvars=".+?id=(.+?)"');
-    var commnet_uid = document.documentElement.innerHTML.match(reg)[1];
-    var commnet_url = "http://comment.acfun.tv/" + commnet_uid + ".json";
-    var link = create_link(commnet_url);
-    document.querySelector('a[href=""]').parentNode.appendChild(link);
+    var reg = new RegExp("'id':'([0-9]+?)',");
+    var vid = document.querySelector('#area-player script').innerHTML.match(reg)[1];
+    var info_url = 'http://www.acfun.tv/api/getVideoByID.aspx?vid=' + vid;
+    GM_xmlhttpRequest({
+        method: "GET",
+        url: info_url,
+        onload: function(response) {
+            var commnet_uid = JSON.parse(response.responseText).vid;
+            var commnet_url = "http://comment.acfun.tv/" + commnet_uid + ".json";
+            var link = create_link(commnet_url);
+            link.style.marginLeft = "15px";
+            document.getElementById('info-article').appendChild(link);
+        }
+    });
+
 }
 
 if (location.href.indexOf("http://www.bilibili.tv") === 0) {
