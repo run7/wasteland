@@ -1,0 +1,21 @@
+iso2grub 0.4
+
+iso2grub is a python script, so you need python interpreter, most popular linux
+distributions come with Python in the default installation, if not check your 
+distribution repository or you can download from python homepage 
+"http://www.python.org/download/"
+to see the usage just run
+./iso2grub.py
+
+There are a gui frontend for iso2grub, iso2grub_gui, it write with pyGTK, so 
+you need pygtk library, most popular desktop linux distributions also come with
+this library, to start iso2grub_gui, just run
+./iso2grub_gui.py
+
+files:
+iso2grub.py - console program
+iso2grub_gui.py - gui frontends, write in pygtk, normally use this one
+
+these files just for fun:
+iso2grub_gui_wx.py - gui frontends, write in wxpython
+iso2grub_gui_glade.py - also gui frotends, write in gtk but use glade to build ui 

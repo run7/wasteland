@@ -1,0 +1,188 @@
+# Chinese translations for iso package.
+# Copyright (C) 2010 THE iso'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the iso package.
+# muzuiget <muzuiget@gmail.com>, 2010.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: iso 2grub\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2010-08-07 00:18+0800\n"
+"PO-Revision-Date: 2010-08-06 23:33+0800\n"
+"Last-Translator: muzuiget <muzuiget@gmail.com>\n"
+"Language-Team: Chinese (simplified)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: iso2grub.glade:6
+msgid "iso2grub_gui"
+msgstr "iso2grub_gui"
+
+#: iso2grub.glade:31 iso2grub_gui.py:71 iso2grub_gui_wx.py:41
+msgid "Open File:"
+msgstr "打开文件："
+
+#: iso2grub.glade:40 iso2grub_gui.py:75 iso2grub_gui_wx.py:46
+msgid "Save File:"
+msgstr "保存文件："
+
+#: iso2grub.glade:50 iso2grub.glade:64 iso2grub_gui.py:54 iso2grub_gui.py:57
+#: iso2grub_gui_wx.py:43 iso2grub_gui_wx.py:48
+msgid "Browse"
+msgstr "浏览"
+
+#: iso2grub.glade:81 iso2grub_gui.py:58 iso2grub_gui_wx.py:50
+msgid "Exit"
+msgstr "退出"
+
+#: iso2grub.glade:97 iso2grub_gui.py:55 iso2grub_gui_wx.py:44
+msgid "About"
+msgstr "关于"
+
+#: iso2grub.glade:143 iso2grub_gui.py:48 iso2grub_gui_wx.py:100
+msgid "Actions"
+msgstr "动作"
+
+#: iso2grub.glade:169 iso2grub_gui.py:87 iso2grub_gui_wx.py:53
+msgid "Print title number"
+msgstr "对标题添加编号"
+
+#: iso2grub.glade:173 iso2grub_gui.py:89 iso2grub_gui_wx.py:55
+msgid ""
+"If it checked, print a index number for each title.\n"
+"title menu1 --> title [01] menu1"
+msgstr ""
+"如果勾选，每个标题前加一个数字编号\n"
+"title menu1 --> title [01] menu1"
+
+#: iso2grub.glade:184 iso2grub_gui.py:98 iso2grub_gui_wx.py:63
+msgid "Convert splash image"
+msgstr "转换背景图片"
+
+#: iso2grub.glade:188 iso2grub_gui.py:100 iso2grub_gui_wx.py:65
+msgid ""
+"If it checked, convert the splash image file.\n"
+"it will save in the same folder with the menu file.\n"
+"you must have a \"convert\" command on your system."
+msgstr ""
+"如果选中， 同时转换背景图片。\n"
+"将保存到跟菜单文件同一目录中。\n"
+"你的系统上必须已经安装了 \"convert\" 命令。"
+
+#: iso2grub.glade:202 iso2grub_gui.py:91 iso2grub_gui_wx.py:57
+msgid "Redirect the folder path:"
+msgstr "重定向文件夹路径："
+
+#: iso2grub.glade:206 iso2grub_gui.py:93 iso2grub_gui_wx.py:59
+msgid ""
+"If it checked, redirect the boot file path.\n"
+"kernel /vmlinuz --> kernel /grub/vmlinuz"
+msgstr ""
+"如果选中， 重定向引导文件路径。\n"
+"kernel /vmlinuz --> kernel /grub/vmlinuz"
+
+#: iso2grub.glade:219 iso2grub_gui.py:103 iso2grub_gui_wx.py:68
+msgid "Custom menu first title:"
+msgstr "自定义首个标题名称："
+
+#: iso2grub.glade:223 iso2grub_gui.py:105 iso2grub_gui_wx.py:70
+msgid "If it checked, add a string as the menu first title."
+msgstr "如果选中，该字符串作为菜单的首个标题"
+
+#: iso2grub.glade:241
+msgid "/grub"
+msgstr "/grub"
+
+#: iso2grub.glade:255 iso2grub_gui.py:107 iso2grub_gui_wx.py:71
+msgid "My Linux Bootdisk"
+msgstr "My Linux Bootdisk"
+
+#: iso2grub.glade:267 iso2grub_gui.py:97 iso2grub_gui_wx.py:73
+msgid "Convert"
+msgstr "转换"
+
+#: iso2grub.glade:282 iso2grub_gui.py:108 iso2grub_gui_wx.py:75
+msgid "Save"
+msgstr "保存"
+
+#: iso2grub.glade:304 iso2grub_gui.py:82 iso2grub_gui_wx.py:114
+msgid "Options"
+msgstr "选项"
+
+#: iso2grub.glade:343 iso2grub_gui.py:135 iso2grub_gui_wx.py:118
+msgid "Preview"
+msgstr "预览"
+
+#: iso2grub_gui_glade.py:68 iso2grub_gui.py:156 iso2grub_gui_wx.py:85
+msgid "Step 1: Open a isolinux file"
+msgstr "步骤 1：打开一个 isolinux 文件"
+
+#: iso2grub_gui.py:177 iso2grub_gui.py:198
+msgid "Select a file"
+msgstr "选择一个文件"
+
+#: iso2grub_gui.py:192 iso2grub_gui_wx.py:203
+msgid "Step 2: Select a file to save"
+msgstr "步骤 2：选择保存的文件"
+
+#: iso2grub_gui.py:217 iso2grub_gui_wx.py:185
+msgid "Convert finished, reconvert or edit it if you need"
+msgstr "转换完毕，可继续再次转换或手动编辑"
+
+#: iso2grub_gui.py:223
+msgid "Ooh, something wrong"
+msgstr "啊噢，出错了"
+
+#: iso2grub_gui.py:360
+msgid ""
+"iso2grub_gui is frontend for iso2grub, it write with pyGTK.\n"
+"It is a python script to convert isolinux configfile \n"
+"\"isolinux.cfg\" to grub4dos configfile \"menu.lst\"."
+msgstr ""
+"iso2grub_gui_wx 是iso2grub的一个前端，使用pyGTK编写。\n"
+"iso2grub 是一个python脚本来转换isolinux的菜单菜单文件 \n"
+"\"isolinux.cfg\" 为grub4dos菜单文件。\"menu.lst\"."
+
+#: iso2grub_gui.py:363 iso2grub_gui_wx.py:237
+msgid "iso2grub home page"
+msgstr "iso2grub主页"
+
+#: iso2grub_gui_wx.py:191
+msgid "Click \"Save\" button when finish editing"
+msgstr "编辑好后点击\"保存\"按钮保存"
+
+#: iso2grub_gui_wx.py:194
+msgid "isolinux configfile (*.cfg)|*.cfg|All files (*.*)|*.*"
+msgstr "isolinux 菜单文件 (*.cfg)|*.cfg|All files (*.*)|*.*"
+
+#: iso2grub_gui_wx.py:208
+msgid "grub4dos configfile (*.lst)|*.lst|All files (*.*)|*.*"
+msgstr "grub4dos 菜单文件 (*.lst)|*.lst|All files (*.*)|*.*"
+
+#: iso2grub_gui_wx.py:232
+msgid ""
+"iso2grub_gui_wx is frontend for iso2grub, \n"
+"it write with wxPython.\n"
+"iso2grub is a python script to convert isolinux configfile \n"
+"\"isolinux.cfg\" to grub4dos configfile \"menu.lst\"."
+msgstr ""
+"iso2grub_gui_wx 是iso2grub的一个前端，使用wxPython编写。\n"
+"iso2grub 是一个python脚本来转换isolinux的菜单菜单文件 \n"
+"\"isolinux.cfg\" 为grub4dos菜单文件。\"menu.lst\"."
+
+#: iso2grub.py:116
+msgid "Error: Current version can only convert a file once"
+msgstr "错误: 当前版本的程序每次只能转换一个菜单文件"
+
+#: iso2grub.py:363
+msgid "Error: Could not open the file, does the filename correct ?"
+msgstr "错误: 无法打开文件，确认文件名无误？"
+
+#: iso2grub.py:386
+msgid "Error: Could not convert the splash image"
+msgstr "错误: 无法转换背景图像"
+
+#: iso2grub.py:388
+msgid "Error: Could not find splash image, output folder or convert command"
+msgstr "错误: 无法找到背景图像，输出目录或者convert命令"
