@@ -9,6 +9,8 @@ from PySide.QtWebKit import *
 from minix import QWidgetMinix
 from dictview import WordView, PopupWordView, SentenceView
 
+from utils import delay
+
 class StrengthWord(QWidget, QWidgetMinix):
 
     WIDTH = 700
@@ -49,8 +51,8 @@ class StrengthWord(QWidget, QWidgetMinix):
         self.toolbar = QWidget()
         self.scan_checkbox = QCheckBox(u'取词')
         self.scan_checkbox.setChecked(True)
-        self.scan_checkbox.stateChanged.connect(
-            self.on_scan_checkbox_stateChanged)
+        self.scan_checkbox.clicked.connect(
+            self.on_scan_checkbox_clicked)
         layout = QHBoxLayout()
         layout.setAlignment(Qt.AlignRight)
         layout.addWidget(self.scan_checkbox)
@@ -106,7 +108,7 @@ class StrengthWord(QWidget, QWidgetMinix):
             self.clipboard.selectionChanged.disconnect(
                 self.on_clipboard_selectionChanged)
 
-    def on_scan_checkbox_stateChanged(self):
+    def on_scan_checkbox_clicked(self):
         scan = self.scan_checkbox.isChecked()
         self.scan_action.setChecked(scan)
         self.scan_clipboard(scan)
@@ -127,6 +129,7 @@ class StrengthWord(QWidget, QWidgetMinix):
         self.setVisible(not visible)
         self.show_action.setChecked(not visible)
 
+    @delay(500)
     def on_clipboard_selectionChanged(self):
         text = self.clipboard.text(QClipboard.Selection)
         self.popup_wordview.query(text)
