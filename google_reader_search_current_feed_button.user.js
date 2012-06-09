@@ -6,13 +6,7 @@
 // @include        https://www.google.com/reader/view/*
 // ==/UserScript==
 
-var search_node, search_button_nodes, search_button_node, new_search_button_node;
-search_node = document.getElementById("search")
-search_button_nodes = search_node.getElementsByClassName('jfk-button');
-search_button_node = search_button_nodes[search_button_nodes.length - 1];
-new_search_button_node = search_button_node.cloneNode(true);
-
-new_search_button_node.addEventListener("click", function() {
+var search_current_feed = function() {
     var url, search_string, replace_string, reg;
     url = window.location.href;
     search_string = document.getElementById("search-input").value;
@@ -26,12 +20,20 @@ new_search_button_node.addEventListener("click", function() {
         reg = new RegExp("#search/[^/]\+/");
         window.location.href = url.replace(reg,replace_string);
     }
-}, false);
-new_search_button_node.addEventListener("mouseover", function() {
+}
+
+var search_button = document.getElementById("gbqfb")
+var new_search_button = search_button.cloneNode(true);
+new_search_button.id = "gbqfb_new";
+new_search_button.style.marginLeft = '8px';
+
+new_search_button.addEventListener("click", search_current_feed, false);
+new_search_button.addEventListener("mouseover", function() {
     this.classList.add('jfk-button-hover');
 }, false);
-new_search_button_node.addEventListener("mouseout", function() {
+new_search_button.addEventListener("mouseout", function() {
     this.classList.remove('jfk-button-hover');
 }, false);
 
-search_node.appendChild(new_search_button_node);
+search_button.parentNode.appendChild(new_search_button);
+
