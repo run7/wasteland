@@ -2,6 +2,7 @@
 // @name           Box-z Price History Image
 // @namespace      http://qixinglu.com
 // @description    在网上商店产品页面，自动插入一张从 www.box-z.com 里的价格历史波动图片。
+// @run-at         document-start
 // @include        http://mvd.360buy.com/*
 // @include        http://book.360buy.com/*
 // @include        http://www.360buy.com/product/*
@@ -106,6 +107,7 @@ sites = [{
     }
 }, {
     domain : 'amazon.cn',
+    need_dom_ready  : true,
     get_history_url: function() {
         var reg, product_uid, history_url;
         if (url.indexOf('/gp/product/') != -1) {
@@ -131,6 +133,7 @@ sites = [{
     }
 }, {
     domain : 'dangdang.com',
+    need_dom_ready  : true,
     get_history_url: function() {
         var reg, product_uid, history_url;
         reg = new RegExp("http://product.dangdang.com/[Pp]roduct.aspx\\?product_id=\(\\d+\)");
@@ -380,6 +383,15 @@ sites = [{
     }
 }];
 
+function start_request(site) {
+    GM_xmlhttpRequest({
+        method: "GET",
+        url: site.get_history_url(),
+        onload: site.request_callback
+    });
+}
+
+
 /* 开始处理 */
 var i, site;
 for (i = 0; i < sites.length; i += 1) {
@@ -389,8 +401,10 @@ for (i = 0; i < sites.length; i += 1) {
     }
 }
 
-GM_xmlhttpRequest({
-    method: "GET",
-    url: site.get_history_url(),
-    onload: site.request_callback
-});
+if (site.need_dom_ready !== true) {
+    start_request(site);
+} else {
+    document.addEventListener('DOMContentLoaded', function() {
+        start_request(site)
+    }, false);
+}
