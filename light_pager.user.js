@@ -2,33 +2,15 @@
 // @name           Light Pager
 // @namespace      http://qixinglu.com
 // @description    Append next page content to current page.
+// @resource       rule https://raw.github.com/gist/2904550/rule.json
 // @include        http://www.google.com/search?*
 // @include        https://www.google.com/search?*
-// @include        http://stackoverflow.com/questions*
 // ==/UserScript==
 
-// site rules
-var SITES = [
-    {
-        urls: 'https?://www.google.com/search?',
-        next: '#pnnext',
-        content: '#center_col',
-        removes: '#topstuff, #extrares',
-        count : 3,
-        height: 0.9
-    },
-    {
-        urls: 'http://stackoverflow.com/questions',
-        next: 'a[rel="next"]',
-        content: '#mainbar',
-        count : 3,
-        height: 0.9
-    }
-];
-
-// global default options
-var COUNT = 5;
-var HEIGHT = 0.9;
+// load outside rule
+var RULE = JSON.parse(GM_getResourceText('rule'));
+var DEFAULT = RULE["default"];
+var SITES = RULE["sites"];
 
 var light_pager = function(site) {
     var appending = false; // lock
@@ -41,7 +23,7 @@ var light_pager = function(site) {
         }
     }
     if (site.count <= 0) {
-        site.count = 999;
+        site.count = 999; // not really endless
     }
 
     site.appended_count = 0;
@@ -172,10 +154,10 @@ var select_site = function(sites) {
 var site = select_site(SITES);
 if (site !== null) {
     if (site.height === undefined) {
-        site.height = HEIGHT
+        site.height = DEFAULT.height
     }
     if (site.count === undefined) {
-        site.count = COUNT;
+        site.count = DEFAULT.count;
     }
     control = light_pager(site);
     GM_registerMenuCommand("Start", control.start_paging, "s");
