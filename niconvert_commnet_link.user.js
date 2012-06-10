@@ -14,8 +14,9 @@ var create_link = function(commnet_url) {
 }
 
 var do_bilibili = function() {
-    var reg = new RegExp('id="bofqi".+?(?:ykid|qid|vid|uid)=(.+?)"');
-    var commnet_uid = document.documentElement.innerHTML.match(reg)[1];
+    var reg = new RegExp('id="bofqi"(.|\n)+?(?:ykid|qid|vid|uid)=(.+?)"');
+    var matches = document.documentElement.innerHTML.match(reg);
+    var commnet_uid = matches[matches.length - 1];
     var commnet_url = "http://comment.bilibili.tv/dm," + commnet_uid;
     var link = create_link(commnet_url);
     link.style.marginLeft = "10px";
