@@ -14,7 +14,7 @@
 // @include        http://product.dangdang.com/product.aspx?product_id=*
 // @include        http://product.dangdang.com/Product.aspx?product_id=*
 // @include        http://item.51buy.com/item-*
-// @include        http://www.suning.com/webapp/wcs/stores/servlet/prd_10052_10051_-7_*
+// @include        http://www.suning.com/emall/prd_10052_10051_-7_*
 // @include        http://www.gome.com.cn/product/*
 // @include        http://www.lusen.com/product-*
 // @include        http://www.efeihu.com/Pages/ProductShow/ProductDetails.aspx?*
@@ -171,7 +171,7 @@ sites = [{
     get_history_url: function() {
         var reg, product_uid, history_url;
         // 真恶心的url设计
-        reg = new RegExp("http://www.suning.com/webapp/wcs/stores/servlet/prd_10052_10051_-7_\([^.]+\)_.html");
+        reg = new RegExp("http://www.suning.com/emall/prd_10052_10051_-7_\([^.]+\)_.html");
         product_uid = url.match(reg)[1];
         history_url = create_product_history_url('suning', product_uid);
         return history_url;
@@ -408,3 +408,4 @@ if (site.need_dom_ready !== true) {
         start_request(site)
     }, false);
 }
+
