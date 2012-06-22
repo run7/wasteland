@@ -13,6 +13,7 @@ var DEFAULT = RULE["default"];
 var SITES = RULE["sites"];
 
 var light_pager = function(site) {
+    var mime_type = document.contentType + '; charset=' + document.characterSet;
     var appending = false; // lock
 
     if (site.height <= 1) {
@@ -76,6 +77,7 @@ var light_pager = function(site) {
         }
         GM_xmlhttpRequest({
             method: "GET",
+            overrideMimeType: mime_type,
             url: site.next_append_url,
             onload: function(response) {
                 try {
