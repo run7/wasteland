@@ -39,22 +39,19 @@ var light_pager = function(site) {
     };
 
     var append_next_callback = function(response) {
-        var temp_document, temp_next_url_node, temp_content_node, temp_remove_nodes;
-        var content_node;
-
-        temp_document = document.createElement('html');
+        var temp_document = document.createElement('html');
         temp_document.innerHTML = response.responseText;
 
-        temp_next_url_node = temp_document.querySelector(site.next);
+        var temp_next_url_node = temp_document.querySelector(site.next);
         if (temp_next_url_node !== null) {
             site.next_append_url = temp_next_url_node.href;
         } else {
             site.next_append_url = null;
         }
-        temp_content_node = temp_document.querySelector(site.content);
 
+        var temp_content_node = temp_document.querySelector(site.content).cloneNode();
         if (site.removes !== undefined) {
-            temp_remove_nodes = temp_content_node.querySelectorAll(site.removes);
+            var temp_remove_nodes = temp_content_node.querySelectorAll(site.removes);
             var i, remove_node;
             for (i = 0; i < temp_remove_nodes.length; i += 1) {
                 remove_node = temp_remove_nodes[i];
@@ -62,8 +59,31 @@ var light_pager = function(site) {
             }
         }
 
-        content_node = querySelectorLast(site.content);
-        content_node.parentNode.insertBefore(temp_content_node, content_node.nextSibling);
+        if (site.afters !== undefined) {
+            var potision_node = querySelectorLast(site.afters);
+        } else {
+            var potision_node = querySelectorLast(site.content);
+        }
+
+        potision_node.parentNode.insertBefore(temp_content_node, potision_node.nextElementSibling);
+
+        if (site.befores !== undefined) {
+            var temp_before_nodes = temp_document.querySelectorAll(site.befores);
+            var i, before_node;
+            for (i = 0; i < temp_before_nodes.length; i += 1) {
+                before_node = temp_before_nodes[i].cloneNode();
+                temp_content_node.parentNode.insertBefore(before_node, temp_content_node);
+            }
+        }
+
+        if (site.afters !== undefined) {
+            var temp_after_nodes = temp_document.querySelectorAll(site.afters);
+            var i, after_node;
+            for (i = 0; i < temp_after_nodes.length; i += 1) {
+                after_node = temp_after_nodes[i].cloneNode();
+                temp_content_node.parentNode.insertBefore(after_node, temp_content_node.nextElementSibling);
+            }
+        }
 
         site.appended_count += 1;
         appending = false;
