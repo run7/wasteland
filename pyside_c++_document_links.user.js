@@ -1,6 +1,6 @@
 // ==UserScript==
-// @name           PySide - Qt Document Links
-// @namespace      http://qixinglu.com
+// @name           PySide Qt Document Links
+// @namespace      qixinglu.com
 // @description    Add PySide/Qt document cross reference link
 // @include        http://qt-project.org/doc/qt-4.8/*.html*
 // @include        http://www.pyside.org/docs/pyside/PySide/*.html*

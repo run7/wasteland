@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name           Quanlala Price History Image
-// @namespace      http://qixinglu.com
+// @namespace      qixinglu.com
 // @description    在京东/新蛋/亚马逊中国的产品页面，自动插入一张从 quanlala.com 里的价格历史波动图片。
 // @include        http://mvd.360buy.com/*
 // @include        http://book.360buy.com/*

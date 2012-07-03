@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name           Adobe Products Direct Download
-// @namespace      http://qixinglu.com
+// @namespace      qixinglu.com
 // @description    Change Adobe products download link to direct url
 // @include        http://www.adobe.com/cfusion/tdrc/index.cfm?product=*
 // @include        https://www.adobe.com/cfusion/tdrc/index.cfm?product=*

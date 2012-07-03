@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name           Flvcd Download Links
-// @namespace      http://qixinglu.com
+// @namespace      qixinglu.com
 // @description    替换在线视频的下载链接为 flvcd.com 的解析链接
 // @include        http://v.youku.com/v_show/*.htm*
 // @include        http://v.youku.com/v_playlist/*.htm*

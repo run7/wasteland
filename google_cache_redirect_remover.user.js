@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name           Google Cache Redirect Remover
-// @namespace      http://qixinglu.com
+// @namespace      qixinglu.com
 // @description    Removes the Google redirect in cached links
 // @include        http://www.google.*/search?*
 // @include        https://encrypted.google.*/search?*

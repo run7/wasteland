@@ -1,6 +1,6 @@
 // ==UserScript==
-// @name           Niconvert - Commnet Link
-// @namespace      http://qixinglu.com
+// @name           Niconvert Commnet Link
+// @namespace      qixinglu.com
 // @description    显示Acfun和Bilibili的弹幕评论地址
 // @include        http://www.bilibili.tv/video/*
 // @include        http://www.acfun.tv/v/*

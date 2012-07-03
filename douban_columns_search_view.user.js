@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name           Douban Columns Search View 
-// @namespace      http://qixinglu.com
+// @namespace      qixinglu.com
 // @description    让豆瓣搜索页面并排显示图书、电影、音乐的搜索结果
 // @include        http://www.douban.com/search?search_text=*
 // ==/UserScript==

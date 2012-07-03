@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name           VeryCD File Show Link
-// @namespace      http://qixinglu.com
+// @namespace      qixinglu.com
 // @description    VeryCD 的文件页面直接显示下载地址而不是js按钮。
 // @include        http://www.verycd.com/files/*
 // ==/UserScript==

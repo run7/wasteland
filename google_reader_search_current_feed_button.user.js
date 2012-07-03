@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name           Google Reader Search Current Feed Button
-// @namespace      http://qixinglu.com
+// @namespace      qixinglu.com
 // @description    Add a new button next search button, to search current feed.
 // @include        http://www.google.com/reader/view/*
 // @include        https://www.google.com/reader/view/*

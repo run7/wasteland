@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name           Box-z Price History Image
-// @namespace      http://qixinglu.com
+// @namespace      qixinglu.com
 // @description    在网上商店产品页面，自动插入一张从 www.box-z.com 里的价格历史波动图片。
 // @run-at         document-start
 // @include        http://mvd.360buy.com/*

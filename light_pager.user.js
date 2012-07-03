@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name           Light Pager
-// @namespace      http://qixinglu.com
+// @namespace      qixinglu.com
 // @description    Append next page content to current page.
 // @resource       rule https://raw.github.com/gist/2904550/rule.json
 // @include        http://www.google.com/search?*

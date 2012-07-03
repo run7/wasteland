@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name           Google Cache Browser
-// @namespace      http://qixinglu.com
+// @namespace      qixinglu.com
 // @description    Continue browsing the page in Google cache
 // @include        http://webcache.googleusercontent.com/search?*
 // @include        https://webcache.googleusercontent.com/search?*

@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name           Google Image Proxy
-// @namespace      http://qixinglu.com
+// @namespace      qixinglu.com
 // @description    Google Image Proxy
 // @include        http://localhost/*
 // ==/UserScript==
