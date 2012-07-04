@@ -107,6 +107,14 @@ var light_pager = function(site) {
         return next_append_url;
     }
 
+    var dispatch_appended_event = function(count, url) {
+        var evt = document.createEvent("HTMLEvents");
+        evt.initEvent("LightPagerAppended", false, true);
+        evt.count = count
+        evt.url = url;
+        document.dispatchEvent(evt);
+    };
+
     var runtime = {
         appending: false, // lock
         mime_type: get_document_mimetype(),
@@ -142,12 +150,10 @@ var light_pager = function(site) {
                                                   position_node);
         }
 
-        if (site.onAppended !== undefined) {
-            site.onAppended();
-        }
-
         runtime.appended_count += 1;
         runtime.appending = false;
+
+        dispatch_appended_event(runtime.appended_count, response.finalUrl);
     };
 
     var append_next = function() {
