@@ -14,9 +14,6 @@ var sites = [
         "position": "#content .extra",
         "count": 0,
         "height": 0.9,
-        "onAppended": function() {
-            this.startFilter(this.username);
-        },
         "startFilter" : function(username) {
             var posts = document.querySelectorAll('ul.topic-reply li');
             var i, post;
@@ -43,9 +40,12 @@ var sites = [
                 $this.delButtons(show_button, hide_button);
                 $this.startFilter(username);
 
-                $this.username = username
                 var control = light_pager($this);
-                register_menus(control);
+                register_menus_cn(control);
+
+                document.addEventListener("LightPagerAppended", function() {
+                    $this.startFilter(username);
+                });
             }
 
             var posts = document.querySelectorAll('ul.topic-reply li');
@@ -77,6 +77,12 @@ var sites = [
         }
     }
 ]
+
+var register_menus_cn = function(control) {
+    GM_registerMenuCommand("开始翻页", control.start_paging, "s");
+    GM_registerMenuCommand("继续翻页", control.continue_paging, "c");
+    GM_registerMenuCommand("停止翻页", control.stop_paging, "t");
+}
 
 var site = select_site(sites);
 if (site !== null) {
