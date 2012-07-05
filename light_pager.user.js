@@ -77,6 +77,12 @@ var light_pager = function(site) {
         }
     };
 
+    var add_custom_style = function() {
+        if (site.style !== undefined) {
+            GM_addStyle(site.style);
+        }
+    }
+
     var get_document_mimetype = function() {
         var mime_type = document.contentType;
         mime_type += '; charset=' + document.characterSet;
@@ -115,6 +121,15 @@ var light_pager = function(site) {
         document.dispatchEvent(evt);
     };
 
+    var create_separate_node = function(index, url) {
+        var node = document.createElement('div');
+        node.className = 'lightpager-separate';
+        var textContent = site.separate.replace('${current}', index + 2);
+        textContent = textContent.replace('${total}', site.count + 1);
+        node.innerHTML = '<a href="' + url + '">' + textContent + '</a>';
+        return node;
+    }
+
     var runtime = {
         appending: false, // lock
         mime_type: get_document_mimetype(),
@@ -141,6 +156,12 @@ var light_pager = function(site) {
         } else {
             var last_content_node = querySelectorLast(document, site.content);
             var position_node = last_content_node.nextSibling;
+        }
+
+        if (site.separate !== undefined) {
+            var separate_node = create_separate_node(runtime.appended_count, 
+                                                     response.finalUrl);
+            position_node.parentNode.insertBefore(separate_node, position_node);
         }
 
         var i, temp_content_node;
@@ -213,6 +234,7 @@ var light_pager = function(site) {
     };
 
     absolute_site_attrs();
+    add_custom_style();
     start_scroll_listener();
     return control;
 }
