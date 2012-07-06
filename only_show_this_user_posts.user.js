@@ -8,13 +8,12 @@
 
 var sites = [
     {
-        "urls": "http://www.douban.com/group/topic/",
+        "title": "豆瓣小组",
+        "urls": "http://www.douban.com/group/topic/*",
         "next": "span.next a",
         "content": "div.article",
         "position": "#content .extra",
-        "separate": "第 ${current} / ${total} 页",
         "style": "div.lightpager-separate { background: none repeat scroll 0 0 #FDF9F0; float: left; line-height: 22px; margin: 0 0 20px 0; text-align: center; width: 590px; }",
-        "count": 0,
         "height": 0.9,
         "startFilter" : function(username) {
             var posts = document.querySelectorAll('ul.topic-reply li');
@@ -88,5 +87,11 @@ var register_menus_cn = function(control) {
 
 var site = select_site(sites);
 if (site !== null) {
+    var global = {
+        "separate": true,
+        "separateHTML": "<a href='${url}'>第 ${current} / ${total} 页<a/>",
+        "count": 0,
+    }
+    setup_site_global(site, global);
     site.addButtons();
 }
