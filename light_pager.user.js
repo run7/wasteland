@@ -3,9 +3,64 @@
 // @namespace      qixinglu.com
 // @description    Append next page content to current page.
 // @resource       rule https://raw.github.com/gist/2904550/rule.json
-// @include        http://www.google.com/search?*
-// @include        https://www.google.com/search?*
+// @include        http*://www.google.com/search?*
 // ==/UserScript==
+
+/* Use the same url rules as greasemonkey include/exclude metablock, so need a 
+ * parser tool function, below code copy from greasemonkey source code 
+ * "modules/third-party/convert2RegExp.js" without change
+ * read more http://wiki.greasespot.net/Include_and_exclude_rules
+ */
+
+var tldRegExp = new RegExp("^(\\^(?:[^/]*)(?://)?(?:[^/]*))(\\\\\\.tld)((?:/.*)?)$");
+
+// Converts a pattern in this programs simple notation to a regular expression.
+function GM_convert2RegExp( pattern ) {
+  var s = new String(pattern);
+
+  if ('/' == s.substr(0, 1) && '/' == s.substr(-1, 1)) {
+    // Leading and trailing slash means raw regex.
+    return new RegExp(s.substring(1, s.length - 1), 'i');
+  }
+
+  var res = new String("^");
+
+  for (var i = 0 ; i < s.length ; i++) {
+    switch(s[i]) {
+      case "*" :
+        res += ".*";
+        break;
+
+      case "." :
+      case "?" :
+      case "^" :
+      case "$" :
+      case "+" :
+      case "{" :
+      case "}" :
+      case "[" :
+      case "]" :
+      case "|" :
+      case "(" :
+      case ")" :
+      case "\\" :
+        res += "\\" + s[i];
+        break;
+
+      case " " :
+        // Remove spaces from URLs.
+        break;
+
+      default :
+        res += s[i];
+        break;
+    }
+  }
+
+  var tldRes = res.match(tldRegExp);
+  if (tldRes) res = tldRes[1] + tldStr + tldRes[3];
+  return new RegExp(res + "$", "i");
+}
 
 /* eXtend querySelector */
 
@@ -266,15 +321,19 @@ var select_site = function(sites) {
     var i, j, reg, site, site_urls, site_url;
     for (i = 0; i < sites.length; i += 1) {
         site = sites[i];
+
+        // if is not a array, convert it to
         if (typeof(site.urls) === 'string') {
             site_urls = [site.urls];
         } else {
             site_urls = site.urls;
         }
+
+        // start to find with site to use
         for (j = 0; j < site_urls.length; j += 1) {
             site_url = site_urls[j];
-            reg = new RegExp(site_url);
-            if (url.search(reg) != -1) {
+            reg = GM_convert2RegExp(site_url);
+            if (reg.test(url)) {
                 return site;
             }
         }
