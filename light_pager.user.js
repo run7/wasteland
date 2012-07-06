@@ -49,7 +49,12 @@ var queryXSelectorAll = function(element, xselector) {
 
 var queryXSelector = function(element, xselector) {
     var nodes = queryXSelectorAll(element, xselector);
-    return nodes[0];
+    var node = nodes[0];
+    if (node !== undefined) {
+        return node;
+    } else {
+        return null;
+    }
 }
 
 var queryXSelectorLast = function(element, xselector) {
@@ -64,6 +69,22 @@ var queryXSelectorLast = function(element, xselector) {
 
 var light_pager = function(site) {
 
+    var setup_site_default = function(site, global) {
+        if (site.separate === undefined) {
+            site.separate = false;
+        }
+        if (site.separateHTML === undefined) {
+            var html = '<a href="${url}">the ${current} / ${total} page<a/>';
+            site.separateHTML = html;
+        }
+        if (site.height === undefined) {
+            site.height = 0.9;
+        }
+        if (site.count === undefined) {
+            site.count = 9;
+        }
+    }
+
     var absolute_site_attrs = function() {
         if (site.height <= 1) {
             if (window.scrollMaxY === 0) {
@@ -73,7 +94,7 @@ var light_pager = function(site) {
             }
         }
         if (site.count <= 0) {
-            site.count = 999; // not really endless
+            site.count = 9999; // not really endless
         }
     };
 
@@ -105,7 +126,7 @@ var light_pager = function(site) {
 
     var get_next_append_url = function(the_document, selector) {
         var next_url_node = queryXSelector(the_document, site.next);
-        if (next_url_node !== undefined) {
+        if (next_url_node !== null) {
             next_append_url = next_url_node.href;
         } else {
             next_append_url = null;
@@ -124,9 +145,8 @@ var light_pager = function(site) {
     var create_separate_node = function(index, url) {
         var node = document.createElement('div');
         node.className = 'lightpager-separate';
-        var textContent = site.separate.replace('${current}', index + 2);
-        textContent = textContent.replace('${total}', site.count + 1);
-        node.innerHTML = '<a href="' + url + '">' + textContent + '</a>';
+        var html = site.separateHTML.replace('${current}', index + 2);
+        node.innerHTML = html.replace('${total}', site.count + 1);
         return node;
     }
 
@@ -158,8 +178,8 @@ var light_pager = function(site) {
             var position_node = last_content_node.nextSibling;
         }
 
-        if (site.separate !== undefined) {
-            var separate_node = create_separate_node(runtime.appended_count, 
+        if (site.separate) {
+            var separate_node = create_separate_node(runtime.appended_count,
                                                      response.finalUrl);
             position_node.parentNode.insertBefore(separate_node, position_node);
         }
@@ -262,12 +282,18 @@ var select_site = function(sites) {
     return null;
 };
 
-var setup_site_default = function(site, site_default) {
-    if (site.height === undefined) {
-        site.height = site_default.height
+var setup_site_global = function(site, global) {
+    if (site.separate === undefined && global.separate !== undefined) {
+        site.separate = global.separate;
     }
-    if (site.count === undefined) {
-        site.count = site_default.count;
+    if (site.separateHTML === undefined && global.separateHTML !== undefined) {
+        site.separateHTML = global.separateHTML;
+    }
+    if (site.height === undefined && global.height !== undefined) {
+        site.height = global.height;
+    }
+    if (site.count === undefined && global.count !== undefined) {
+        site.count = global.count;
     }
 }
 
@@ -280,11 +306,11 @@ var register_menus = function(control) {
 // only run as main file
 if (GM_info.script.name === 'Light Pager') {
     var rule = JSON.parse(GM_getResourceText('rule'));
-    var site_default = rule["default"];
+    var global = rule["global"];
     var sites = rule["sites"];
     var site = select_site(sites);
     if (site !== null) {
-        setup_site_default(site);
+        setup_site_global(site, global);
         var control = light_pager(site);
         register_menus(control);
     }
