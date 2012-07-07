@@ -13,7 +13,7 @@ var sites = [
         "next": "span.next a",
         "content": "div.article",
         "position": "#content .extra",
-        "style": "div.lightpager-separate { background: none repeat scroll 0 0 #FDF9F0; float: left; line-height: 22px; margin: 0 0 20px 0; text-align: center; width: 590px; }",
+        "style": ".lp-sep{ background: none repeat scroll 0 0 #FDF9F0; float: left; line-height: 22px; margin: 0 0 20px 0; text-align: center; width: 590px; }",
         "height": 0.9,
         "startFilter" : function(username) {
             var posts = document.querySelectorAll('ul.topic-reply li');
@@ -89,7 +89,7 @@ var site = select_site(sites);
 if (site !== null) {
     var global = {
         "separate": true,
-        "separateHTML": "<a href='${url}'>第 ${current} / ${total} 页<a/>",
+        "separateHTML": "页数：<a href='${url}'>${current} / ${total}<a/>",
         "count": 0,
     }
     setup_site_global(site, global);
