@@ -2,96 +2,106 @@
 // @name        Only Show This User Posts
 // @namespace   qixinglu.com
 // @description 只看这个用户的帖子，通用型论坛脱水工具，带自动翻页
-// @require     https://github.com/muzuiget/greasemonkey-scripts/raw/master/light_pager.user.js
 // @include     http://www.douban.com/group/topic/*
 // ==/UserScript==
 
 var sites = [
     {
-        "title": "豆瓣小组",
-        "urls": "http://www.douban.com/group/topic/*",
-        "next": "span.next a",
-        "content": "div.article",
-        "position": "#content .extra",
-        "style": ".lp-sep { margin: 0 0 20px 0; }",
-        "height": 0.9,
-        "startFilter" : function(username) {
+        title: "豆瓣小组",
+        url: "http://www.douban.com/group/topic/",
+        style: "div.reply-doc:hover .operation_div { display: block };",
+        username: null,
+        doFilter : function() {
+            var showOnly = function(posts, username) {
+                for (var i = 0; i < posts.length; i += 1) {
+                    var post = posts[i];
+                    var link = post.querySelector('div.reply-doc h4 a');
+                    if (link.textContent != username) {
+                        post.style.display = 'none';
+                    }
+                }
+            };
+
+            var showAll = function(posts) {
+                for (var i = 0; i < posts.length; i += 1) {
+                    posts[i].style.display = 'block';
+                }
+            };
+
+            var username = this.username;
             var posts = document.querySelectorAll('ul.topic-reply li');
-            var i, post;
-            for (i = 0; i < posts.length; i += 1) {
-                post = posts[i];
-                if (post.querySelector('div.reply-doc h4 a').textContent != username) {
-                    post.style.display = 'none';
+            if (username === null) {
+                showAll(posts);
+            } else {
+                showOnly(posts, username);
+            }
+        },
+        getButtonText: function() {
+            return this.username === null ? '只看此用户' : '显示全部用户';
+        },
+        addButtons: function() {
+            var $this = this;
+
+            var click_button = function() {
+                if ($this.username === null) {
+                    $this.username = this.parentNode.parentNode.querySelector('h4 a').textContent;
+                } else {
+                    $this.username = null;
+                }
+                $this.updateButtons();
+                $this.doFilter();
+            }
+
+            var create_button = function(titlebar) {
+                var button = document.createElement('a');
+                button.className = 'lnk-ostup';
+                button.href = 'javascript:void(0)';
+                button.addEventListener('click', click_button);
+                button.textContent = $this.getButtonText();
+                return button;
+            }
+
+            var operations = document.querySelectorAll('ul.topic-reply .operation_div');
+            var i, operation;
+            for (i = 0; i < operations.length; i += 1) {
+                operation = operations[i];
+                var button = operation.querySelector('a.lnk-ostup');
+                if (button === null) {
+                    button = create_button();
+                    operation.appendChild(button);
                 }
             }
         },
-        "addButtons" : function() {
-            GM_addStyle('span.ostup { cursor: pointer; float: right; margin-right: 10px; }');
-
-            var show_button = function() {
-                this.lastElementChild.style.display = 'block';
-            }
-            var hide_button = function() {
-                this.lastElementChild.style.display = 'none';
-            }
-
-            var $this = this;
-            var click_button = function() {
-                var username =  this.previousElementSibling.textContent;
-                $this.delButtons(show_button, hide_button);
-                $this.startFilter(username);
-
-                var control = light_pager($this);
-                register_menus_cn(control);
-
-                document.addEventListener("LightPagerAppended", function() {
-                    $this.startFilter(username);
-                });
-            }
-
-            var posts = document.querySelectorAll('ul.topic-reply li');
-            var i, post;
-            for (i = 0; i < posts.length; i += 1) {
-                post = posts[i];
-                var titlebar = post.querySelector('div.reply-doc h4');
-                var button = document.createElement('span');
-
-                button.textContent = '只看此用户';
-                button.className = 'ostup';
-                button.style.display = 'none';
-                button.addEventListener('click', click_button);
-
-                titlebar.appendChild(button);
-                titlebar.addEventListener('mouseover', show_button);
-                titlebar.addEventListener('mouseout', hide_button);
-            }
-        },
-        "delButtons" : function(show_button, hide_button) {
-            var buttons = document.querySelectorAll('span.ostup');
-            var i, button;
+        updateButtons: function() {
+            var button_text = this.getButtonText();
+            var buttons = document.querySelectorAll('a.lnk-ostup');
+            var i, buttons;
             for (i = 0; i < buttons.length; i += 1) {
-                var button = buttons[i];
-                button.parentNode.removeEventListener('mouseover', show_button);
-                button.parentNode.removeEventListener('mouseout', hide_button);
-                button.parentNode.removeChild(button);
+                button = buttons[i];
+                button.textContent = this.getButtonText();
             }
         }
     }
 ]
 
-var register_menus_cn = function(control) {
-    GM_registerMenuCommand("开始翻页", control.start_paging, "s");
-    GM_registerMenuCommand("继续翻页", control.continue_paging, "c");
-    GM_registerMenuCommand("停止翻页", control.stop_paging, "t");
-}
+var select_site = function(sites) {
+    var url = location.href;
+    var i, site;
+    for (i = 0; i < sites.length; i += 1) {
+        site = sites[i];
+        if (url.indexOf(site.url) === 0) {
+            return site;
+        }
+    }
+    return null;
+};
 
 var site = select_site(sites);
 if (site !== null) {
-    var global = {
-        "separate": true,
-        "separateHTML": "页数：<a href='${url}'>${current} / ${total}<a/>",
-        "count": 0,
-    }
-    setup_site_global(site, global);
+    GM_addStyle(site.style);
     site.addButtons();
+    document.addEventListener("LightPagerAppended", function() {
+        site.addButtons();
+        site.doFilter();
+    });
 }
