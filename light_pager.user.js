@@ -169,6 +169,10 @@ var light_pager = function(site) {
     };
 
     var reach_append_height = function() {
+        // some page create by javascript, no height before it created.
+        if (window.scrollMaxY === 0) {
+            return false;
+        }
         var current_height = window.scrollMaxY - window.scrollY;
         return site.height > current_height;
     };
