@@ -6,8 +6,8 @@
 // @include        http*://www.google.com/search?*
 // ==/UserScript==
 
-/* Use the same url rules as greasemonkey include/exclude metablock, so need a 
- * parser tool function, below code copy from greasemonkey source code 
+/* Use the same url rules as greasemonkey include/exclude metablock, so need a
+ * parser tool function, below code copy from greasemonkey source code
  * "modules/third-party/convert2RegExp.js" without change
  * read more http://wiki.greasespot.net/Include_and_exclude_rules
  */
@@ -92,10 +92,13 @@ var queryXSelectorAll = function(element, xselector) {
     } else if (xselector.indexOf(':eq') !== -1) {
         var parts = xselector.split(':eq');
         var selector = parts[0];
-        var text = parts[1].slice(2, -2);
+        var text = parts[1].slice(1, -1);
         var index = parseInt(text);
 
         var nodes = element.querySelectorAll(selector);
+        if (index < 0) {
+            index = nodes.length + index;
+        }
         return [nodes[index]];
     }
 
@@ -199,10 +202,28 @@ var light_pager = function(site) {
 
     var create_separate_node = function(index, url) {
         var node = document.createElement('div');
-        node.className = 'lightpager-separate';
+        node.className = 'lp-sep';
         var html = site.separateHTML.replace('${current}', index + 2);
-        node.innerHTML = html.replace('${total}', site.count + 1);
+        html = html.replace('${total}', site.count + 1);
+        node.innerHTML = html.replace('${url}', url);
         return node;
+    }
+
+    var add_order_classname = function() {
+        var content_nodes = document.querySelectorAll(site.content);
+        for (i = 0; i < content_nodes.length; i += 1) {
+            content_node = content_nodes[i];
+            content_node.classList.add("lp-first");
+            content_node.classList.add("lp-last");
+        }
+    }
+
+    var remove_last_classname = function() {
+        var content_nodes = document.querySelectorAll('.lp-last');
+        for (i = 0; i < content_nodes.length; i += 1) {
+            content_node = content_nodes[i];
+            content_node.classList.remove("lp-last");
+        }
     }
 
     var runtime = {
@@ -239,9 +260,12 @@ var light_pager = function(site) {
             position_node.parentNode.insertBefore(separate_node, position_node);
         }
 
+        remove_last_classname();
+
         var i, temp_content_node;
         for (i = 0; i < temp_content_nodes.length; i += 1) {
             temp_content_node = temp_content_nodes[i];
+            temp_content_node.classList.add("lp-last");
             position_node.parentNode.insertBefore(temp_content_node,
                                                   position_node);
         }
@@ -309,6 +333,7 @@ var light_pager = function(site) {
     };
 
     absolute_site_attrs();
+    add_order_classname();
     add_custom_style();
     start_scroll_listener();
     return control;
