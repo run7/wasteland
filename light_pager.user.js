@@ -127,13 +127,17 @@ var queryXSelectorLast = function(element, xselector) {
 
 var light_pager = function(site) {
 
-    var setup_site_default = function(site, global) {
+    var setup_site_default = function() {
         if (site.separate === undefined) {
             site.separate = false;
         }
         if (site.separateHTML === undefined) {
-            var html = '<a href="${url}">the ${current} / ${total} page<a/>';
+            var html = 'Page: <a href="${url}">${current} / ${total}<a/>';
             site.separateHTML = html;
+        }
+        if (site.separateCSS === undefined) {
+            var css = ".lp-sep { background-color: #FFE7D3; clear: both; line-height: 22px; margin: 10px 0; text-align: center; }";
+            site.separateCSS = css;
         }
         if (site.height === undefined) {
             site.height = 0.9;
@@ -157,9 +161,14 @@ var light_pager = function(site) {
     };
 
     var add_custom_style = function() {
-        if (site.style !== undefined) {
-            GM_addStyle(site.style);
+        var css_list = [site.separateCSS];
+        if (site.hidden !== undefined) {
+            css_list.push(site.hidden + ' { display: none; }');
         }
+        if (site.style !== undefined) {
+            css_list.push(site.style);
+        }
+        GM_addStyle(css_list.join("\n"));
     }
 
     var get_document_mimetype = function() {
@@ -175,15 +184,6 @@ var light_pager = function(site) {
         }
         var current_height = window.scrollMaxY - window.scrollY;
         return site.height > current_height;
-    };
-
-    var remove_elements = function(parent_node, selector) {
-        var nodes = parent_node.querySelectorAll(selector);
-        var i, node;
-        for (i = 0; i < nodes.length; i += 1) {
-            node = nodes[i];
-            node.parentNode.removeChild(node);
-        }
     };
 
     var get_next_append_url = function(the_document, selector) {
@@ -243,13 +243,6 @@ var light_pager = function(site) {
         runtime.next_append_url = get_next_append_url(temp_document, site.next);
 
         var temp_content_nodes = temp_document.querySelectorAll(site.content);
-        if (site.removes !== undefined) {
-            var i, temp_content_node;
-            for (i = 0; i < temp_content_nodes.length; i += 1) {
-                temp_content_node = temp_content_nodes[i];
-                remove_elements(temp_content_node, site.removes);
-            }
-        }
 
         if (site.position !== undefined) {
             var position_node = querySelectorLast(document, site.position);
@@ -261,7 +254,9 @@ var light_pager = function(site) {
         if (site.separate) {
             var separate_node = create_separate_node(runtime.appended_count,
                                                      response.finalUrl);
-            position_node.parentNode.insertBefore(separate_node, position_node);
+            var separate_position_node = temp_content_nodes[0].firstChild;
+            separate_position_node.parentNode.insertBefore(
+                                        separate_node, separate_position_node);
         }
 
         remove_last_classname();
@@ -336,6 +331,7 @@ var light_pager = function(site) {
         }
     };
 
+    setup_site_default();
     absolute_site_attrs();
     add_order_classname();
     add_custom_style();
@@ -394,11 +390,11 @@ var register_menus = function(control) {
 // only run as main file
 if (GM_info.script.name === 'Light Pager') {
     var rule = JSON.parse(GM_getResourceText('rule'));
-    var global = rule["global"];
-    var sites = rule["sites"];
-    var site = select_site(sites);
+    var site = select_site(rule.sites);
     if (site !== null) {
-        setup_site_global(site, global);
+        if (rule.global !== undefined) {
+            setup_site_global(site, rule.global);
+        }
         var control = light_pager(site);
         register_menus(control);
     }
