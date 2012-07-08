@@ -27,6 +27,15 @@ var create_element_from_string = function(text) {
 /* ostup core */
 
 var ostup = function(site) {
+    var setup_site_default = function() {
+        if (site.showOnlyLabel === undefined) {
+            site.showOnlyLabel = 'only show this user';
+        }
+        if (site.showAllLabel === undefined) {
+            site.showAllLabel = 'only all users';
+        }
+    }
+
     var runtime = {
         username: null,
         post_display: 'block'
@@ -74,7 +83,7 @@ var ostup = function(site) {
     };
 
     var get_button_text = function() {
-        return runtime.username === null ? '只看这个用户' : '显示全部用户';
+        return runtime.username === null ? site.showOnlyLabel : site.showAllLabel;
     };
 
     var update_buttons = function() {
