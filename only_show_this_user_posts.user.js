@@ -1,51 +1,9 @@
 // ==UserScript==
 // @name        Only Show This User Posts
 // @namespace   qixinglu.com
-// @description 只看这个用户的帖子，通用型论坛脱水工具，带自动翻页
-// @include     http://www.douban.com/group/topic/*
-// @include     http://*.tianya.cn/*
-// @include     http://tieba.baidu.com/p/*
-// @include     http://topic.csdn.net/u/*
+// @description Only show the user posts you just want to read
+// @include     http:///localhost/*
 // ==/UserScript==
-
-/* sites */
-
-var sites = [
-    {
-        title: "豆瓣小组",
-        url: "http://www.douban.com/group/topic/*",
-        style: ".reply-doc:hover .operation_div { display: block };",
-        post: "ul.topic-reply li",
-        username: "div.reply-doc h4 a",
-        positon: ".operation_div"
-    },
-    {
-        title: "天涯论坛",
-        url: "http://*.tianya.cn/*",
-        post: ".l_post",
-        username: "a.p_author_name",
-        positon: ".p_author",
-        container: "<li></li>",
-    },
-    {
-        title: "百度贴吧",
-        url: "http://tieba.baidu.com/p/*",
-        style: "a.ostup { visibility: hidden; color: #AAAAAA; } .d_author:hover a.ostup { visibility: visible };",
-        post: ".l_post",
-        username: "a.p_author_name",
-        positon: ".p_author",
-        container: "<li></li>",
-    },
-    {
-        title: "CSDN 论坛",
-        url: "http://topic.csdn.net/u/*",
-        style: ".fbarb a.ostup { border-right: 0 none; border-left: 1px solid #666666; }",
-        post: "table.mframe",
-        username: ".df li:nth-child(2) a",
-        positon: ".fbarb ul",
-        container: "<li></li>"
-    }
-]
 
 /* tools function */
 
@@ -69,7 +27,10 @@ var create_element_from_string = function(text) {
 /* ostup core */
 
 var ostup = function(site) {
-    var username = null;
+    var runtime = {
+        username: null,
+        post_display: 'block'
+    }
 
     var add_custom_style = function() {
         if (site.style !== undefined) {
@@ -77,16 +38,23 @@ var ostup = function(site) {
         }
     }
 
+    var setup_post_display = function() {
+        post = document.querySelector(site.post);
+        if (post !==  null) {
+            runtime.post_display = window.getComputedStyle(post).display;
+        }
+
+    }
+
     var do_filter = function() {
 
         var posts = document.querySelectorAll(site.post);
-        var post_display = 'block';
 
         var show_only = function() {
             for (var i = 0; i < posts.length; i += 1) {
                 var post = posts[i];
                 var link = post.querySelector(site.username);
-                if (link === null || link.textContent !== username) {
+                if (link === null || link.textContent !== runtime.username) {
                     post.style.display = 'none';
                 }
             }
@@ -94,15 +62,11 @@ var ostup = function(site) {
 
         var show_all = function() {
             for (var i = 0; i < posts.length; i += 1) {
-                posts[i].style.display = post_display;
+                posts[i].style.display = runtime.post_display;
             }
         };
 
-        if (posts.length > 0) {
-            post_display = window.getComputedStyle(posts[0]).display;
-        }
-
-        if (username === null) {
+        if (runtime.username === null) {
             show_all(posts);
         } else {
             show_only(posts);
@@ -110,7 +74,7 @@ var ostup = function(site) {
     };
 
     var get_button_text = function() {
-        return username === null ? '只看这个用户' : '显示全部用户';
+        return runtime.username === null ? '只看这个用户' : '显示全部用户';
     };
 
     var update_buttons = function() {
@@ -127,12 +91,11 @@ var ostup = function(site) {
 
         var create_click_callback = function(post) {
             return function() {
-                if (username === null) {
-                    username = post.querySelector(site.username).textContent;
+                if (runtime.username === null) {
+                    runtime.username = post.querySelector(site.username).textContent;
                 } else {
-                    username = null;
+                    runtime.username = null;
                 }
-                unsafeWindow.console.log(username);
                 update_buttons();
                 do_filter();
             }
@@ -170,6 +133,7 @@ var ostup = function(site) {
     };
 
     add_custom_style();
+    setup_post_display();
     add_buttons();
     return control;
 }
@@ -188,11 +152,14 @@ var select_site = function(sites) {
     return null;
 };
 
-var site = select_site(sites);
-if (site !== null) {
-    var control = ostup(site);
-    document.addEventListener("LightPagerAppended", function() {
-        control.add_buttons();
-        control.do_filter();
-    });
+// only run as main file
+if (GM_info.script.name === 'Only Show This User Posts') {
+    var site = select_site(SITES);
+    if (site !== null) {
+        var control = ostup(site);
+        document.addEventListener("LightPagerAppended", function() {
+            control.add_buttons();
+            control.do_filter();
+        });
+    }
 }
