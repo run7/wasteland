@@ -2,7 +2,7 @@
 // @name           Light Pager
 // @namespace      qixinglu.com
 // @description    Append next page content to current page.
-// @resource       rule https://raw.github.com/gist/2904550/rule.json
+// @require        https://raw.github.com/gist/2904550/rule.js
 // @include        http*://www.google.com/search?*
 // ==/UserScript==
 
@@ -307,21 +307,20 @@ var light_pager = function(site) {
 
 var select_site = function(sites) {
     var url = location.href;
-    var i, j, reg, site, site_urls, site_url;
+    var i, j, reg, site, urls;
     for (i = 0; i < sites.length; i += 1) {
         site = sites[i];
 
         // if is not a array, convert it to
-        if (typeof(site.urls) === 'string') {
-            site_urls = [site.urls];
+        if (typeof(site.url) === 'string') {
+            urls = [site.url];
         } else {
-            site_urls = site.urls;
+            urls = site.url;
         }
 
         // start to find with site to use
-        for (j = 0; j < site_urls.length; j += 1) {
-            site_url = site_urls[j];
-            reg = convert2RegExp(site_url);
+        for (j = 0; j < urls.length; j += 1) {
+            reg = convert2RegExp(urls[j]);
             if (reg.test(url)) {
                 return site;
             }
@@ -353,11 +352,10 @@ var register_menus = function(control) {
 
 // only run as main file
 if (GM_info.script.name === 'Light Pager') {
-    var rule = JSON.parse(GM_getResourceText('rule'));
-    var site = select_site(rule.sites);
+    var site = select_site(SITES);
     if (site !== null) {
-        if (rule.global !== undefined) {
-            setup_site_global(site, rule.global);
+        if (typeof GLOBAL !== "undefined") {
+            setup_site_global(site, GLOBAL);
         }
         var control = light_pager(site);
         register_menus(control);
