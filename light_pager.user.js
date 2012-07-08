@@ -6,60 +6,17 @@
 // @include        http*://www.google.com/search?*
 // ==/UserScript==
 
-/* Use the same url rules as greasemonkey include/exclude metablock, so need a
- * parser tool function, below code copy from greasemonkey source code
- * "modules/third-party/convert2RegExp.js" without change
- * read more http://wiki.greasespot.net/Include_and_exclude_rules
- */
+/* tools function */
 
-var tldRegExp = new RegExp("^(\\^(?:[^/]*)(?://)?(?:[^/]*))(\\\\\\.tld)((?:/.*)?)$");
-
-// Converts a pattern in this programs simple notation to a regular expression.
-function GM_convert2RegExp( pattern ) {
-  var s = new String(pattern);
-
-  if ('/' == s.substr(0, 1) && '/' == s.substr(-1, 1)) {
-    // Leading and trailing slash means raw regex.
-    return new RegExp(s.substring(1, s.length - 1), 'i');
-  }
-
-  var res = new String("^");
-
-  for (var i = 0 ; i < s.length ; i++) {
-    switch(s[i]) {
-      case "*" :
-        res += ".*";
-        break;
-
-      case "." :
-      case "?" :
-      case "^" :
-      case "$" :
-      case "+" :
-      case "{" :
-      case "}" :
-      case "[" :
-      case "]" :
-      case "|" :
-      case "(" :
-      case ")" :
-      case "\\" :
-        res += "\\" + s[i];
-        break;
-
-      case " " :
-        // Remove spaces from URLs.
-        break;
-
-      default :
-        res += s[i];
-        break;
+var convert2RegExp = function(pattern) {
+    var firstChar = pattern.charAt(0);
+    var lastChat = pattern.charAt(pattern.length - 1);
+    if (firstChar + lastChat == '//') {
+        return new RegExp(s.substr(1, -1));
+    } else {
+        pattern = '^' + pattern.replace(/\*/g, '.*') + '$';
+        return new RegExp(pattern);
     }
-  }
-
-  var tldRes = res.match(tldRegExp);
-  if (tldRes) res = tldRes[1] + tldStr + tldRes[3];
-  return new RegExp(res + "$", "i");
 }
 
 /* eXtend querySelector */
@@ -138,6 +95,9 @@ var light_pager = function(site) {
         if (site.separateCSS === undefined) {
             var css = ".lp-sep { background-color: #FFE7D3; clear: both; line-height: 22px; margin: 10px 0; text-align: center; }";
             site.separateCSS = css;
+        }
+        if (site.separateInside === undefined) {
+            site.separateInside = true;
         }
         if (site.height === undefined) {
             site.height = 0.9;
@@ -254,7 +214,11 @@ var light_pager = function(site) {
         if (site.separate) {
             var separate_node = create_separate_node(runtime.appended_count,
                                                      response.finalUrl);
-            var separate_position_node = temp_content_nodes[0].firstChild;
+            if (site.separateInside) {
+                var separate_position_node = temp_content_nodes[0].firstChild;
+            } else {
+                var separate_position_node = position_node;
+            }
             separate_position_node.parentNode.insertBefore(
                                         separate_node, separate_position_node);
         }
@@ -357,7 +321,7 @@ var select_site = function(sites) {
         // start to find with site to use
         for (j = 0; j < site_urls.length; j += 1) {
             site_url = site_urls[j];
-            reg = GM_convert2RegExp(site_url);
+            reg = convert2RegExp(site_url);
             if (reg.test(url)) {
                 return site;
             }
