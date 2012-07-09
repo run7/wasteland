@@ -159,11 +159,19 @@ var ostup = function(site) {
 
 var select_site = function(sites) {
     var url = location.href;
-    for (var i = 0; i < sites.length; i += 1) {
-        var site = sites[i];
-        var reg = convert2RegExp(site.url);
-        if (reg.test(url)) {
-            return site;
+    var i, j, reg, site, urls;
+    for (i = 0; i < sites.length; i += 1) {
+        site = sites[i];
+
+        // if is not a array, convert it to
+        urls = (typeof(site.url) === 'string') ? [site.url] : site.url;
+
+        // start to find with site to use
+        for (j = 0; j < urls.length; j += 1) {
+            reg = convert2RegExp(urls[j]);
+            if (reg.test(url)) {
+                return site;
+            }
         }
     }
     return null;

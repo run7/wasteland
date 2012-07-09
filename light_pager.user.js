@@ -11,8 +11,8 @@
 var convert2RegExp = function(pattern) {
     var firstChar = pattern.charAt(0);
     var lastChat = pattern.charAt(pattern.length - 1);
-    if (firstChar + lastChat == '//') {
-        return new RegExp(s.substr(1, -1));
+    if (firstChar + lastChat === '//') {
+        return new RegExp(pattern.substr(1, -1));
     } else {
         pattern = '^' + pattern.replace(/\*/g, '.*') + '$';
         return new RegExp(pattern);
@@ -312,11 +312,7 @@ var select_site = function(sites) {
         site = sites[i];
 
         // if is not a array, convert it to
-        if (typeof(site.url) === 'string') {
-            urls = [site.url];
-        } else {
-            urls = site.url;
-        }
+        urls = (typeof(site.url) === 'string') ? [site.url] : site.url;
 
         // start to find with site to use
         for (j = 0; j < urls.length; j += 1) {
