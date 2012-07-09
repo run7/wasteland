@@ -10,7 +10,7 @@
 var convert2RegExp = function(pattern) {
     var firstChar = pattern.charAt(0);
     var lastChat = pattern.charAt(pattern.length - 1);
-    if (firstChar + lastChat == '//') {
+    if (firstChar + lastChat === '//') {
         return new RegExp(s.substr(1, -1));
     } else {
         pattern = '^' + pattern.replace(/\*/g, '.*') + '$';
@@ -19,7 +19,15 @@ var convert2RegExp = function(pattern) {
 }
 
 var create_element_from_string = function(text) {
-    var parent_element = document.createElement('div');
+    var tag;
+    if (text.indexOf('<td') === 0) {
+        tag = 'tr';
+    } else if (text.indexOf('<li') === 0) {
+        tag = 'ul';
+    } else {
+        tag = 'div';
+    }
+    var parent_element = document.createElement(tag);
     parent_element.innerHTML = text;
     return parent_element.firstChild;
 }
@@ -37,7 +45,7 @@ var ostup = function(site) {
     }
 
     var runtime = {
-        username: null,
+        hide_index: -1,
         post_display: 'block'
     }
 
@@ -55,27 +63,36 @@ var ostup = function(site) {
 
     }
 
+    var change_display = function(elements, start, length, value) {
+        var end = start + length;
+        for (var i = start; i < end; i += 1) {
+            elements[i].style.display = value;
+        }
+    }
+
     var do_filter = function() {
 
         var posts = document.querySelectorAll(site.post);
+        var usernames = document.querySelectorAll(site.username);
+        var multiple = posts.length / usernames.length;
 
         var show_only = function() {
-            for (var i = 0; i < posts.length; i += 1) {
-                var post = posts[i];
-                var link = post.querySelector(site.username);
-                if (link === null || link.textContent !== runtime.username) {
-                    post.style.display = 'none';
+            var hide_username = usernames[runtime.hide_index].textContent;
+            for (var i = 0; i < usernames.length; i += 1) {
+                var username = usernames[i];
+                if (username.textContent !== hide_username) {
+                    change_display(posts, i * multiple, multiple, 'none');
                 }
             }
         };
 
         var show_all = function() {
             for (var i = 0; i < posts.length; i += 1) {
-                posts[i].style.display = runtime.post_display;
+                change_display(posts, i, multiple, runtime.post_display);
             }
         };
 
-        if (runtime.username === null) {
+        if (runtime.hide_index === -1) {
             show_all(posts);
         } else {
             show_only(posts);
@@ -83,7 +100,7 @@ var ostup = function(site) {
     };
 
     var get_button_text = function() {
-        return runtime.username === null ? site.showOnlyLabel : site.showAllLabel;
+        return runtime.hide_index === -1 ? site.showOnlyLabel : site.showAllLabel;
     };
 
     var update_buttons = function() {
@@ -98,33 +115,24 @@ var ostup = function(site) {
 
         var button_html = '<a class="ostup" href="javascript:void(0)"></a>';
 
-        var create_click_callback = function(post) {
+        var create_click_callback = function(i) {
             return function() {
-                if (runtime.username === null) {
-                    runtime.username = post.querySelector(site.username).textContent;
-                } else {
-                    runtime.username = null;
-                }
+                runtime.hide_index = runtime.hide_index === -1 ? i : -1;
                 update_buttons();
                 do_filter();
             }
         }
 
-        var posts = document.querySelectorAll(site.post);
-        var i, post;
-        for (i = 0; i < posts.length; i += 1) {
-            post = posts[i];
-            var positon = post.querySelector(site.positon);
-            if (positon === null) {
-                continue;
-            }
+        var positons = document.querySelectorAll(site.positon);
+        for (var i = 0; i < positons.length; i += 1) {
+            var positon = positons[i];
             var button = positon.querySelector('a.ostup');
             if (button !== null) {
                 continue;
             }
             button = create_element_from_string(button_html);
             button.textContent = get_button_text();
-            button.addEventListener('click', create_click_callback(post));
+            button.addEventListener('click', create_click_callback(i));
 
             if (site.container !== undefined) {
                 var container = create_element_from_string(site.container);
