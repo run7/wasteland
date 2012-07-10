@@ -7,7 +7,9 @@
 // @exclude     http://*.douban.com/*
 // @exclude     http://tieba.baidu.com/p/*
 // @exclude     http://topic.csdn.net/u/*
-// @exclude     http://*.tianya.cn/*
+// @exclude     http://www.tianya.cn/publicforum/content/*
+// @exclude     http://www.tianya.cn/techforum/content/*
+// @exclude     http://bbs.city.tianya.cn/tianyacity/content/*
 // ==/UserScript==
 
 var GLOBAL = {
@@ -26,14 +28,14 @@ var SITES = [
     hidden: 'div.article:not(.lp-first) table.infobox, ' +
             'div.article:not(.lp-first) div.block5, ' +
             'div.article:not(.lp-last) div.paginator ~ *',
-    style: 'div.lp-sep { margin: 0 0 20px 0; }'
+    style: 'div.lp-sep { margin: 0 0 20px 0; }',
 },
 {
     title: '百度贴吧',
     url: 'http://tieba.baidu.com/p/*',
     next: 'li.l_pager a:contains("下一页")',
     content: 'div.l_core',
-    style: 'div.lp-sep { margin: 0 1px; }'
+    style: 'div.lp-sep { margin: 0 1px; }',
 },
 {
     title: 'CSDN 论坛',
@@ -41,13 +43,24 @@ var SITES = [
     next: 'ul.plist a[onclick]:contains("下一页")',
     content: 'table.mframe, table.mframe ~ div.fm',
     style: 'div.lp-sep { border: 1px solid #A9CBEE; margin: 0; }',
-    separateInside: false
+    separateInside: false,
 },
 {
-    title: '天涯',
-    url: 'http://*.tianya.cn/*',
+    title: '天涯公共论坛',
+    url: 'http://www.tianya.cn/publicforum/content/*',
     next: 'a:contains("下一页")',
-    content: '#firstAuthor, #pContentDiv, #pContentDiv ~ div.function'
+    content: '#firstAuthor, #pContentDiv, #pContentDiv ~ div.function',
+    separateInside: false,
+},
+{
+    title: '天涯技术论坛和城市',
+    url: [
+        'http://www.tianya.cn/techforum/content/*',
+        'http://bbs.city.tianya.cn/tianyacity/content/*',
+    ],
+    next: 'a:contains("下一页")',
+    content: '#pContentDiv, #pContentDiv ~ div.post-bar',
+    separateInside: false,
 },
 ];
 
