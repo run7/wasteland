@@ -17,7 +17,7 @@ var convert2RegExp = function(pattern) {
         pattern = '^' + pattern.replace(/\*/g, '.*') + '$';
         return new RegExp(pattern);
     }
-}
+};
 
 /* eXtend querySelector */
 
@@ -70,7 +70,7 @@ var queryXSelector = function(element, xselector) {
     } else {
         return null;
     }
-}
+};
 
 var queryXSelectorLast = function(element, xselector) {
     var nodes = queryXSelectorAll(element, selector);
@@ -78,7 +78,7 @@ var queryXSelectorLast = function(element, xselector) {
         return null;
     }
     return nodes[nodes.length - 1];
-}
+};
 
 /* ligher pager core */
 
@@ -88,16 +88,25 @@ var light_pager = function(site) {
         if (site.separate === undefined) {
             site.separate = false;
         }
-        if (site.separateHTML === undefined) {
-            var html = 'Page: <a href="${url}">${current} / ${total}<a/>';
-            site.separateHTML = html;
-        }
         if (site.separateCSS === undefined) {
-            var css = ".lp-sep { background-color: #FFE7D3; clear: both; line-height: 22px; margin: 10px 0; text-align: center; }";
+            var css = '.lp-sep {' +
+                      '    background-color: #FFE7D3;' +
+                      '    clear: both; line-height: 22px;' +
+                      '    margin: 10px 0;' +
+                      '    text-align: center;' +
+                      '}';
             site.separateCSS = css;
         }
         if (site.separateInside === undefined) {
             site.separateInside = true;
+        }
+        if (site.loadingHTML === undefined) {
+            var html = 'Loading: <a href="${url}">${current} / ${total}<a/>';
+            site.loadingHTML = html;
+        }
+        if (site.loadedHTML === undefined) {
+            var html = 'Page: <a href="${url}">${current} / ${total}<a/>';
+            site.loadedHTML = html;
         }
         if (site.height === undefined) {
             site.height = 0.9;
@@ -105,9 +114,9 @@ var light_pager = function(site) {
         if (site.count === undefined) {
             site.count = 9;
         }
-    }
+    };
 
-    var absolute_site_attrs = function() {
+    var setup_site_absolute = function() {
         if (site.height <= 1) {
             if (window.scrollMaxY === 0) {
                 site.height = window.innerHeight * (1 - site.height);
@@ -120,23 +129,6 @@ var light_pager = function(site) {
         }
     };
 
-    var add_custom_style = function() {
-        var css_list = [site.separateCSS];
-        if (site.hidden !== undefined) {
-            css_list.push(site.hidden + ' { display: none; }');
-        }
-        if (site.style !== undefined) {
-            css_list.push(site.style);
-        }
-        GM_addStyle(css_list.join("\n"));
-    }
-
-    var get_document_mimetype = function() {
-        var mime_type = document.contentType;
-        mime_type += '; charset=' + document.characterSet;
-        return mime_type;
-    };
-
     var reach_append_height = function() {
         // some page create by javascript, no height before it created.
         if (window.scrollMaxY === 0) {
@@ -144,6 +136,20 @@ var light_pager = function(site) {
         }
         var current_height = window.scrollMaxY - window.scrollY;
         return site.height > current_height;
+    };
+
+    var dispatch_appended_event = function(count, url) {
+        var evt = document.createEvent("HTMLEvents");
+        evt.initEvent("LightPagerAppended", false, true);
+        evt.count = count
+        evt.url = url;
+        document.dispatchEvent(evt);
+    };
+
+    var get_document_mimetype = function() {
+        var mime_type = document.contentType;
+        mime_type += '; charset=' + document.characterSet;
+        return mime_type;
     };
 
     var get_next_append_url = function(the_document, selector) {
@@ -154,41 +160,110 @@ var light_pager = function(site) {
             next_append_url = null;
         }
         return next_append_url;
-    }
-
-    var dispatch_appended_event = function(count, url) {
-        var evt = document.createEvent("HTMLEvents");
-        evt.initEvent("LightPagerAppended", false, true);
-        evt.count = count
-        evt.url = url;
-        document.dispatchEvent(evt);
     };
 
-    var create_separate_node = function(index, url) {
+    var get_position_node = function() {
+        if (site.position !== undefined) {
+            var position_node = querySelectorLast(document, site.position);
+        } else {
+            var last_content_node = querySelectorLast(document, site.content);
+            unsafeWindow.console.log(last_content_node);
+            var position_node = last_content_node.nextSibling;
+        }
+        return position_node;
+    };
+
+    var get_separate_position_node = function() {
+        return get_position_node();
+    }
+
+    var get_content_position_node = function() {
+        var position_node = get_position_node();
+        if (site.separate && !site.separateInside) {
+            position_node = position_node.nextSibling;
+        }
+        return position_node;
+    };
+
+    var create_separate_node = function(HTML) {
+        var index = runtime.appended_count;
+        var url = runtime.next_append_url;
         var node = document.createElement('div');
         node.className = 'lp-sep';
-        var html = site.separateHTML.replace('${current}', index + 2);
+        var html = HTML.replace('${current}', index + 2);
         html = html.replace('${total}', site.count + 1);
         node.innerHTML = html.replace('${url}', url);
         return node;
+    };
+
+    var create_loading_separate_node = function() {
+        var node = create_separate_node(site.loadingHTML);
+        node.classList.add('lp-loading');
+        return node;
+    };
+
+    var create_loaded_separate_node = function() {
+        var node = create_separate_node(site.loadedHTML);
+        node.classList.add('lp-loaded');
+        return node;
+    };
+
+    var add_custom_style = function() {
+        var css_list = [site.separateCSS];
+        if (site.hidden !== undefined) {
+            css_list.push(site.hidden + ' { display: none; }');
+        }
+        if (site.style !== undefined) {
+            css_list.push(site.style);
+        }
+        GM_addStyle(css_list.join("\n"));
+    };
+
+    var add_loading_separate_node = function() {
+        var separate_node = create_loading_separate_node();
+        if (site.separateInside) {
+            var last_content_node = querySelectorLast(document, site.content);
+            var position_node = last_content_node.lastChild;
+        } else {
+            var position_node = get_separate_position_node();
+        }
+        position_node.parentNode.insertBefore( separate_node, position_node);
+    };
+
+    var add_loaded_separate_node = function(temp_content_nodes) {
+        var separate_node = create_loaded_separate_node();
+        if (site.separateInside) {
+            var position_node = temp_content_nodes[0].firstChild;
+        } else {
+            var position_node = get_separate_position_node();
+        }
+        position_node.parentNode.insertBefore( separate_node, position_node);
     }
 
     var add_order_classname = function() {
         var content_nodes = document.querySelectorAll(site.content);
-        for (i = 0; i < content_nodes.length; i += 1) {
+        for (var i = 0; i < content_nodes.length; i += 1) {
             content_node = content_nodes[i];
             content_node.classList.add("lp-first");
             content_node.classList.add("lp-last");
         }
-    }
+    };
+
+    var remove_loading_separate_nodes = function() {
+        var nodes = document.querySelectorAll('div.lp-sep.lp-loading');
+        for (var i = 0; i < nodes.length; i += 1) {
+            var node = nodes[i];
+            node.parentNode.removeChild(node);
+        }
+    };
 
     var remove_last_classname = function() {
         var content_nodes = document.querySelectorAll('.lp-last');
-        for (i = 0; i < content_nodes.length; i += 1) {
+        for (var i = 0; i < content_nodes.length; i += 1) {
             content_node = content_nodes[i];
             content_node.classList.remove("lp-last");
         }
-    }
+    };
 
     var runtime = {
         appending: false, // lock
@@ -200,31 +275,17 @@ var light_pager = function(site) {
     var append_next_callback = function(response) {
         var temp_document = document.createElement('html');
         temp_document.innerHTML = response.responseText;
-        runtime.next_append_url = get_next_append_url(temp_document, site.next);
-
+        var next_append_url = get_next_append_url(temp_document, site.next);
         var temp_content_nodes = temp_document.querySelectorAll(site.content);
 
-        if (site.position !== undefined) {
-            var position_node = querySelectorLast(document, site.position);
-        } else {
-            var last_content_node = querySelectorLast(document, site.content);
-            var position_node = last_content_node.nextSibling;
-        }
-
         if (site.separate) {
-            var separate_node = create_separate_node(runtime.appended_count,
-                                                     response.finalUrl);
-            if (site.separateInside) {
-                var separate_position_node = temp_content_nodes[0].firstChild;
-            } else {
-                var separate_position_node = position_node;
-            }
-            separate_position_node.parentNode.insertBefore(
-                                        separate_node, separate_position_node);
+            remove_loading_separate_nodes();
+            add_loaded_separate_node(temp_content_nodes);
         }
 
         remove_last_classname();
 
+        var position_node = get_content_position_node();
         var i, temp_content_node;
         for (i = 0; i < temp_content_nodes.length; i += 1) {
             temp_content_node = temp_content_nodes[i];
@@ -234,6 +295,7 @@ var light_pager = function(site) {
         }
 
         runtime.appended_count += 1;
+        runtime.next_append_url = next_append_url;
         runtime.appending = false;
 
         dispatch_appended_event(runtime.appended_count, response.finalUrl);
@@ -247,6 +309,11 @@ var light_pager = function(site) {
             stop_scroll_listener();
             return;
         }
+
+        if (site.separate) {
+            add_loading_separate_node();
+        }
+
         GM_xmlhttpRequest({
             method: "GET",
             overrideMimeType: runtime.mime_type,
@@ -275,7 +342,7 @@ var light_pager = function(site) {
             append_next();
         }
         window.addEventListener("scroll", scroll_listener, false);
-    }
+    };
 
     var stop_scroll_listener = function() {
         runtime.appending = false;
@@ -296,12 +363,12 @@ var light_pager = function(site) {
     };
 
     setup_site_default();
-    absolute_site_attrs();
+    setup_site_absolute();
     add_order_classname();
     add_custom_style();
     start_scroll_listener();
     return control;
-}
+};
 
 /* rule setup functions */
 
@@ -329,8 +396,11 @@ var setup_site_global = function(site, global) {
     if (site.separate === undefined && global.separate !== undefined) {
         site.separate = global.separate;
     }
-    if (site.separateHTML === undefined && global.separateHTML !== undefined) {
-        site.separateHTML = global.separateHTML;
+    if (site.loadingHTML === undefined && global.loadingHTML !== undefined) {
+        site.loadingHTML = global.loadingHTML;
+    }
+    if (site.loadedHTML === undefined && global.loadedHTML !== undefined) {
+        site.loadedHTML = global.loadedHTML;
     }
     if (site.height === undefined && global.height !== undefined) {
         site.height = global.height;
@@ -338,13 +408,13 @@ var setup_site_global = function(site, global) {
     if (site.count === undefined && global.count !== undefined) {
         site.count = global.count;
     }
-}
+};
 
 var register_menus = function(control) {
     GM_registerMenuCommand("Start", control.start_paging, "s");
     GM_registerMenuCommand("Continue", control.continue_paging, "c");
     GM_registerMenuCommand("Stop", control.stop_paging, "t");
-}
+};
 
 // only run as main file
 if (GM_info.script.name === 'Light Pager') {
@@ -357,4 +427,3 @@ if (GM_info.script.name === 'Light Pager') {
         register_menus(control);
     }
 }
-
