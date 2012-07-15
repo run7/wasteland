@@ -2,7 +2,7 @@
 // @name        Light Pager Chinalist
 // @namespace   qixinglu.com
 // @description 内置中文网站的 Light Pager 自动翻页规则
-// @require     https://github.com/muzuiget/greasemonkey-scripts/raw/master/light_pager.user.js
+// @require     https://github.com/muzuiget/greasemonkey-scripts/raw/a0fd3c92685977a0538e30b793dad335ac38aec4/light_pager.user.js
 // @include     http://localhost/*
 // @exclude     http://*.douban.com/*
 // @exclude     http://tieba.baidu.com/p/*
@@ -10,11 +10,14 @@
 // @exclude     http://www.tianya.cn/publicforum/content/*
 // @exclude     http://www.tianya.cn/techforum/content/*
 // @exclude     http://bbs.city.tianya.cn/tianyacity/content/*
+// @exclude     http://club.kdnet.net/dispbbs.asp?*
+// @exclude     http://dzh.mop.com/whbm/*
 // ==/UserScript==
 
 var GLOBAL = {
     separate: true,
-    separateHTML: '页数：<a href="${url}">${current} / ${total}<a/>',
+    loadingHTML: '正在加载：<a href="${url}">${current} / ${total}<a/>',
+    loadedHTML: '页数：<a href="${url}">${current} / ${total}<a/>',
     count: 9,
     height: 0.9
 };
@@ -38,7 +41,7 @@ var SITES = [
     style: 'div.lp-sep { margin: 0 1px; }',
 },
 {
-    title: 'CSDN 论坛',
+    title: 'CSDN 社区',
     url: 'http://topic.csdn.net/u/*',
     next: 'ul.plist a[onclick]:contains("下一页")',
     content: 'table.mframe, table.mframe ~ div.fm',
@@ -60,6 +63,20 @@ var SITES = [
     ],
     next: 'a:contains("下一页")',
     content: '#pContentDiv, #pContentDiv ~ div.post-bar',
+    separateInside: false,
+},
+{
+    title: '凯迪论坛',
+    url: 'http://club.kdnet.net/dispbbs.asp?*',
+    next: 'a:contains("下一页")',
+    content: 'div.posted-box-add, div.reply-box, div.reply-box ~ div.operating',
+    separateInside: false,
+},
+{
+    title: '猫扑大杂烩',
+    url: 'http://dzh.mop.com/whbm/*',
+    next: 'a:contains("下一页")',
+    content: 'div.nrarea',
     separateInside: false,
 },
 ];
