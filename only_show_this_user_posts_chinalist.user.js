@@ -2,7 +2,7 @@
 // @name        Only Show This User Posts Chinalist
 // @namespace   qixinglu.com
 // @description 内置中文网站的 Only Show This User Posts 规则
-// @require     https://github.com/muzuiget/greasemonkey-scripts/raw/master/only_show_this_user_posts.user.js
+// @require     https://github.com/muzuiget/greasemonkey-scripts/raw/6db69d6562f64ca509d9351516a1baabf7c7d190/only_show_this_user_posts.user.js
 // @include     https://localhost/*
 // @include     http://www.douban.com/group/topic/*
 // @include     http://tieba.baidu.com/p/*
@@ -10,16 +10,25 @@
 // @include     http://www.tianya.cn/publicforum/content/*
 // @include     http://www.tianya.cn/techforum/content/*
 // @include     http://bbs.city.tianya.cn/tianyacity/content/*
+// @include     http://club.kdnet.net/dispbbs.asp?*
+// @include     http://dzh.mop.com/whbm/*
 // ==/UserScript==
 
 var SITES = [
 {
     title: '豆瓣小组',
     url: 'http://www.douban.com/group/topic/*',
-    style: 'div.reply-doc:hover div.operation_div { display: block };',
-    post: 'ul.topic-reply li',
-    positon: 'div.operation_div',
-    username: 'div.reply-doc h4 a',
+    style: 'div.reply-doc:hover div.operation_div {' +
+           '    display: block;' +
+           '}' +
+           'div.topic-report a.ostup {' +
+           '    color: #BBBBBB;' +
+           '    font-size: 12px;' +
+           '    margin-right: 20px;' +
+           '}',
+    post: 'div.topic-content.clearfix, ul.topic-reply li',
+    positon: 'div.topic-report, div.operation_div',
+    username: 'span.pl20 a, div.reply-doc h4 a',
 },
 {
     title: '百度贴吧',
@@ -37,7 +46,7 @@ var SITES = [
     container: '<li class="ostup"></li>',
 },
 {
-    title: 'CSDN 论坛',
+    title: 'CSDN 社区',
     url: 'http://topic.csdn.net/u/*',
     style: '.fbarb a.ostup {' +
            '    border-right: 0 none;' +
@@ -78,6 +87,20 @@ var SITES = [
     post: '#pContentDiv div.vcard, #pContentDiv div.post',
     positon: '#pContentDiv div.vcard',
     username: '#pContentDiv div.vcard a[target]',
+},
+{
+    title: '凯迪论坛',
+    url: 'http://club.kdnet.net/dispbbs.asp?*',
+    post: 'div.posted-box-add, div.reply-box',
+    positon: 'div.posts-control',
+    username: 'div.posted-info span.c-main a[target]',
+},
+{
+    title: '猫扑大杂烩',
+    url: 'http://dzh.mop.com/whbm/*',
+    post: '#body, div.main div.tzhfP',
+    positon: '#lzxx_fun div.hfyc, li.caption div.hfyc',
+    username: '#lzxx_fun .ico_klz + a[target], li.caption a.name',
 },
 ]
 
