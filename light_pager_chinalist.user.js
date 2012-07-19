@@ -2,7 +2,7 @@
 // @name        Light Pager Chinalist
 // @namespace   qixinglu.com
 // @description 内置中文网站的 Light Pager 自动翻页规则
-// @require     https://github.com/muzuiget/greasemonkey-scripts/raw/a0fd3c92685977a0538e30b793dad335ac38aec4/light_pager.user.js
+// @require     https://raw.github.com/muzuiget/greasemonkey-scripts/a0fd3c92685977a0538e30b793dad335ac38aec4/light_pager.user.js
 // @include     http://localhost/*
 // @exclude     http://*.douban.com/*
 // @exclude     http://tieba.baidu.com/p/*

@@ -2,7 +2,7 @@
 // @name        Only Show This User Posts Chinalist
 // @namespace   qixinglu.com
 // @description 内置中文网站的 Only Show This User Posts 规则
-// @require     https://github.com/muzuiget/greasemonkey-scripts/raw/6db69d6562f64ca509d9351516a1baabf7c7d190/only_show_this_user_posts.user.js
+// @require     https://raw.github.com/muzuiget/greasemonkey-scripts/6db69d6562f64ca509d9351516a1baabf7c7d190/only_show_this_user_posts.user.js
 // @include     https://localhost/*
 // @include     http://www.douban.com/group/topic/*
 // @include     http://tieba.baidu.com/p/*
