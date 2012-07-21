@@ -2,7 +2,7 @@
 // @name        Only Show This User Posts Chinalist
 // @namespace   qixinglu.com
 // @description 内置中文网站的 Only Show This User Posts 规则
-// @require     https://raw.github.com/muzuiget/greasemonkey-scripts/6db69d6562f64ca509d9351516a1baabf7c7d190/only_show_this_user_posts.user.js
+// @require     https://raw.github.com/muzuiget/greasemonkey-scripts/a05a04685e5efc306c559b9e395ee2cb8dfe0e82/only_show_this_user_posts.user.js
 // @include     https://localhost/*
 // @include     http://www.douban.com/group/topic/*
 // @include     http://tieba.baidu.com/p/*
@@ -27,7 +27,7 @@ var SITES = [
            '    margin-right: 20px;' +
            '}',
     post: 'div.topic-content.clearfix, ul.topic-reply li',
-    positon: 'div.topic-report, div.operation_div',
+    position: 'div.topic-report, div.operation_div',
     username: 'span.pl20 a, div.reply-doc h4 a',
 },
 {
@@ -41,19 +41,16 @@ var SITES = [
            '    list-style: none outside none;' +
            '}',
     post: 'div.l_post',
-    positon: 'ul.p_author, div.d_author_anonym',
+    position: 'ul.p_author, div.d_author_anonym',
     username: 'a.p_author_name, div.d_author_anonym',
     container: '<li class="ostup"></li>',
 },
 {
     title: 'CSDN 社区',
     url: 'http://topic.csdn.net/u/*',
-    style: '.fbarb a.ostup {' +
-           '    border-right: 0 none;' +
-           '    border-left: 1px solid #666666;' +
-           '}',
     post: 'table.mframe',
-    positon: 'div.fbarb ul',
+    position: 'div.fbarb ul li:nth-child(3)',
+    positionInsert: true,
     username: 'div.df li:nth-child(2) a',
     container: '<li></li>',
 },
@@ -70,7 +67,7 @@ var SITES = [
            '    text-decoration: none;' +
            '}',
     post: '#firstAuthor, #pContentDiv table, #pContentDiv div.post',
-    positon: '#firstAuthor td:last-child, #pContentDiv table td:last-child',
+    position: '#firstAuthor td:last-child, #pContentDiv table td:last-child',
     username: '#firstAuthor td[align=center] a[target], #pContentDiv table center a',
 },
 {
@@ -85,21 +82,21 @@ var SITES = [
            '    margin-right: 10px;' +
            '}',
     post: '#pContentDiv div.vcard, #pContentDiv div.post',
-    positon: '#pContentDiv div.vcard',
+    position: '#pContentDiv div.vcard',
     username: '#pContentDiv div.vcard a[target]',
 },
 {
     title: '凯迪论坛',
     url: 'http://club.kdnet.net/dispbbs.asp?*',
     post: 'div.posted-box-add, div.reply-box',
-    positon: 'div.posts-control',
+    position: 'div.posts-control',
     username: 'div.posted-info span.c-main a[target]',
 },
 {
     title: '猫扑大杂烩',
     url: 'http://dzh.mop.com/whbm/*',
     post: '#body, div.main div.tzhfP',
-    positon: '#lzxx_fun div.hfyc, li.caption div.hfyc',
+    position: '#lzxx_fun div.hfyc, li.caption div.hfyc',
     username: '#lzxx_fun .ico_klz + a[target], li.caption a.name',
 },
 ]
