@@ -2,7 +2,6 @@
 // @name           Box-z Price History Image
 // @namespace      qixinglu.com
 // @description    在网上商店产品页面，自动插入一张从 www.box-z.com 里的价格历史波动图片。
-// @run-at         document-start
 // @include        http://mvd.360buy.com/*
 // @include        http://book.360buy.com/*
 // @include        http://www.360buy.com/product/*
@@ -14,20 +13,24 @@
 // @include        http://product.dangdang.com/product.aspx?product_id=*
 // @include        http://product.dangdang.com/Product.aspx?product_id=*
 // @include        http://item.51buy.com/item-*
-// @include        http://www.suning.com/emall/prd_10052_10051_-7_*
-// @include        http://www.gome.com.cn/product/*
+// @include        http://www.suning.com/emall/prd_10052_10051_-7_*.html*
+// @include        http://www.suning.com/emall/snupgbpv_10052_10051_*_.html
+// @include        http://www.suning.com/emall/sngbv_10052_10051_*_.html
+// @include        http://www.gome.com.cn/ec/homeus/jump/product/*.html*
 // @include        http://www.lusen.com/product-*
-// @include        http://www.efeihu.com/Pages/ProductShow/ProductDetails.aspx?*
+// @include        http://www.efeihu.com/Product/*.html*
 // @include        http://www.tao3c.com/product/*
-// @include        http://www.coo8.com/product/*
+// @include        http://www.coo8.com/product/*.html*
 // @include        http://www.yihaodian.com/product/detail.do?*
 // @include        http://www.yihaodian.com/product/*
 // @include        http://www.ouku.com/goods*
+// @include        http://www.redbaby.com.cn/*/*.html*
 // @include        http://www.bookschina.com/*
 // @include        http://www.wl.cn/*
 // @include        http://product.china-pub.com/*
-// @include        http://www.winxuan.com/product/book_1_*
+// @include        http://www.winxuan.com/product/*
 // @include        http://www.99read.com/product/*
+// @include        http://www.99read.com/Product/*
 // @include        http://www.new7.com/product/*
 // ==/UserScript==
 
@@ -107,7 +110,6 @@ sites = [{
     }
 }, {
     domain : 'amazon.cn',
-    need_dom_ready  : true,
     get_history_url: function() {
         var reg, product_uid, history_url;
         if (url.indexOf('/gp/product/') != -1) {
@@ -133,15 +135,14 @@ sites = [{
     }
 }, {
     domain : 'dangdang.com',
-    need_dom_ready  : true,
     get_history_url: function() {
         var reg, product_uid, history_url;
         reg = new RegExp("http://product.dangdang.com/[Pp]roduct.aspx\\?product_id=\(\\d+\)");
         product_uid = url.match(reg)[1];
-        if (document.querySelectorAll('.dp_break a')[1].href.indexOf('/book/') == -1) {
-            history_url = create_product_history_url('dangdang', product_uid);
-        } else {
+        if (document.querySelectorAll('.dp_break a')[1].textContent == '图书') {
             history_url = create_book_history_url('dangdang', product_uid);
+        } else {
+            history_url = create_product_history_url('dangdang', product_uid);
         }
         return history_url;
     },
@@ -171,22 +172,29 @@ sites = [{
     get_history_url: function() {
         var reg, product_uid, history_url;
         // 真恶心的url设计
-        reg = new RegExp("http://www.suning.com/emall/prd_10052_10051_-7_\([^.]+\)_.html");
-        product_uid = url.match(reg)[1];
+        reg = new RegExp("http://www.suning.com/emall/\(.+?\).html");
+        mess = url.match(reg)[1].split('_');
+        if (mess[0] === 'prd') {
+            product_uid = mess[4];
+        }
+        else {
+            product_uid = mess[3];
+        }
         history_url = create_product_history_url('suning', product_uid);
         return history_url;
     },
     request_callback: function(response) {
         var image_node, place_node;
         image_node = create_history_image_node(response);
-        place_node = document.getElementsByClassName('promsg mb')[0];
+        // 真混乱
+        place_node = document.querySelector('.product_view, .groupViewContent, .show');
         place_node.parentNode.insertBefore(image_node, place_node.nextElementSibling);
     }
 }, {
     domain : 'gome.com',
     get_history_url: function() {
         var reg, product_uid, history_url;
-        reg = new RegExp("http://www.gome.com.cn/product/\(\\d+\).html");
+        reg = new RegExp("http://www.gome.com.cn/ec/homeus/jump/product/\(\\d+\).html");
         product_uid = url.match(reg)[1];
         history_url = create_product_history_url('gome', product_uid);
         return history_url;
@@ -194,7 +202,7 @@ sites = [{
     request_callback: function(response) {
         var image_node, place_node;
         image_node = create_history_image_node(response);
-        place_node = document.getElementById('box1');
+        place_node = document.getElementsByClassName('showProdut')[0];
         place_node.parentNode.insertBefore(image_node, place_node.nextElementSibling);
     }
 }, {
@@ -216,7 +224,7 @@ sites = [{
     domain : 'efeihu.com',
     get_history_url: function() {
         var reg, product_uid, history_url;
-        reg = new RegExp("http://www.efeihu.com/Pages/ProductShow/ProductDetails.aspx\\?.*pidno=\(\\d+\)");
+        reg = new RegExp("http://www.efeihu.com/Product/\(\\d+?\)\.html");
         product_uid = url.match(reg)[1];
         history_url = create_product_history_url('efeihu', product_uid);
         return history_url;
@@ -246,7 +254,7 @@ sites = [{
     domain : 'coo8.com',
     get_history_url: function() {
         var reg, product_uid, history_url;
-        reg = new RegExp("http://www.coo8.com/product/\(\\d\+\)");
+        reg = new RegExp("http://www.coo8.com/product/\(\\d\+\)\.html");
         product_uid = url.match(reg)[1];
         history_url = create_product_history_url('coo8', product_uid);
         return history_url;
@@ -254,7 +262,7 @@ sites = [{
     request_callback: function(response) {
         var image_node, place_node;
         image_node = create_history_image_node(response);
-        place_node = document.getElementsByClassName('infos')[0];
+        place_node = document.getElementsByClassName('mProd')[0];
         place_node.parentNode.insertBefore(image_node, place_node.nextElementSibling);
     }
 }, {
@@ -289,6 +297,21 @@ sites = [{
         var image_node, place_node;
         image_node = create_history_image_node(response);
         place_node = document.getElementsByClassName('celldetail_contright_xinde1')[0];
+        place_node.parentNode.insertBefore(image_node, place_node.nextElementSibling);
+    }
+}, {
+    domain : 'redbaby.com',
+    get_history_url: function() {
+        var reg, product_uid, history_url;
+        reg = new RegExp("http://www.redbaby.com.cn/\\w\+/\\d\{7}\(\\d+?\)\.html");
+        product_uid = url.match(reg)[1];
+        history_url = create_product_history_url('redbaby', product_uid);
+        return history_url;
+    },
+    request_callback: function(response) {
+        var image_node, place_node;
+        image_node = create_history_image_node(response);
+        place_node = document.getElementsByClassName('productRightBase')[0];
         place_node.parentNode.insertBefore(image_node, place_node.nextElementSibling);
     }
 }, {
@@ -337,10 +360,10 @@ sites = [{
         place_node.parentNode.insertBefore(image_node, place_node.nextElementSibling);
     }
 }, {
-    domain : 'wenxuan.com',
+    domain : 'winxuan.com',
     get_history_url: function() {
         var reg, product_uid, history_url;
-        reg = new RegExp("http://www.winxuan.com/product/book_1_\(\\d+\).html");;
+        reg = new RegExp("http://www.winxuan.com/product/\(\\d+\)");;
         product_uid = url.match(reg)[1];
         history_url = create_book_history_url('wenxuan', product_uid);
         return history_url;
@@ -348,14 +371,14 @@ sites = [{
     request_callback: function(response) {
         var image_node, place_node;
         image_node = create_history_image_node(response);
-        place_node = document.getElementsByClassName('info')[0];
+        place_node = document.getElementsByClassName('goods_info')[0];
         place_node.parentNode.insertBefore(image_node, place_node.nextElementSibling);
     }
 }, {
     domain : '99read.com',
     get_history_url: function() {
         var reg, product_uid, history_url;
-        reg = new RegExp("http://www.99read.com/product/\(\\d+\).aspx");
+        reg = new RegExp("http://www.99read.com/[pP]roduct/\(\\d+\).aspx");
         product_uid = url.match(reg)[1];
         history_url = create_book_history_url('99read', product_uid);
         return history_url;
@@ -391,7 +414,6 @@ function start_request(site) {
     });
 }
 
-
 /* 开始处理 */
 var i, site;
 for (i = 0; i < sites.length; i += 1) {
@@ -400,12 +422,4 @@ for (i = 0; i < sites.length; i += 1) {
         break;
     }
 }
-
-if (site.need_dom_ready !== true) {
-    start_request(site);
-} else {
-    document.addEventListener('DOMContentLoaded', function() {
-        start_request(site)
-    }, false);
-}
-
+start_request(site);
