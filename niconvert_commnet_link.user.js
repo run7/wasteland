@@ -33,7 +33,7 @@ var do_acfun = function() {
         method: "GET",
         url: info_url,
         onload: function(response) {
-            var commnet_uid = JSON.parse(response.responseText).vid;
+            var commnet_uid = JSON.parse(response.responseText).cid;
             var commnet_url = "http://comment.acfun.tv/" + commnet_uid + ".json";
             var link = create_link(commnet_url);
             link.style.marginLeft = "15px";
