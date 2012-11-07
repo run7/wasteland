@@ -120,7 +120,7 @@ sites = [{
             reg = new RegExp("http://www.amazon.cn/mn/detailApp.*asin=\(\\w+\)");
         }
         product_uid = url.match(reg)[1];
-        if (document.getElementsByClassName('navCatA')[0].textContent != '图书') {
+        if (document.getElementsByClassName('nav_a')[0].textContent != '图书') {
             history_url = create_product_history_url('amazon', product_uid);
         } else {
             history_url = create_book_history_url('amazon', product_uid);
@@ -423,3 +423,4 @@ for (i = 0; i < sites.length; i += 1) {
     }
 }
 start_request(site);
+
