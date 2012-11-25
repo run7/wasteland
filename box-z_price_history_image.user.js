@@ -34,8 +34,8 @@
 // @include        http://www.new7.com/product/*
 // ==/UserScript==
 
-// 获得价格历史图片
-function create_history_image_node(response) {
+// 图书类还是 Google Chart
+function google_chart(response) {
     var temp_document, img_node, img_node_src, image_node;
     temp_document = document.createElement('html');
     temp_document.innerHTML = response.responseText;
@@ -61,12 +61,45 @@ function create_history_image_node(response) {
     return image_node;
 }
 
+// 非图书类是自托管图片
+function self_host(urls) {
+    var img_node = document.createElement('img');
+    var detail_url = urls[0];
+    var chart_url = urls[1];
+    img_node.src = chart_url;
+    img_node.width = 630;
+    img_node.height = 180;
+    img_node.style.marginTop = "10px";
+    img_node.style.marginBottom = "10px";
+    // 加上链接
+    var image_node = document.createElement('a');
+    image_node.href = detail_url;
+    image_node.appendChild(img_node);
+    return image_node;
+}
+
+// 获得价格历史图片
+function create_history_image_node(response) {
+    var image_node;
+    if (response.responseText === undefined) {
+        image_node = self_host(response);
+    }
+    else {
+        image_node = google_chart(response);
+    }
+    return image_node;
+}
+
 function create_product_history_url(prefix, product_uid) {
-    return "http://www.box-z.com/products/" + prefix + "-" + product_uid + ".shtml";
+    var detail_url = "http://www.box-z.com/products/" + prefix + "-" + product_uid + ".shtml";
+    var chart_url = "http://www.box-z.com/pic/small/" + prefix + "-" + product_uid + ".png";
+    return [detail_url, chart_url];
 }
 
 function create_book_history_url(prefix, product_uid) {
-    return "http://www.box-z.com/books/" + prefix + "-" + product_uid + ".shtml";
+    var detail_url = "http://www.box-z.com/books/" + prefix + "-" + product_uid + ".shtml";
+    var chart_url = null;
+    return [detail_url, chart_url];
 }
 
 url = window.location.href;
@@ -120,10 +153,11 @@ sites = [{
             reg = new RegExp("http://www.amazon.cn/mn/detailApp.*asin=\(\\w+\)");
         }
         product_uid = url.match(reg)[1];
-        if (document.getElementsByClassName('nav_a')[0].textContent != '图书') {
-            history_url = create_product_history_url('amazon', product_uid);
-        } else {
+        var category = document.querySelector('.nav-subnav-item.nav-category-button').textContent.trim();
+        if (category === '图书') {
             history_url = create_book_history_url('amazon', product_uid);
+        } else {
+            history_url = create_product_history_url('amazon', product_uid);
         }
         return history_url;
     },
@@ -407,11 +441,19 @@ sites = [{
 }];
 
 function start_request(site) {
-    GM_xmlhttpRequest({
-        method: "GET",
-        url: site.get_history_url(),
-        onload: site.request_callback
-    });
+    var urls = site.get_history_url();
+    if (urls[1] === null) {
+        // 图书类
+        GM_xmlhttpRequest({
+            method: "GET",
+            url: urls[0],
+            onload: site.request_callback
+        });
+    }
+    else {
+        // 非图书类
+        site.request_callback(urls);
+    }
 }
 
 /* 开始处理 */
@@ -423,4 +465,3 @@ for (i = 0; i < sites.length; i += 1) {
     }
 }
 start_request(site);
-
