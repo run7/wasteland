@@ -20,15 +20,19 @@ var SITES = [
     url: 'http://www.douban.com/group/topic/*',
     style: 'div.reply-doc:hover div.operation_div {' +
            '    display: block;' +
+           '    width: auto;' +
            '}' +
-           'div.topic-report a.ostup {' +
+           'div.reply-doc a.ostup {' +
            '    color: #BBBBBB;' +
            '    font-size: 12px;' +
-           '    margin-right: 20px;' +
+           '}' +
+           '#link-report a.ostup {' +
+           '    float: right;' +
+           '    color: #BBBBBB;' +
            '}',
     post: 'div.topic-content.clearfix, ul.topic-reply li',
-    position: 'div.topic-report, div.operation_div',
-    username: 'span.pl20 a, div.reply-doc h4 a',
+    position: '#link-report, div.operation_div',
+    username: 'div.topic-doc span.from a, div.reply-doc h4 a',
 },
 {
     title: '百度贴吧',
