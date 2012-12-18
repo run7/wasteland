@@ -6,7 +6,6 @@
 // @include     https://localhost/*
 // @include     http://www.douban.com/group/topic/*
 // @include     http://tieba.baidu.com/p/*
-// @include     http://topic.csdn.net/u/*
 // @include     http://www.tianya.cn/publicforum/content/*
 // @include     http://www.tianya.cn/techforum/content/*
 // @include     http://bbs.city.tianya.cn/tianyacity/content/*
@@ -48,15 +47,6 @@ var SITES = [
     position: 'ul.p_author, div.d_author_anonym',
     username: 'a.p_author_name, div.d_author_anonym',
     container: '<li class="ostup"></li>',
-},
-{
-    title: 'CSDN 社区',
-    url: 'http://topic.csdn.net/u/*',
-    post: 'table.mframe',
-    position: 'div.fbarb ul li:nth-child(3)',
-    positionInsert: true,
-    username: 'div.df li:nth-child(2) a',
-    container: '<li></li>',
 },
 {
     title: '天涯公共论坛',
