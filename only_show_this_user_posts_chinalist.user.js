@@ -6,9 +6,6 @@
 // @include     https://localhost/*
 // @include     http://www.douban.com/group/topic/*
 // @include     http://tieba.baidu.com/p/*
-// @include     http://www.tianya.cn/publicforum/content/*
-// @include     http://www.tianya.cn/techforum/content/*
-// @include     http://bbs.city.tianya.cn/tianyacity/content/*
 // @include     http://club.kdnet.net/dispbbs.asp?*
 // @include     http://dzh.mop.com/whbm/*
 // ==/UserScript==
@@ -47,37 +44,6 @@ var SITES = [
     position: 'ul.p_author, div.d_author_anonym',
     username: 'a.p_author_name, div.d_author_anonym',
     container: '<li class="ostup"></li>',
-},
-{
-    title: '天涯公共论坛',
-    url: 'http://www.tianya.cn/publicforum/content/*',
-    style: '#firstAuthor td[align=right] {' +
-           '    width: 285px !important;' +
-           '}' +
-           'a.ostup {' +
-           '    color: #999999;' +
-           '    float: right;' +
-           '    margin-right: 10px;' +
-           '    text-decoration: none;' +
-           '}',
-    post: '#firstAuthor, #pContentDiv table, #pContentDiv div.post',
-    position: '#firstAuthor td:last-child, #pContentDiv table td:last-child',
-    username: '#firstAuthor td[align=center] a[target], #pContentDiv table center a',
-},
-{
-    title: '天涯技术论坛和城市',
-    url: [
-        'http://www.tianya.cn/techforum/content/*',
-        'http://bbs.city.tianya.cn/tianyacity/content/*',
-    ],
-    style: 'a.ostup {' +
-           '    color: #999999;' +
-           '    float: right;' +
-           '    margin-right: 10px;' +
-           '}',
-    post: '#pContentDiv div.vcard, #pContentDiv div.post',
-    position: '#pContentDiv div.vcard',
-    username: '#pContentDiv div.vcard a[target]',
 },
 {
     title: '凯迪论坛',
