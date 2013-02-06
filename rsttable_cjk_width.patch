@@ -1,0 +1,43 @@
+diff --git a/plugin/rst_table.vim b/plugin/rst_table.vim
+index 74eb070..deeb4b7 100644
+--- a/plugin/rst_table.vim
++++ b/plugin/rst_table.vim
+@@ -4,6 +4,18 @@ python << EOF
+ # -*- encoding: utf-8 -*-
+ import vim
+ import re
++from unicodedata import east_asian_width
++
++def cjk_width(text):
++    width = 0
++    if not isinstance(text, unicode):
++        text = text.decode("utf-8")
++    for char in text:
++        if east_asian_width(char) == 'Na':
++            width += 1
++        else:
++            width += 2
++    return width
+ 
+ def create_separarator(widths, char):
+     """Genera una linea para separar filas de una tabla.
+@@ -47,7 +59,9 @@ def create_line(columns, widths):
+     result = []
+ 
+     for text, width in line:
+-        result.append("| " + text.ljust(width) + " ")
++        spaces = " " * (width - cjk_width(text))
++        text = "| " + text + spaces + " "
++        result.append(text)
+ 
+     result.append("|")
+     return ''.join(result)
+@@ -73,7 +87,7 @@ def create_table(content):
+     # obtiene las columnas de toda la tabla.
+     columns = zip(*content)
+     # calcula el tamano maximo que debe tener cada columna.
+-    widths = [max([len(x) for x in i]) for i in columns]
++    widths = [max([cjk_width(x) for x in i]) for i in columns]
+ 
+     result = []
+ 

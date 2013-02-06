@@ -1,0 +1,74 @@
+diff --git a/content/aardvarkCommands.js b/content/aardvarkCommands.js
+index 7218adb..4a02463 100644
+--- a/content/aardvarkCommands.js
++++ b/content/aardvarkCommands.js
+@@ -14,6 +14,7 @@ if (this.keyCommands.length > 0)
+ var keyCommands = [
+ ["wider", this.wider],
+ ["narrower", this.narrower],
++["lock", this.lock],
+ ["undo", this.undo, true],
+ ["quit", this.quit, true],
+ ["remove", this.removeElement],
+@@ -129,6 +130,14 @@ return false;
+ },
+   
+ //------------------------------------------------------------
++lock : function (elem) {
++if (elem) {
++    aardvark.isLocked = !aardvark.isLocked;
++  }
++return false;
++},
++  
++//------------------------------------------------------------
+ quit : function () {
+ this.doc.aardvarkRunning = false;
+ 
+@@ -147,6 +156,7 @@ else {
+ 
+ this.removeBoxFromBody ();
+ 
++aardvark.isLocked = false
+ delete (this.selectedElem);
+ if (this.widerStack)
+   delete (this.widerStack);
+diff --git a/content/aardvarkExtension.js b/content/aardvarkExtension.js
+index 12a2132..8dd133b 100755
+--- a/content/aardvarkExtension.js
++++ b/content/aardvarkExtension.js
+@@ -10,6 +10,7 @@ var aardvark = {
+     ripHelp : '',
+     wider : '',
+     narrower : '',
++    lock : '',
+     undo : '',
+     quit : '',
+     remove : '',
+diff --git a/content/aardvarkMain.js b/content/aardvarkMain.js
+index 0eb3e50..25dbc5d 100644
+--- a/content/aardvarkMain.js
++++ b/content/aardvarkMain.js
+@@ -317,6 +317,10 @@ if (!evt)
+ if (!aardvark.mouseMoved)
+   return;
+ 
++if (aardvark.isLocked == true) {
++    return;
++}
++
+ var elem = aardvark.getElemFromEvent (evt);
+ if (elem == null) {
+   aardvark.clearBox ();
+diff --git a/locale/en-US/aardvark.properties b/locale/en-US/aardvark.properties
+index 098a453..0051c5f 100644
+--- a/locale/en-US/aardvark.properties
++++ b/locale/en-US/aardvark.properties
+@@ -8,6 +8,7 @@ extensions.aardvark@rob.brown.karmaticsPlug=<center><span style='font-size: .9em
+ extensions.aardvark@rob.brown.ripHelp=<center>If you install the excellent <a href='http://addons.mozilla.org/firefox/521/' target='_new'>R.I.P.</a>,<br> (Remove It Permanently), the K command will<br>permanently remove items from a page.</center>
+ extensions.aardvark@rob.brown.wider=wider
+ extensions.aardvark@rob.brown.narrower=narrower
++extensions.aardvark@rob.brown.lock=lock
+ extensions.aardvark@rob.brown.undo=undo
+ extensions.aardvark@rob.brown.quit=quit aardvark
+ extensions.aardvark@rob.brown.remove=remove

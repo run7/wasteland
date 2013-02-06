@@ -1,0 +1,139 @@
+=== modified file 'data/ui/preferences/appearance.ui'
+--- data/ui/preferences/appearance.ui	2012-09-01 05:20:34 +0000
++++ data/ui/preferences/appearance.ui	2013-02-06 06:59:31 +0000
+@@ -295,6 +295,39 @@
+             <property name="position">10</property>
+           </packing>
+         </child>
++        <child>
++          <object class="GtkHBox" id="hbox5">
++            <property name="visible">True</property>
++            <property name="spacing">3</property>
++            <child>
++              <object class="GtkLabel" id="label2">
++                <property name="visible">True</property>
++                <property name="xalign">0</property>
++                <property name="label" translatable="yes">Fallback encodings:</property>
++              </object>
++              <packing>
++                <property name="expand">False</property>
++                <property name="position">0</property>
++              </packing>
++            </child>
++            <child>
++              <object class="GtkEntry" id="gui/fallback_encodings">
++                <property name="visible">True</property>
++                <property name="can_focus">True</property>
++                    <property name="secondary_icon_stock">gtk-info</property>
++                    <property name="secondary_icon_activatable">False</property>
++                    <property name="secondary_icon_tooltip_text" translatable="yes">A comma-separated list of fallback encodings</property>
++              </object>
++              <packing>
++                <property name="position">1</property>
++              </packing>
++            </child>
++          </object>
++          <packing>
++            <property name="expand">False</property>
++            <property name="position">11</property>
++           </packing>
++        </child>
+       </object>
+     </child>
+   </object>
+
+=== modified file 'xl/trax/track.py'
+--- xl/trax/track.py	2012-11-14 05:24:44 +0000
++++ xl/trax/track.py	2013-02-06 06:59:31 +0000
+@@ -434,6 +434,46 @@
+         """
+         return self.__tags.keys() + ['__basename']
+ 
++    def convert_encoding(self, text):
++        """
++            Convert text with gui fallback encodings
++        """
++
++        try:
++            text_bytes = text.encode('latin-1')
++        except StandardError:
++            return text
++
++        encodings = ['utf-8']
++        encodings.extend(settings.get_option("gui/fallback_encodings", []))
++
++        decoded_text = None
++        for encoding in encodings:
++            try:
++                decoded_text = text_bytes.decode(encoding)
++            except UnicodeDecodeError:
++                continue
++            else:
++                break
++
++        # Maybe the unicode bytes sequence incomplete, lack one byte.
++        # so ignore the last isolated byte then try again
++        if decoded_text is None:
++            text_bytes = text_bytes[:-1]
++            for encoding in encodings:
++                try:
++                    decoded_text = text_bytes.decode(encoding)
++                except UnicodeDecodeError:
++                    continue
++                else:
++                    break
++
++        if decoded_text is None:
++            logger.warning('convert encoding to %s fail: %s', encodings, repr(text))
++            return text
++        else:
++            return decoded_text
++
+     def set_tag_raw(self, tag, values, notify_changed=True):
+         """
+             Set the raw value of a tag.
+@@ -468,6 +508,9 @@
+                     if v not in (None, '')
+             ]
+ 
++            # convert encoding
++            values = [self.convert_encoding(text) for text in values]
++
+         # Save some memory by not storing null values.
+         if not values:
+             try:
+
+=== modified file 'xlgui/preferences/appearance.py'
+--- xlgui/preferences/appearance.py	2012-10-03 04:43:15 +0000
++++ xlgui/preferences/appearance.py	2013-02-06 06:59:31 +0000
+@@ -47,6 +47,29 @@
+     default = True
+     name = 'gui/use_splash'
+ 
++class FallbackEncodingsPreference(widgets.ListPreference):
++    default = []
++    name = 'gui/fallback_encodings'
++
++    def __init__(self, preferences, widget):
++        widgets.ListPreference.__init__(self, preferences, widget)
++
++    def _get_value(self):
++        """
++            Converts the string value to a list
++        """
++        values = [v.strip() for v in self.widget.get_text().split(',')]
++        values = [v.lower() for v in values if v is not '']
++        return values
++
++    def _set_value(self):
++        """
++            Converts the list to a string value
++        """
++        items = self.preferences.settings.get_option(self.name,
++                                                     default=self.default)
++        self.widget.set_text(', '.join(items))
++
+ class ShowTabBarPreference(widgets.CheckPreference):
+     default = True
+     name = 'gui/show_tabbar'
+

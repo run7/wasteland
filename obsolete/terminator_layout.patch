@@ -1,0 +1,384 @@
+diff --git a/terminatorlib/config.py b/terminatorlib/config.py
+index 4acd12d..595193e 100755
+--- a/terminatorlib/config.py
++++ b/terminatorlib/config.py
+@@ -111,7 +111,13 @@ DEFAULTS = {
+             'go_left'          : '<Alt>Left',
+             'go_right'         : '<Alt>Right',
+             'split_horiz'      : '<Shift><Control>o',
++            'split_horiz_1'    : '',
++            'split_horiz_2'    : '',
++            'split_horiz_3'    : '',
+             'split_vert'       : '<Shift><Control>e',
++            'split_vert_1'     : '<Shift><Control>b',
++            'split_vert_2'     : '',
++            'split_vert_3'     : '',
+             'close_term'       : '<Shift><Control>w',
+             'copy'             : '<Shift><Control>c',
+             'paste'            : '<Shift><Control>v',
+@@ -119,9 +125,21 @@ DEFAULTS = {
+             'search'           : '<Shift><Control>f',
+             'close_window'     : '<Shift><Control>q',
+             'resize_up'        : '<Shift><Control>Up',
++            'resize_up_1'      : '<Shift><Control>k',
++            'resize_up_2'      : '',
++            'resize_up_3'      : '',
+             'resize_down'      : '<Shift><Control>Down',
++            'resize_down_1'    : '<Shift><Control>j',
++            'resize_down_2'    : '',
++            'resize_down_3'    : '',
+             'resize_left'      : '<Shift><Control>Left',
++            'resize_left_1'    : '',
++            'resize_left_2'    : '',
++            'resize_left_3'    : '',
+             'resize_right'     : '<Shift><Control>Right',
++            'resize_right_1'   : '',
++            'resize_right_2'   : '',
++            'resize_right_3'   : '',
+             'move_tab_right'   : '<Shift><Control>Page_Down',
+             'move_tab_left'    : '<Shift><Control>Page_Up',
+             'toggle_zoom'      : '<Shift><Control>x',
+diff --git a/terminatorlib/container.py b/terminatorlib/container.py
+index e9b05fd..4fe4b3c 100755
+--- a/terminatorlib/container.py
++++ b/terminatorlib/container.py
+@@ -63,15 +63,15 @@ class Container(object):
+         """Return a list of direct child widgets, if any"""
+         return(self.children)
+ 
+-    def split_horiz(self, widget, cwd=None):
++    def split_horiz(self, widget, cwd=None, position=None):
+         """Split this container horizontally"""
+-        return(self.split_axis(widget, True, cwd))
++        return(self.split_axis(widget, True, cwd, position=position))
+ 
+-    def split_vert(self, widget, cwd=None):
++    def split_vert(self, widget, cwd=None, position=None):
+         """Split this container vertically"""
+-        return(self.split_axis(widget, False, cwd))
++        return(self.split_axis(widget, False, cwd, position=position))
+ 
+-    def split_axis(self, widget, vertical=True, cwd=None, sibling=None, siblinglast=None):
++    def split_axis(self, widget, vertical=True, cwd=None, sibling=None, siblinglast=None, position=None):
+         """Default axis splitter. This should be implemented by subclasses"""
+         raise NotImplementedError('split_axis')
+ 
+diff --git a/terminatorlib/notebook.py b/terminatorlib/notebook.py
+index f3747c1..09c509a 100755
+--- a/terminatorlib/notebook.py
++++ b/terminatorlib/notebook.py
+@@ -103,7 +103,7 @@ class Notebook(Container, gtk.Notebook):
+             page.create_layout(children[child_key])
+             num = num + 1
+ 
+-    def split_axis(self, widget, vertical=True, cwd=None, sibling=None, widgetfirst=True):
++    def split_axis(self, widget, vertical=True, cwd=None, sibling=None, widgetfirst=True, position=None):
+         """Split the axis of a terminal inside us"""
+         order = None
+         page_num = self.page_num(widget)
+@@ -120,6 +120,8 @@ class Notebook(Container, gtk.Notebook):
+         else:
+             container = maker.make('hpaned')
+ 
++        container.position = position
++
+         if not sibling:
+             sibling = maker.make('terminal')
+             sibling.set_cwd(cwd)
+diff --git a/terminatorlib/paned.py b/terminatorlib/paned.py
+index 5c43d00..b751804 100755
+--- a/terminatorlib/paned.py
++++ b/terminatorlib/paned.py
+@@ -24,16 +24,25 @@ class Paned(Container):
+         self.signals.append({'name': 'resize-term', 
+                              'flags': gobject.SIGNAL_RUN_LAST,
+                              'return_type': gobject.TYPE_NONE, 
+-                             'param_types': (gobject.TYPE_STRING,)})
++                             'param_types': (gobject.TYPE_STRING, gobject.TYPE_INT)})
+ 
+ 
+     # pylint: disable-msg=W0613
+     def set_initial_position(self, widget, event):
+         """Set the initial position of the widget"""
+-        if isinstance(self, gtk.VPaned):
+-            position = self.allocation.height / 2
++        if self.position is not None:
++            if self.position >= 1:
++                position = int(self.position)
++            else:
++                if isinstance(self, gtk.VPaned):
++                    position = int(self.allocation.height * self.position)
++                else:
++                    position = int(self.allocation.width * self.position)
+         else:
+-            position = self.allocation.width / 2
++            if isinstance(self, gtk.VPaned):
++                position = self.allocation.height / 2
++            else:
++                position = self.allocation.width / 2
+ 
+         dbg("Paned::set_initial_position: Setting position to: %d" % position)
+         self.set_position(position)
+@@ -41,7 +50,7 @@ class Paned(Container):
+ 
+     # pylint: disable-msg=W0613
+     def split_axis(self, widget, vertical=True, cwd=None, sibling=None,
+-            widgetfirst=True):
++            widgetfirst=True, position=None):
+         """Default axis splitter. This should be implemented by subclasses"""
+         order = None
+ 
+@@ -53,6 +62,8 @@ class Paned(Container):
+         else:
+             container = HPaned()
+ 
++        container.position = position
++
+         if not sibling:
+             sibling = maker.make('terminal')
+             sibling.set_cwd(cwd)
+@@ -160,7 +171,7 @@ class Paned(Container):
+             parent.replace(self, child)
+             del(self)
+ 
+-    def resizeterm(self, widget, keyname):
++    def resizeterm(self, widget, keyname, span=1):
+         """Handle a keyboard event requesting a terminal resize"""
+         maker = Factory()
+         if keyname in ['up', 'down'] and isinstance(self, gtk.VPaned):
+@@ -170,12 +181,12 @@ class Paned(Container):
+             if maker.isinstance(widget, 'Terminal'):
+                 fontheight = widget.vte.get_char_height()
+             else:
+-                fontheight = 10
++                fontheight = 18
+ 
+             if keyname == 'up':
+-                self.set_position(position - fontheight)
++                self.set_position(position - (fontheight * span))
+             else:
+-                self.set_position(position + fontheight)
++                self.set_position(position + (fontheight * span))
+         elif keyname in ['left', 'right'] and isinstance(self, gtk.HPaned):
+             # This is a key we can handle
+             position = self.get_position()
+@@ -183,15 +194,15 @@ class Paned(Container):
+             if maker.isinstance(widget, 'Terminal'):
+                 fontwidth = widget.vte.get_char_width()
+             else:
+-                fontwidth = 10
++                fontwidth = 9
+ 
+             if keyname == 'left':
+-                self.set_position(position - fontwidth)
++                self.set_position(position - (fontwidth * span))
+             else:
+-                self.set_position(position + fontwidth)
++                self.set_position(position + (fontwidth * span))
+         else:
+             # This is not a key we can handle
+-            self.emit('resize-term', keyname)
++            self.emit('resize-term', keyname, span)
+ 
+     def create_layout(self, layout):
+         """Apply layout configuration"""
+diff --git a/terminatorlib/prefseditor.py b/terminatorlib/prefseditor.py
+index 03cf346..03e4773 100755
+--- a/terminatorlib/prefseditor.py
++++ b/terminatorlib/prefseditor.py
+@@ -85,7 +85,13 @@ class PrefsEditor:
+                         'go_left'          : 'Focus the terminal left',
+                         'go_right'         : 'Focus the terminal right',
+                         'split_horiz'      : 'Split horizontally',
++                        'split_horiz_1'    : 'Split horizontally, position 1',
++                        'split_horiz_2'    : 'Split horizontally, position 2',
++                        'split_horiz_3'    : 'Split horizontally, position 3',
+                         'split_vert'       : 'Split vertically',
++                        'split_vert_1'     : 'Split vertically, position 1',
++                        'split_vert_2'     : 'Split vertically, position 2',
++                        'split_vert_3'     : 'Split vertically, position 3',
+                         'close_term'       : 'Close terminal',
+                         'copy'             : 'Copy selected text',
+                         'paste'            : 'Paste clipboard',
+@@ -93,9 +99,21 @@ class PrefsEditor:
+                         'search'           : 'Search terminal scrollback',
+                         'close_window'     : 'Close window',
+                         'resize_up'        : 'Resize the terminal up',
++                        'resize_up_1'      : 'Resize the terminal up, position 1',
++                        'resize_up_2'      : 'Resize the terminal up, position 2',
++                        'resize_up_3'      : 'Resize the terminal up, position 3',
+                         'resize_down'      : 'Resize the terminal down',
++                        'resize_down_1'    : 'Resize the terminal down, position 1',
++                        'resize_down_2'    : 'Resize the terminal down, position 2',
++                        'resize_down_3'    : 'Resize the terminal down, position 3',
+                         'resize_left'      : 'Resize the terminal left',
++                        'resize_left_1'    : 'Resize the terminal left, position 1',
++                        'resize_left_2'    : 'Resize the terminal left, position 2',
++                        'resize_left_3'    : 'Resize the terminal left, position 3',
+                         'resize_right'     : 'Resize the terminal right',
++                        'resize_right_1'   : 'Resize the terminal right, position 1',
++                        'resize_right_2'   : 'Resize the terminal right, position 2',
++                        'resize_right_3'   : 'Resize the terminal right, position 3',
+                         'move_tab_right'   : 'Move the tab right',
+                         'move_tab_left'    : 'Move the tab left',
+                         'toggle_zoom'      : 'Maximise terminal',
+diff --git a/terminatorlib/terminal.py b/terminatorlib/terminal.py
+index 3d5869c..f0e2430 100755
+--- a/terminatorlib/terminal.py
++++ b/terminatorlib/terminal.py
+@@ -48,9 +48,9 @@ class Terminal(gtk.VBox):
+         'ungroup-tab': (gobject.SIGNAL_RUN_LAST, gobject.TYPE_NONE, ()),
+         'ungroup-all': (gobject.SIGNAL_RUN_LAST, gobject.TYPE_NONE, ()),
+         'split-horiz': (gobject.SIGNAL_RUN_LAST, gobject.TYPE_NONE,
+-            (gobject.TYPE_STRING,)),
++            (gobject.TYPE_STRING, gobject.TYPE_PYOBJECT)), 
+         'split-vert': (gobject.SIGNAL_RUN_LAST, gobject.TYPE_NONE,
+-            (gobject.TYPE_STRING,)),
++            (gobject.TYPE_STRING, gobject.TYPE_PYOBJECT)), 
+         'tab-new': (gobject.SIGNAL_RUN_LAST, gobject.TYPE_NONE,
+             (gobject.TYPE_BOOLEAN, gobject.TYPE_OBJECT)),
+         'tab-top-new': (gobject.SIGNAL_RUN_LAST, gobject.TYPE_NONE, ()),
+@@ -59,7 +59,7 @@ class Terminal(gtk.VBox):
+         'maximise': (gobject.SIGNAL_RUN_LAST, gobject.TYPE_NONE, ()),
+         'unzoom': (gobject.SIGNAL_RUN_LAST, gobject.TYPE_NONE, ()),
+         'resize-term': (gobject.SIGNAL_RUN_LAST, gobject.TYPE_NONE,
+-            (gobject.TYPE_STRING,)),
++            (gobject.TYPE_STRING, gobject.TYPE_INT)),
+         'navigate': (gobject.SIGNAL_RUN_LAST, gobject.TYPE_NONE,
+             (gobject.TYPE_STRING,)),
+         'tab-change': (gobject.SIGNAL_RUN_LAST, gobject.TYPE_NONE,
+@@ -1352,6 +1352,18 @@ for %s (%s)' % (name, urlplugin.__class__.__name__))
+         if layout.has_key('title') and layout['title'] != '':
+             self.titlebar.set_custom_string(layout['title'])
+ 
++    def get_position(self, name):
++        try:
++            position = self.config[name]
++            position = float(position)
++            if position <= 0:
++                position = None
++        except KeyError:
++            position = None
++        except:
++            position = None
++        return position
++
+     # There now begins a great list of keyboard event handlers
+     def key_zoom_in(self):
+         self.zoom_in()
+@@ -1403,25 +1415,79 @@ for %s (%s)' % (name, urlplugin.__class__.__name__))
+         self.emit('navigate', 'right')
+ 
+     def key_split_horiz(self):
+-        self.emit('split-horiz', self.terminator.pid_cwd(self.pid))
++        self.emit('split-horiz', self.terminator.pid_cwd(self.pid), None)
++
++    def key_split_horiz_1(self):
++        self.emit('split-horiz', self.terminator.pid_cwd(self.pid), 0.7)
++
++    def key_split_horiz_2(self):
++        self.emit('split-horiz', self.terminator.pid_cwd(self.pid), None)
++
++    def key_split_horiz_3(self):
++        self.emit('split-horiz', self.terminator.pid_cwd(self.pid), None)
+ 
+     def key_split_vert(self):
+-        self.emit('split-vert', self.terminator.pid_cwd(self.pid))
++        self.emit('split-vert', self.terminator.pid_cwd(self.pid), None)
++
++    def key_split_vert_1(self):
++        self.emit('split-vert', self.terminator.pid_cwd(self.pid), 0.7)
++
++    def key_split_vert_2(self):
++        self.emit('split-vert', self.terminator.pid_cwd(self.pid), None)
++
++    def key_split_vert_3(self):
++        self.emit('split-vert', self.terminator.pid_cwd(self.pid), None)
+ 
+     def key_close_term(self):
+         self.close()
+ 
+     def key_resize_up(self):
+-        self.emit('resize-term', 'up')
++        self.emit('resize-term', 'up', 1)
++
++    def key_resize_up_1(self):
++        self.emit('resize-term', 'up', 5)
++
++    def key_resize_up_2(self):
++        self.emit('resize-term', 'up', 10)
++
++    def key_resize_up_3(self):
++        self.emit('resize-term', 'up', 20)
+ 
+     def key_resize_down(self):
+-        self.emit('resize-term', 'down')
++        self.emit('resize-term', 'down', 1)
++
++    def key_resize_down_1(self):
++        self.emit('resize-term', 'down', 5)
++
++    def key_resize_down_2(self):
++        self.emit('resize-term', 'down', 10)
++
++    def key_resize_down_3(self):
++        self.emit('resize-term', 'down', 20)
+ 
+     def key_resize_left(self):
+-        self.emit('resize-term', 'left')
++        self.emit('resize-term', 'left', 1)
++
++    def key_resize_left_1(self):
++        self.emit('resize-term', 'left', 5)
++
++    def key_resize_left_2(self):
++        self.emit('resize-term', 'left', 10)
++
++    def key_resize_left_3(self):
++        self.emit('resize-term', 'left', 20)
+ 
+     def key_resize_right(self):
+-        self.emit('resize-term', 'right')
++        self.emit('resize-term', 'right', 1)
++
++    def key_resize_right_1(self):
++        self.emit('resize-term', 'right', 5)
++
++    def key_resize_right_2(self):
++        self.emit('resize-term', 'right', 10)
++
++    def key_resize_right_3(self):
++        self.emit('resize-term', 'right', 20)
+ 
+     def key_move_tab_right(self):
+         self.emit('move-tab', 'right')
+diff --git a/terminatorlib/window.py b/terminatorlib/window.py
+index 3654644..6842191 100755
+--- a/terminatorlib/window.py
++++ b/terminatorlib/window.py
+@@ -355,7 +355,7 @@ class Window(Container, gtk.Window):
+         Container.closeterm(self, widget)
+         self.hoover()
+ 
+-    def split_axis(self, widget, vertical=True, cwd=None, sibling=None, widgetfirst=True):
++    def split_axis(self, widget, vertical=True, cwd=None, sibling=None, widgetfirst=True, position=None):
+         """Split the window"""
+         if self.get_property('term_zoomed') == True:
+             err("You can't split while a terminal is maximised/zoomed")
+@@ -370,6 +370,8 @@ class Window(Container, gtk.Window):
+         else:
+             container = maker.make('HPaned')
+ 
++        container.position = position
++
+         if not sibling:
+             sibling = maker.make('Terminal')
+             sibling.set_cwd(cwd)
+@@ -383,6 +385,7 @@ class Window(Container, gtk.Window):
+ 
+         for term in order:
+             container.add(term)
++
+         container.show_all()
+ 
+     def zoom(self, widget, font_scale=True):

@@ -1,0 +1,13 @@
+diff --git a/autoload/tabular.vim b/autoload/tabular.vim
+index f12ea34..c8cb3ce 100644
+--- a/autoload/tabular.vim
++++ b/autoload/tabular.vim
+@@ -20,7 +20,7 @@ function! s:Strlen(string)
+       let rv += &ts - i
+       let i = 0
+     else
+-      let rv += 1
++      let rv += strdisplaywidth(char)
+       let i = (i + 1) % &ts
+     endif
+   endfor
