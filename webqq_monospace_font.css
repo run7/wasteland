@@ -1,0 +1,9 @@
+@namespace url(http://www.w3.org/1999/xhtml);
+
+@-moz-document url-prefix("http://web.qq.com/") {
+
+.msgBody, .msgHead, .rich_editor {
+    font-family: "Consolas", "Bitstream Vera Sans Mono", "Courier New", Courier, monospace !important;
+}
+
+}

@@ -1,0 +1,25 @@
+@namespace url(http://www.w3.org/1999/xhtml);
+
+@-moz-document url-prefix("http://pan.baidu.com/share/link?") {
+
+.c1, .file-col {
+    width: 80% !important;
+}
+
+.c2, .size-col {
+    width: 80px !important;
+}
+
+.c3, .time-col {
+    width: 120px !important;
+}
+
+.inline-file-col {
+    width: 100% !important;
+}
+
+.hover .inline-file-col {
+    width: 90% !important;
+}
+
+}

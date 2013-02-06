@@ -1,0 +1,6 @@
+@namespace url(http://www.w3.org/1999/xhtml);
+
+pre, code, textarea {
+    -moz-tab-size: 4;
+    font-family: "Consolas", "Bitstream Vera Sans Mono", "Courier New", Courier, monospace !important;
+}

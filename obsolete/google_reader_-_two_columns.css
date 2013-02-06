@@ -1,0 +1,104 @@
+@namespace url(http://www.w3.org/1999/xhtml);
+
+@-moz-document 
+url-prefix("http://www.google.com/reader/view/"), 
+url-prefix("https://www.google.com/reader/view/") 
+{
+
+#viewer-top-controls-container {
+    margin-top: -15px !important;
+}
+
+#viewer-top-controls {
+    float: right !important;
+    width: -moz-fit-content !important;
+}
+
+#search .jfk-button {
+    width: -moz-max-content !important;
+    min-width: -moz-fit-content !important;
+}
+
+#search .jfk-button,
+#viewer-refresh,
+#viewer-view-options,
+#mark-all-as-read-split-button,
+#stream-prefs-menu,
+#chrome-view-links .goog-inline-block:last-child,
+#entries-down {
+    margin-right: 8px !important;
+}
+
+#logo-container {
+    position: absolute !important;
+    top: 15px !important;
+    z-index: 999 !important;
+}
+
+#logo {
+    margin-left: 15px !important;
+}
+
+#viewer-header, #sections-header {
+    height: 35px !important;
+}
+
+#top-bar {
+    height: 0 !important;
+}
+
+#search {
+    position: absolute !important;
+    z-index: 999 !important;
+    top: 4px !important;
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
+    min-width: -moz-fit-content !important;
+    margin-left: 248px !important;
+}
+
+#search .search-restrict {
+    width: -moz-min-content !important;
+    margin-left: 8px !important;
+    margin-right: 8px !important;
+}
+
+#search .goog-menu {
+    max-height: 480px !important;
+    width: 720px !important;
+    -moz-column-width: 12em !important;
+}
+
+#search-input {
+    width: 100px !important;
+}
+
+#lhn-add-subscription-section {
+    height: 35px !important;
+}
+
+#lhn-add-subscription {
+    margin-left: 170px !important;
+    margin-top: -15px !important;
+    width: -moz-min-content !important;
+    min-width: -moz-fit-content !important;
+}
+
+#sections-header .contents {
+    margin-top: -15px !important;
+    float: right !important;
+    position: relative !important;
+    width: -moz-max-content !important;
+}
+
+#scrollable-sections-bottom-shadow,
+#scrollable-sections-top-shadow {
+    display: none !important;
+}
+
+#settings-button {
+    min-width: -moz-fit-content !important;
+    width: -moz-fit-content !important;
+}
+
+}

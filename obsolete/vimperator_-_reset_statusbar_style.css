@@ -1,0 +1,18 @@
+@namespace url(http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul);
+
+#status-bar, statusbarpanel {
+    background-color: window;
+    color: inherit !important;
+    font-weight: inherit !important;
+    font-family: inherit !important;
+}
+
+#liberator-statusline {
+    background-color: window;
+    padding-right: 10px !important;
+}
+
+#liberator-message {
+    height: 0px !important;
+    padding: 0px !important;
+}

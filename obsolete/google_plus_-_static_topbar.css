@@ -1,0 +1,13 @@
+@namespace url(http://www.w3.org/1999/xhtml);
+
+@-moz-document domain("plus.google.com") {
+
+.k-wb-nb {
+    position: static !important;
+}
+
+.nJ.xT {
+    display: none !important;
+}
+
+}

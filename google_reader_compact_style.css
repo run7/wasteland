@@ -1,0 +1,161 @@
+@namespace url(http://www.w3.org/1999/xhtml);
+
+@-moz-document
+url-prefix("http://www.google.com/reader/view/"),
+url-prefix("https://www.google.com/reader/view/") {
+
+/* remove top bar buttons and background */
+#gbz {
+    display: none !important;
+}
+#gbx3 {
+    display: none !important;
+}
+
+/* remove google+ buttons */
+#gbu {
+    display:none !important;
+}
+
+/* move search form to right */
+#gbq2 {
+    float: right !important;
+    padding: 5px 0 !important;
+    margin-left:0 !important;
+}
+
+/* remove search bar background */
+#gbx1 {
+    display: none !important;
+}
+
+/* move control buttons to left */
+#item-up-down-buttons,
+#chrome-view-links {
+    float: left !important;
+}
+#settings-button-container {
+    float: none !important;
+}
+
+/* remove "google reader" text */
+#logo-section {
+    display: none !important;
+}
+
+/* remove the sidebar shadow */
+#scrollable-sections-top-shadow,
+#scrollable-sections-bottom-shadow {
+    display: none !important;
+}
+
+/* move main content to top */
+#gb {
+    height: 0 !important;
+}
+#gbq {
+    top: 0 !important;
+    z-index: auto !important;
+}
+
+/* some control bar size tune */
+#viewer-top-controls {
+    padding-bottom:  0 !important;
+}
+#viewer-top-controls-container {
+    height: 29px !important;
+    margin-top: 0 !important;
+    top: auto !important;
+    padding: 5px 0 !important;
+}
+#viewer-header, #sections-header {
+    height: 39px !important;
+}
+
+/* google logo position */
+#gbq1 {
+    left: 0 !important;
+    top: 0 !important;
+    margin: 0 !important;
+    padding: 1px 16px !important;
+}
+#gbqlw {
+    width: 95px !important;
+    height: 37px !important;
+}
+#gbql {
+    margin-top: 3px !important;
+    background-position: -63px 0 !important;
+    width: 95px !important;
+    height: 37px !important;
+}
+
+/* subscription button position */
+#lhn-add-subscription-section {
+    height: 29px !important;
+    left: 150px !important;
+    margin-bottom: 5px !important;
+    margin-left: 0 !important;
+    margin-top: 5px !important;
+    padding-bottom: 0 !important;
+    padding-top: 0 !important;
+    width: 72px !important;
+}
+#lhn-add-subscription {
+    -moz-user-select: none;
+    bottom: 0 !important;
+    margin-top: 0 !important;
+    right: 0 !important;
+    top: 0 !important;
+    width: 54px !important;
+}
+
+/* search bar button position */
+#gbqfbw {
+    display: block !important;
+    width: 74px !important;
+}
+#gbqff, #gbqfbw {
+    float: left !important;
+}
+#gbqf {
+    min-width: 290px !important;
+}
+
+/* search menu position */
+#search .goog-menu, .search-restrict + .goog-menu {
+    max-height: 640px !important;
+    width: 1280px !important;
+    -moz-column-width: 12em !important;
+}
+
+/* buttons margin */
+#viewer-refresh,
+#viewer-view-options,
+#mark-all-as-read-split-button,
+#stream-prefs-menu,
+#entries-down,
+#stream-view-options-container div:nth-child(3) {
+    margin-right: 8px !important;
+}
+#settings-button {
+    margin:0 !important;
+}
+#sections-header .contents {
+    margin-top: -15px !important;
+}
+#sections-header .settings-button-container {
+    float: left !important;
+}
+#gbqfbw {
+    margin: 0 8px !important;
+}
+
+/* move message area to top-right */
+.message-area-container {
+    left: auto !important;
+    right: 20px !important;
+    top:41px !important;
+}
+
+}

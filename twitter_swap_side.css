@@ -1,0 +1,18 @@
+@namespace url(http://www.w3.org/1999/xhtml);
+
+@-moz-document domain("twitter.com") {
+
+.content-main, .profile-header {
+    float: left !important;
+}
+
+.dashboard {
+    float: right !important;
+}
+
+#suggested-users {
+    clear: left !important;
+}
+
+}
+

@@ -1,0 +1,10 @@
+@namespace url(http://www.w3.org/1999/xhtml);
+
+@-moz-document url-prefix("https://mail.google.com/mail/") {
+
+.n3 .J-Zh-I {
+    background: none !important;
+    border-style: none !important;
+}
+
+}
