@@ -1,9 +1,13 @@
 // ==UserScript==
-// @name           Light Pager
-// @namespace      qixinglu.com
-// @description    Append next page content to current page.
-// @require        https://raw.github.com/gist/2904550/rule.js
-// @include        http*://www.google.com/search?*
+// @name        Light Pager
+// @namespace   qixinglu.com
+// @description Append next page content to current page.
+// @grant       GM_xmlhttpRequest
+// @grant       GM_addStyle
+// @grant       GM_registerMenuCommand
+// @grant       GM_info
+// @require     https://raw.github.com/gist/2904550/rule.js
+// @include     http*://www.google.com/search?*
 // ==/UserScript==
 
 /* tools function */

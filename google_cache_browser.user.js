@@ -2,15 +2,15 @@
 // @name           Google Cache Browser
 // @namespace      qixinglu.com
 // @description    Continue browsing the page in Google cache
+// @grant          none
 // @include        http://webcache.googleusercontent.com/search?*
 // @include        https://webcache.googleusercontent.com/search?*
 // ==/UserScript==
 
-var parts = document.location.href.split(/q=cache:[^&]+/);
-parts[0] += 'q=cache:';
-parts[1] += '&';
-var linkNodes = document.getElementsByTagName('body')[0].childNodes[1].getElementsByTagName("a");
-for (var i = 0; i < linkNodes.length; i += 1) {
-    var linkNode = linkNodes[i];
-    linkNode.href = parts[0] + encodeURIComponent(linkNode.href) + parts[1];
+var url = location.href.match(/q=cache:([^&+]+)/)[1];
+var nodes = document.querySelectorAll('body > div')[1].querySelectorAll('a');
+var i, node;
+for (i = 0; i < nodes.length; i += 1) {
+    node = nodes[i];
+    node.href = location.href.replace(url, encodeURIComponent(node.href));
 }

@@ -2,6 +2,8 @@
 // @name        Only Show This User Posts
 // @namespace   qixinglu.com
 // @description Only show the user posts you just want to read
+// @grant       GM_info
+// @grant       GM_addStyle
 // @include     http:///localhost/*
 // ==/UserScript==
 
@@ -16,7 +18,7 @@ var convert2RegExp = function(pattern) {
         pattern = '^' + pattern.replace(/\*/g, '.*') + '$';
         return new RegExp(pattern);
     }
-}
+};
 
 var create_element_from_string = function(text) {
     var tag;
