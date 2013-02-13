@@ -1,38 +1,38 @@
 // ==UserScript==
-// @name         Box-z Price History Image
-// @namespace    qixinglu.com
-// @description  在网上商店产品页面，自动插入一张从 www.box-z.com 里的价格历史波动图片。
-// @grant        GM_xmlhttpRequest
-// @include      http://mvd.360buy.com/*
-// @include      http://book.360buy.com/*
-// @include      http://www.360buy.com/product/*
-// @include      http://www.newegg.com.cn/product/*
-// @include      http://www.newegg.com.cn/Product/*
-// @include      http://www.amazon.cn/gp/product/*
-// @include      http://www.amazon.cn/*/dp/*
-// @include      http://www.amazon.cn/mn/detailApp*
-// @include      http://product.dangdang.com/product.aspx?product_id=*
-// @include      http://product.dangdang.com/Product.aspx?product_id=*
-// @include      http://item.51buy.com/item-*
-// @include      http://www.suning.com/emall/prd_10052_10051_-7_*.html*
-// @include      http://www.suning.com/emall/snupgbpv_10052_10051_*_.html
-// @include      http://www.suning.com/emall/sngbv_10052_10051_*_.html
-// @include      http://www.gome.com.cn/ec/homeus/jump/product/*.html*
-// @include      http://www.lusen.com/product-*
-// @include      http://www.efeihu.com/Product/*.html*
-// @include      http://www.tao3c.com/product/*
-// @include      http://www.coo8.com/product/*.html*
-// @include      http://www.yihaodian.com/product/detail.do?*
-// @include      http://www.yihaodian.com/product/*
-// @include      http://www.ouku.com/goods*
-// @include      http://www.redbaby.com.cn/*/*.html*
-// @include      http://www.bookschina.com/*
-// @include      http://www.wl.cn/*
-// @include      http://product.china-pub.com/*
-// @include      http://www.winxuan.com/product/*
-// @include      http://www.99read.com/product/*
-// @include      http://www.99read.com/Product/*
-// @include      http://www.new7.com/product/*
+// @name        Box-z Price History Image
+// @namespace   qixinglu.com
+// @description 在网上商店产品页面，自动插入一张从 www.box-z.com 里的价格历史波动图片。
+// @grant       GM_xmlhttpRequest
+// @include     http://mvd.360buy.com/*
+// @include     http://book.360buy.com/*
+// @include     http://www.360buy.com/product/*
+// @include     http://www.newegg.com.cn/product/*
+// @include     http://www.newegg.com.cn/Product/*
+// @include     http://www.amazon.cn/gp/product/*
+// @include     http://www.amazon.cn/*/dp/*
+// @include     http://www.amazon.cn/mn/detailApp*
+// @include     http://product.dangdang.com/product.aspx?product_id=*
+// @include     http://product.dangdang.com/Product.aspx?product_id=*
+// @include     http://item.51buy.com/item-*
+// @include     http://www.suning.com/emall/prd_10052_10051_-7_*.html*
+// @include     http://www.suning.com/emall/snupgbpv_10052_10051_*_.html
+// @include     http://www.suning.com/emall/sngbv_10052_10051_*_.html
+// @include     http://www.gome.com.cn/ec/homeus/jump/product/*.html*
+// @include     http://www.lusen.com/product-*
+// @include     http://www.efeihu.com/Product/*.html*
+// @include     http://www.tao3c.com/product/*
+// @include     http://www.coo8.com/product/*.html*
+// @include     http://www.yihaodian.com/product/detail.do?*
+// @include     http://www.yihaodian.com/product/*
+// @include     http://www.ouku.com/goods*
+// @include     http://www.redbaby.com.cn/*/*.html*
+// @include     http://www.bookschina.com/*
+// @include     http://www.wl.cn/*
+// @include     http://product.china-pub.com/*
+// @include     http://www.winxuan.com/product/*
+// @include     http://www.99read.com/product/*
+// @include     http://www.99read.com/Product/*
+// @include     http://www.new7.com/product/*
 // ==/UserScript==
 
 // 图书类还是 Google Chart

@@ -1,5 +1,5 @@
 // ==UserScript==
-// @name        PySide Qt Document Links
+// @name        PySide C++ Mutual Reference Links
 // @namespace   qixinglu.com
 // @description Add PySide/Qt document cross reference links
 // @grant       none

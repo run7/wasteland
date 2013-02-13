@@ -1,10 +1,10 @@
 // ==UserScript==
-// @name           Google Cache Browser
-// @namespace      qixinglu.com
-// @description    Continue browsing the page in Google cache
-// @grant          none
-// @include        http://webcache.googleusercontent.com/search?*
-// @include        https://webcache.googleusercontent.com/search?*
+// @name        Google Cache Browser
+// @namespace   qixinglu.com
+// @description Continue browsing the page in Google cache
+// @grant       none
+// @include     http://webcache.googleusercontent.com/search?*
+// @include     https://webcache.googleusercontent.com/search?*
 // ==/UserScript==
 
 var url = location.href.match(/q=cache:([^&+]+)/)[1];

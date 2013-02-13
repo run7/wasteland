@@ -1,5 +1,5 @@
 // ==UserScript==
-// @name        Xunlei KuaiChuan Display Full Filename
+// @name        Xunlei Kuaichuan Display Full Filename
 // @namespace   qixinglu.com
 // @description 迅雷快传上的下载链接显完整文件名
 // @grant       none
