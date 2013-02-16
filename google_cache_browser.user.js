@@ -7,11 +7,27 @@
 // @include     https://webcache.googleusercontent.com/search?*
 // ==/UserScript==
 
+var convertCacheLinks = function(url) {
+    var selector = 'body > div[style="position:relative"] a';
+    var links = document.querySelectorAll(selector);
+    var i, link;
+    for (i = 0; i < links.length; i += 1) {
+        link = links[i];
+        link.href = location.href.replace(url, encodeURIComponent(link.href));
+    }
+};
+
+var addOriginalLink = function(url) {
+    var html = 'Go back to <a href="${href}">original page</a>.';
+    var paragraph = document.createElement('p');
+    paragraph.innerHTML = html.replace('${href}',decodeURIComponent(url));
+    document.body.appendChild(paragraph);
+};
+
 var url = location.href.match(/q=cache:([^&+]+)/)[1];
-var nodes = document.querySelectorAll('body > div[style="position:relative"] a');
-var i, node;
-for (i = 0; i < nodes.length; i += 1) {
-    node = nodes[i];
-    node.href = location.href.replace(url, encodeURIComponent(node.href));
+if (document.title === 'Error 404 (Not Found)!!1') {
+    addOriginalLink(url);
+} else {
+    convertCacheLinks(url);
 }
 
