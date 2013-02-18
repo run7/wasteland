@@ -18,8 +18,7 @@ var xpcomUtil = {
         var mediator = xpcomFactory.windowMediator();
         return mediator.getMostRecentWindow(name);
     },
-    getCurrentHost: function() {
-        var uri = content.document.documentURIObject;
+    getDomain: function(uri) {
         var host;
         try {
             host = xpcomFactory.eTLDService().getBaseDomain(uri);
@@ -31,7 +30,7 @@ var xpcomUtil = {
 };
 
 var cookieDialog = xpcomUtil.getMostRecentWindow('Browser:Cookies');
-var filterString = xpcomUtil.getCurrentHost();
+var filterString = xpcomUtil.getDomain(content.document.documentURIObject);
 if (cookieDialog) {
     cookieDialog.gCookiesWindow.setFilter(filterString);
     cookieDialog.focus();
