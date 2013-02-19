@@ -2,6 +2,8 @@
 sys2grub
 ********
 
+**This program is obsolete.**
+
 Introduction
 ============
 
@@ -13,9 +15,9 @@ Convert `syslinux`_ (or isolinux) menu to grub4dos_ menu.
 Usage
 =====
 
-run ``./sys2grub.py -h`` to see usage.
+Run ``./sys2grub.py -h`` to see usage.
 
-there are a gui ``sys2grub_gtk.py`` frontend version
+There are a gui sys2grub_gtk.py frontend version.
 
 License
 =======
