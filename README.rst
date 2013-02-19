@@ -1,15 +1,20 @@
-************
+############
 StrengthWord
-************
+############
 
-金山词霸 Linux 版的非官方实现。
+简介
+====
 
-非金山公司出品，因此取名「StrengthWord」以示区别，但和官方的 Window 版使用相同的网络 API 。
+金山词霸 Linux 版的非官方实现，和官方的 Window 版使用相同的网络 API 。
+
+.. image:: http://static.qixinglu.com/github/images/strengthword/preview.png
+
+目前已实现查词，鼠标选中（还不完善）。
 
 安装
 ====
 
-直接运行 `strengthword.py` 文件。
+依赖 PySide，运行 strengthword.py 文件即可。
 
 许可证
 ======
