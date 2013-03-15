@@ -1,7 +1,7 @@
 // ==UserScript==
-// @name        Box-z Price History Image
+// @name        Boxz Price History Image
 // @namespace   qixinglu.com
-// @description 在网上商店产品页面，自动插入一张从 www.box-z.com 里的价格历史波动图片。
+// @description 在网上商店产品页面，自动插入一张从 www.boxz.com 里的价格历史波动图片。
 // @grant       GM_xmlhttpRequest
 // @include     http://mvd.360buy.com/*
 // @include     http://book.360buy.com/*
@@ -92,13 +92,13 @@ function create_history_image_node(response) {
 }
 
 function create_product_history_url(prefix, product_uid) {
-    var detail_url = 'http://www.box-z.com/products/' + prefix + '-' + product_uid + '.shtml';
-    var chart_url = 'http://www.box-z.com/pic/small/' + prefix + '-' + product_uid + '.png';
+    var detail_url = 'http://www.boxz.com/products/' + prefix + '-' + product_uid + '.shtml';
+    var chart_url = 'http://www.boxz.com/pic/small/' + prefix + '-' + product_uid + '.png';
     return [detail_url, chart_url];
 }
 
 function create_book_history_url(prefix, product_uid) {
-    var detail_url = 'http://www.box-z.com/books/' + prefix + '-' + product_uid + '.shtml';
+    var detail_url = 'http://www.boxz.com/books/' + prefix + '-' + product_uid + '.shtml';
     var chart_url = null;
     return [detail_url, chart_url];
 }
