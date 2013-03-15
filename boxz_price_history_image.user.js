@@ -29,6 +29,8 @@
 // @include     http://www.1mall.com/item/*
 // @include     http://www.ouku.com/goods*
 // @include     http://www.redbaby.com.cn/*/*.html*
+// @include     http://cn.strawberrynet.com/a/b/c/*/
+// @include     http://web1.sasa.com/SasaWeb/sch/product/viewProductDetail.jspa?itemno=*
 // @include     http://www.bookschina.com/*.htm
 // @include     http://www.wl.cn/*
 // @include     http://product.china-pub.com/*
@@ -73,7 +75,7 @@ function self_host(urls) {
     img_node.src = chart_url;
     img_node.width = 630;
     img_node.height = 180;
-    image_node.alt = '这个产品貌似没有历史价格数据，查看链接。';
+    img_node.alt = '这个产品貌似没有历史价格数据，查看链接。';
     img_node.style.marginTop = '10px';
     img_node.style.marginBottom = '10px';
     // 加上链接
@@ -110,7 +112,7 @@ function create_book_history_url(prefix, product_uid) {
 function insertAfter(image_node, place_node) {
     var parentNode = place_node.parentNode;
     if (place_node.nextElementSibling) {
-        parentNode.insertBefore(image_node, place_node.previousElementSibling);
+        parentNode.insertBefore(image_node, place_node.nextElementSibling);
     } else {
         parentNode.appendChild(image_node);
     }
@@ -392,6 +394,36 @@ var sites = [{
         image_node = create_history_image_node(response);
         place_node = document.querySelector('.productRightBase');
         place_node.parentNode.insertBefore(image_node, place_node.nextElementSibling);
+    }
+}, {
+    domain : 'cn.strawberrynet.com',
+    get_history_url: function() {
+        var reg, product_uid, history_url;
+        reg = new RegExp('http://cn.strawberrynet.com/a/b/c/(\\d+?)/');
+        product_uid = url.match(reg)[1];
+        history_url = create_product_history_url('strawberry', product_uid);
+        return history_url;
+    },
+    request_callback: function(response) {
+        var image_node, place_node;
+        image_node = create_history_image_node(response);
+        place_node = document.querySelector('.white_bg.product .fright');
+        place_node.parentNode.insertBefore(image_node, place_node.nextElementSibling);
+    }
+}, {
+    domain : 'sasa.com',
+    get_history_url: function() {
+        var reg, product_uid, history_url;
+        reg = new RegExp('http://web1.sasa.com/SasaWeb/sch/product/viewProductDetail.jspa\\?itemno=(\\d+)');
+        product_uid = url.match(reg)[1];
+        history_url = create_product_history_url('sasa', product_uid);
+        return history_url;
+    },
+    request_callback: function(response) {
+        var image_node, place_node;
+        image_node = create_history_image_node(response);
+        place_node = document.querySelector('table[itemtype]');
+        insertAfter(image_node, place_node);
     }
 }, {
     domain : 'bookschina.com',
