@@ -12,7 +12,7 @@ function optipngFiles () {
         if ! echo $name | grep -q '\.png$'; then
             continue
         fi
-        optipng $name
+        optipng "$name"
     done
 }
 
