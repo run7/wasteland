@@ -9,12 +9,20 @@
 // @include     http://www.acfun.tv/v/*
 // ==/UserScript==
 
-var createLink = function(commentUrl) {
+var createCommentLink = function(commentUrl) {
     var link = document.createElement('a');
     link.href = commentUrl;
     link.text = '评论地址';
     return link;
 };
+
+var createConvertLink = function() {
+    var url = encodeURIComponent(location.href);
+    var link = document.createElement('a');
+    link.href = 'http://niconvert.appspot.com/?url=' + url;
+    link.text = '转换弹幕';
+    return link;
+}
 
 var bilibili = function() {
     var innerHTML = document.documentElement.innerHTML;
@@ -33,10 +41,18 @@ var bilibili = function() {
             var reg = /<chatid>(.+?)<\/chatid>/;
             var commentUid = response.responseText.match(reg)[1];
             var commentUrl = prefix + commentUid + '.xml';
-            var link = createLink(commentUrl);
-            link.style.marginLeft = '5px';
-            link.style.lineHeight = '20px';
-            document.querySelector('.info').appendChild(link);
+            var commentLink = createCommentLink(commentUrl);
+            var convertLink = createConvertLink();
+
+            convertLink.style.marginLeft = '13px';
+            var wrapContainer = document.createElement('div');
+            wrapContainer.style.marginTop = '3px';
+            wrapContainer.style['float'] = 'left';
+            wrapContainer.appendChild(commentLink);
+            wrapContainer.appendChild(convertLink);
+
+            document.querySelector('.tminfo').appendChild(wrapContainer);
+            document.querySelector('.sf').style.marginTop = '24px';
         }
     });
 };
@@ -57,9 +73,14 @@ var acfun = function() {
             var prefix = 'http://comment.acfun.tv/';
             var commentUid = JSON.parse(response.responseText).cid;
             var commentUrl = prefix + commentUid + '.json';
-            var link = createLink(commentUrl);
-            link.style.marginLeft = '15px';
-            document.querySelector('#subtitle-article').appendChild(link);
+            var commentLink = createCommentLink(commentUrl);
+            var convertLink = createConvertLink();
+
+            commentLink.style.marginLeft = '12px';
+            convertLink.style.marginLeft = '12px';
+            var position = document.querySelector('#subtitle-article');
+            position.appendChild(commentLink);
+            position.appendChild(convertLink);
         }
     });
 
