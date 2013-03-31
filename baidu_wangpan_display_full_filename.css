@@ -3,7 +3,7 @@
 @-moz-document url-prefix("http://pan.baidu.com/share/link?") {
 
 .c1, .file-col {
-    width: 80% !important;
+    width: calc(100% - 200px) !important;
 }
 
 .c2, .size-col {
@@ -19,7 +19,7 @@
 }
 
 .hover .inline-file-col {
-    width: 90% !important;
+    width: calc(100% - 100px) !important;
 }
 
 }
