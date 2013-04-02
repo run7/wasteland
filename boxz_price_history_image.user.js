@@ -3,12 +3,9 @@
 // @namespace   qixinglu.com
 // @description 在网上商店产品页面，自动插入一张从 www.boxz.com 里的价格历史波动图片。
 // @grant       GM_xmlhttpRequest
-// @include     http://mvd.360buy.com/*
-// @include     http://book.360buy.com/*
-// @include     http://www.360buy.com/product/*
-// @include     http://mvd.jd.com/*
-// @include     http://book.jd.com/*
-// @include     http://www.jd.com/product/*
+// @include     http://mvd.jd.com/*.html
+// @include     http://book.jd.com/*.html
+// @include     http://item.jd.com/*.html
 // @include     http://www.newegg.com.cn/product/*
 // @include     http://www.newegg.com.cn/Product/*
 // @include     http://www.amazon.cn/gp/product/*
@@ -122,33 +119,11 @@ var url = window.location.href;
 
 /* 网店处理规则 */
 var sites = [{
-    domain : '360buy.com',
-    get_history_url: function() {
-        var reg, product_uid, history_url;
-        if (url.indexOf('http://www.360buy.com/product/') !== -1) {
-            reg = new RegExp('http://www.360buy.com/product/(\\d+).html');
-            product_uid = url.match(reg)[1];
-            history_url = create_product_history_url('360buy', product_uid);
-        } else {
-            reg = new RegExp('http://.+\.360buy\.com/(\\d+).html');
-            product_uid = url.match(reg)[1];
-            history_url = create_book_history_url('360buy', product_uid);
-        }
-        return history_url;
-    },
-    request_callback: function(response) {
-        var image_node, place_node;
-        image_node = create_history_image_node(response);
-        place_node = document.querySelector('#choose');
-        place_node.parentNode.insertBefore(image_node, place_node.nextElementSibling);
-    }
-}, {
-    // 京东的另一个域名，直接复制上面改，懒得重构了。
     domain : 'jd.com',
     get_history_url: function() {
         var reg, product_uid, history_url;
-        if (url.indexOf('http://www.jd.com/product/') !== -1) {
-            reg = new RegExp('http://www.jd.com/product/(\\d+).html');
+        if (url.indexOf('http://item.jd.com/') !== -1) {
+            reg = new RegExp('http://item.jd.com/(\\d+).html');
             product_uid = url.match(reg)[1];
             history_url = create_product_history_url('360buy', product_uid);
         } else {
