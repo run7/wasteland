@@ -72,6 +72,9 @@ var acfun = function() {
         onload: function(response) {
             var prefix = 'http://comment.acfun.tv/';
             var commentUid = JSON.parse(response.responseText).cid;
+            if (commentUid === undefined) {
+                commentUid = infoArgs;
+            }
             var commentUrl = prefix + commentUid + '.json';
             var commentLink = createCommentLink(commentUrl);
             var convertLink = createConvertLink();
