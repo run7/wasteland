@@ -6,8 +6,7 @@
 // @grant       GM_addStyle
 // @grant       GM_registerMenuCommand
 // @grant       GM_info
-// @require     https://raw.github.com/gist/2904550/rule.js
-// @include     http*://www.google.com/search?*
+// @include     http:///localhost/*
 // ==/UserScript==
 
 /* tools function */
