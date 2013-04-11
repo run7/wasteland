@@ -49,7 +49,7 @@ var SITES = [
 },
 ];
 
-var register_menus_cn = function(control) {
+var register_menus = function(control) {
     GM_registerMenuCommand('Start', control.start_paging, 's');
     GM_registerMenuCommand('Continue', control.continue_paging, 'c');
     GM_registerMenuCommand('Stop', control.stop_paging, 't');
@@ -59,6 +59,6 @@ var site = select_site(SITES);
 if (site !== null) {
     setup_site_global(site, GLOBAL);
     var control = light_pager(site);
-    register_menus_cn(control);
+    register_menus(control);
 }
 
