@@ -6,16 +6,10 @@
 // @grant       GM_addStyle
 // @grant       GM_registerMenuCommand
 // @grant       GM_info
-// @require     https://raw.github.com/muzuiget/greasemonkey-scripts/4531270c3f8fe04cce9981251d1f925df0f93168/light_pager.user.js
-// @include     http://localhost/*
-// @exclude     http://*.douban.com/*
-// @exclude     http://tieba.baidu.com/p/*
-// @exclude     http://topic.csdn.net/u/*
-// @exclude     http://www.tianya.cn/publicforum/content/*
-// @exclude     http://www.tianya.cn/techforum/content/*
-// @exclude     http://bbs.city.tianya.cn/tianyacity/content/*
-// @exclude     http://club.kdnet.net/dispbbs.asp?*
-// @exclude     http://dzh.mop.com/whbm/*
+// @require     https://github.com/muzuiget/greasemonkey-scripts/raw/20059c9b0909d4d39f741cdfe67939f29705dc09/light_pager.user.js
+// @include     http://*.douban.com/*
+// @include     http://tieba.baidu.com/p/*
+// @include     http://bbs.tianya.cn/post-*.shtml
 // ==/UserScript==
 
 var GLOBAL = {
@@ -41,54 +35,24 @@ var SITES = [
     title: '百度贴吧',
     url: 'http://tieba.baidu.com/p/*',
     next: 'li.l_pager a:contains("下一页")',
-    content: 'div.l_core',
-    style: 'div.lp-sep { margin: 0 1px; }'
+    content: 'div.core',
+    style: 'div.lp-sep {' +
+           '    margin: 10px 0 0 0;' +
+           '    border: 1px solid #CCCCCC;' +
+           '}'
 },
 {
-    title: 'CSDN 社区',
-    url: 'http://topic.csdn.net/u/*',
-    next: 'ul.plist a[onclick]:contains("下一页")',
-    content: 'table.mframe, table.mframe ~ div.fm',
-    style: 'div.lp-sep { border: 1px solid #A9CBEE; margin: 0; }',
-    separateInside: false
-},
-{
-    title: '天涯公共论坛',
-    url: 'http://www.tianya.cn/publicforum/content/*',
-    next: 'a:contains("下一页")',
-    content: '#firstAuthor, #pContentDiv, #pContentDiv ~ div.function',
-    separateInside: false
-},
-{
-    title: '天涯技术论坛和城市',
-    url: [
-        'http://www.tianya.cn/techforum/content/*',
-        'http://bbs.city.tianya.cn/tianyacity/content/*'
-    ],
-    next: 'a:contains("下一页")',
-    content: '#pContentDiv, #pContentDiv ~ div.post-bar',
-    separateInside: false
-},
-{
-    title: '凯迪论坛',
-    url: 'http://club.kdnet.net/dispbbs.asp?*',
-    next: 'a:contains("下一页")',
-    content: 'div.posted-box-add, div.reply-box, div.reply-box ~ div.operating',
-    separateInside: false
-},
-{
-    title: '猫扑大杂烩',
-    url: 'http://dzh.mop.com/whbm/*',
-    next: 'a:contains("下一页")',
-    content: 'div.nrarea',
-    separateInside: false
+    title: '天涯',
+    url: 'http://bbs.tianya.cn/post-*.shtml',
+    next: 'a.js-keyboard-next',
+    content: 'div.atl-main'
 }
 ];
 
 var register_menus_cn = function(control) {
-    GM_registerMenuCommand("开始翻页", control.start_paging, "s");
-    GM_registerMenuCommand("继续翻页", control.continue_paging, "c");
-    GM_registerMenuCommand("停止翻页", control.stop_paging, "t");
+    GM_registerMenuCommand('开始翻页', control.start_paging, 's');
+    GM_registerMenuCommand('继续翻页', control.continue_paging, 'c');
+    GM_registerMenuCommand('停止翻页', control.stop_paging, 't');
 };
 
 var site = select_site(SITES);
