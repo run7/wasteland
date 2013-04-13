@@ -4,6 +4,7 @@
 // @description 迅雷快传上的下载链接显完整文件名
 // @grant       none
 // @include     http://kuai.xunlei.com/d/*
+// @include     http://kuai.xunlei.com/s/*
 // ==/UserScript==
 
 var addStyle = function(cssText) {
@@ -36,7 +37,7 @@ var swapSizePriviewInfo = function() {
     }
 };
 
-var css = ' ' +
+var filesCSS =
     '.adv_area, .file_right, .advl, .hot_list {' +
     '    display: none !important;' +
     '}' +
@@ -54,7 +55,19 @@ var css = ' ' +
     '    float: right !important;' +
     '}';
 
-addStyle(css);
-fullName();
-swapSizePriviewInfo();
+var folderCSS =
+    '.file_left, .downLoad_area {' +
+    '    width: 100% !important;' +
+    '}' +
+    '.file_w, .file_list {' +
+    '    height: 100% !important;' +
+    '}';
+
+if (location.href.indexOf('http://kuai.xunlei.com/s/') === 0) {
+    addStyle(folderCSS);
+} else {
+    addStyle(filesCSS);
+    fullName();
+    swapSizePriviewInfo();
+}
 
