@@ -6,7 +6,7 @@
 // @grant       GM_addStyle
 // @grant       GM_registerMenuCommand
 // @grant       GM_info
-// @require     https://github.com/muzuiget/greasemonkey-scripts/raw/20059c9b0909d4d39f741cdfe67939f29705dc09/light_pager.user.js
+// @require     https://github.com/muzuiget/greasemonkey-scripts/raw/43d5f1af07a0c6769930cbd27b7f045cb275d8c9/light_pager.user.js
 // @include     http://*.douban.com/*
 // @include     http://tieba.baidu.com/p/*
 // @include     http://bbs.tianya.cn/post-*.shtml
