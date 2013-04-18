@@ -157,12 +157,18 @@ var light_pager = function(site) {
 
     var get_next_append_url = function(the_document, selector) {
         var next_url_node = queryXSelector(the_document, site.next);
-        if (next_url_node !== null) {
-            next_append_url = next_url_node.href;
-        } else {
-            next_append_url = null;
+        if (next_url_node === null) {
+            return null;
         }
-        return next_append_url;
+        var href = next_url_node.getAttribute('href');
+        if (href === '#') {
+            return null;
+        }
+        if (href.indexOf('javascript:') === 0) {
+            return null;
+        }
+        // return full url
+        return next_url_node.href;
     };
 
     var get_position_node = function() {
