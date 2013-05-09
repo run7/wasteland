@@ -165,7 +165,7 @@ var sites = [{
         } else {
             reg = new RegExp('http://www.amazon.cn/mn/detailApp.*asin=(\\w+)');
         }
-        product_uid = url.match(reg)[1];
+        product_uid = url.match(reg)[1].toLowerCase();
         var category = document.querySelector('.nav-subnav-item.nav-category-button').textContent.trim();
         if (category === '图书') {
             history_url = create_book_history_url('amazon', product_uid);
