@@ -11,8 +11,8 @@
 // @include     http://www.amazon.cn/gp/product/*
 // @include     http://www.amazon.cn/*/dp/*
 // @include     http://www.amazon.cn/mn/detailApp*
-// @include     http://product.dangdang.com/main/product.aspx?product_id=*
-// @include     http://product.dangdang.com/main2/product.aspx?product_id=*
+// @include     http://product.dangdang.com/Product.aspx?product_id=*
+// @include     http://product.dangdang.com/product.aspx?product_id=*
 // @include     http://item.51buy.com/item-*
 // @include     http://www.suning.com/emall/prd_10052_10051_-7_*.html*
 // @include     http://www.suning.com/emall/snupgbpv_10052_10051_*_.html
@@ -35,6 +35,7 @@
 // @include     http://www.99read.com/product/*
 // @include     http://www.99read.com/Product/*
 // @include     http://www.new7.com/product/*
+// @include     http://detail.bookuu.com/*.html
 // ==/UserScript==
 
 // 图书类还是 Google Chart
@@ -183,13 +184,14 @@ var sites = [{
 }, {
     domain : 'dangdang.com',
     get_history_url: function() {
-        var reg, product_uid, history_url;
-        reg = new RegExp('http://product.dangdang.com/main2?/product.aspx\\?product_id=(\\d+)');
+        var reg, category, product_uid, history_url;
+        reg = new RegExp('http://product.dangdang.com/[pP]roduct.aspx\\?product_id=(\\d+)');
         product_uid = url.match(reg)[1];
-        if (url.contains('main2')) {
-            history_url = create_product_history_url('dangdang', product_uid);
-        } else {
+        category = document.querySelector('.nav_top li.on a').textContent;
+        if (category === '图书' || category === '音像') {
             history_url = create_book_history_url('dangdang', product_uid);
+        } else {
+            history_url = create_product_history_url('dangdang', product_uid);
         }
         return history_url;
     },
@@ -488,6 +490,21 @@ var sites = [{
         var image_node, place_node;
         image_node = create_history_image_node(response);
         place_node = document.querySelector('.buy');
+        place_node.parentNode.insertBefore(image_node, place_node.nextElementSibling);
+    }
+}, {
+    domain : 'bookuu.com',
+    get_history_url: function() {
+        var reg, product_uid, history_url;
+        reg = new RegExp('http://detail.bookuu.com/(\\d\+)\.html');
+        product_uid = url.match(reg)[1];
+        history_url = create_book_history_url('bookuu', product_uid);
+        return history_url;
+    },
+    request_callback: function(response) {
+        var image_node, place_node;
+        image_node = create_history_image_node(response);
+        place_node = document.querySelector('#rightcontent .desc');
         place_node.parentNode.insertBefore(image_node, place_node.nextElementSibling);
     }
 }];
