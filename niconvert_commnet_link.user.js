@@ -30,6 +30,9 @@ var bilibili = function() {
     if (matches === null) {
         matches = innerHTML.match(/\/secure,(.+?)"/i);
     }
+    if (matches === null) {
+        matches = innerHTML.match(/var flashvars = {vid:'.+?',cid:'(.+?)'}/);
+    }
     var infoArgs = matches[1].replace(/&amp;/g, '&');
     var infoUrl = 'http://interface.bilibili.tv/player?' + infoArgs;
 
@@ -39,7 +42,8 @@ var bilibili = function() {
         onload: function(response) {
             var prefix = 'http://comment.bilibili.tv/';
             var reg = /<chatid>(.+?)<\/chatid>/;
-            var commentUid = response.responseText.match(reg)[1];
+            var matches = response.responseText.match(reg);
+            var commentUid = matches ? matches[1] : infoArgs;
             var commentUrl = prefix + commentUid + '.xml';
             var commentLink = createCommentLink(commentUrl);
             var convertLink = createConvertLink();
