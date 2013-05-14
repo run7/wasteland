@@ -213,7 +213,7 @@ var sites = [{
     request_callback: function(response) {
         var image_node, place_node;
         image_node = create_history_image_node(response);
-        place_node = document.querySelector('#goods_detail_buyinfo');
+        place_node = document.querySelector('#main_info');
         place_node.parentNode.insertBefore(image_node, place_node.nextElementSibling);
     }
 }, {
