@@ -68,7 +68,7 @@ var pages = [
         });
         api.media(songId, function(result) {
             if (result.lyric) {
-                lyricLink.href = 'data:text/plain,' +
+                lyricLink.href = 'data:text/plain;charset=utf-8,' +
                                  encodeURIComponent(result.lyric);
             } else {
                 disableStyle(lyricLink);
@@ -103,7 +103,7 @@ if (innerFrame) {
         var i, page;
         for (i = 0; i < pages.length; i += 1) {
             var page = pages[i];
-            if (location.href.startsWith(page.url)) {
+            if (location.href.indexOf(page.url) == 0) {
                 page.handler();
             }
         }
