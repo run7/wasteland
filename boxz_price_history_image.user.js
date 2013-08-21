@@ -13,7 +13,7 @@
 // @include     http://www.amazon.cn/mn/detailApp*
 // @include     http://product.dangdang.com/Product.aspx?product_id=*
 // @include     http://product.dangdang.com/product.aspx?product_id=*
-// @include     http://item.51buy.com/item-*
+// @include     http://item.yixun.com/item-*
 // @include     http://www.suning.com/emall/prd_10052_10051_-7_*.html*
 // @include     http://www.suning.com/emall/snupgbpv_10052_10051_*_.html
 // @include     http://www.suning.com/emall/sngbv_10052_10051_*_.html
@@ -202,10 +202,10 @@ var sites = [{
         place_node.parentNode.insertBefore(image_node, place_node.nextElementSibling);
     }
 }, {
-    domain : '51buy.com',
+    domain : 'yixun.com',
     get_history_url: function() {
         var reg, product_uid, history_url;
-        reg = new RegExp('http://item.51buy.com/item-([^.]+).htm');
+        reg = new RegExp('http://item.yixun.com/item-([^.]+).html');
         product_uid = url.match(reg)[1];
         history_url = create_product_history_url('icson', product_uid);
         return history_url;
@@ -213,7 +213,7 @@ var sites = [{
     request_callback: function(response) {
         var image_node, place_node;
         image_node = create_history_image_node(response);
-        place_node = document.querySelector('#main_info');
+        place_node = document.querySelector('.xbase_row3');
         place_node.parentNode.insertBefore(image_node, place_node.nextElementSibling);
     }
 }, {
