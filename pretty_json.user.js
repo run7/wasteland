@@ -51,5 +51,5 @@ addStyle(
 );
 
 document.body.innerHTML = '<pre>' +
-                          highlight(format(document.body.innerHTML)) +
+                          highlight(format(document.body.textContent)) +
                           '</pre>';
