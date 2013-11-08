@@ -5,8 +5,7 @@
 // @grant       GM_xmlhttpRequest
 // @grant       GM_addStyle
 // @grant       GM_registerMenuCommand
-// @grant       GM_info
-// @require     https://github.com/muzuiget/greasemonkey-scripts/raw/43d5f1af07a0c6769930cbd27b7f045cb275d8c9/light_pager.user.js
+// @require     https://github.com/muzuiget/greasemonkey-scripts/raw/f65aa174999cc6c3f3660cb39efd9c818c7988b2/light_pager.user.js
 // @include     http*://www.google.com/search?*
 // @include     https://addons.mozilla.org/*
 // @include     http://stackoverflow.com/questions*
@@ -24,11 +23,14 @@ var SITES = [
     title: 'Google Search',
     url: 'http*://www.google.com/search?*',
     next: '#pnnext',
-    content: '#center_col, #foot',
-    hidden: '#topstuff:not(.lp-first), ' +
-            '#extrares:not(.lp-first), ' +
-            '#foot:not(.lp-last) #xjs ~ *',
-    style: '.lp-sep { background-color: #EBEFF9; }',
+    content: '#center_col',
+    style: '.lp-sep {' +
+           '    width: 528px;' +
+           '    margin-left: 128px;' +
+           '    margin-bottom: 20px;' +
+           '    background-color: #EBEFF9;' +
+           '}',
+    separateInside: false,
 },
 {
     title: 'Mozilla Addon',
@@ -39,13 +41,13 @@ var SITES = [
            '    background-color: #DEF2C6;' +
            '    border-radius: 5px 5px 5px 5px;' +
            '}',
-    separateInside: false
+    separateInside: false,
 },
 {
     title: 'StackOverFlow',
     url: 'http://stackoverflow.com/questions*',
     next: 'a[rel="next"]',
-    content: '#questions'
+    content: '#questions',
 },
 ];
 

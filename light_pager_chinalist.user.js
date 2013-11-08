@@ -5,8 +5,7 @@
 // @grant       GM_xmlhttpRequest
 // @grant       GM_addStyle
 // @grant       GM_registerMenuCommand
-// @grant       GM_info
-// @require     https://github.com/muzuiget/greasemonkey-scripts/raw/43d5f1af07a0c6769930cbd27b7f045cb275d8c9/light_pager.user.js
+// @require     https://github.com/muzuiget/greasemonkey-scripts/raw/f65aa174999cc6c3f3660cb39efd9c818c7988b2/light_pager.user.js
 // @include     http://*.douban.com/*
 // @include     http://tieba.baidu.com/p/*
 // @include     http://bbs.tianya.cn/post-*.shtml
@@ -29,24 +28,23 @@ var SITES = [
     hidden: 'div.article:not(.lp-first) table.infobox, ' +
             'div.article:not(.lp-first) div.block5, ' +
             'div.article:not(.lp-last) div.paginator ~ *',
-    style: 'div.lp-sep { margin: 0 0 20px 0; }'
+    style: 'div.lp-sep { margin: 0 0 20px 0; }',
 },
 {
     title: '百度贴吧',
     url: 'http://tieba.baidu.com/p/*',
     next: 'li.l_pager a:contains("下一页")',
-    content: 'div.left_section',
+    content: 'div.core',
     style: 'div.lp-sep {' +
            '    margin: 10px 0 0 0;' +
            '    border: 1px solid #CCCCCC;' +
            '}',
-    separateInside: false
 },
 {
     title: '天涯',
     url: 'http://bbs.tianya.cn/post-*.shtml',
     next: 'a.js-keyboard-next',
-    content: 'div.atl-main'
+    content: 'div.atl-main',
 }
 ];
 
