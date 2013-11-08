@@ -35,11 +35,12 @@ var SITES = [
     title: '百度贴吧',
     url: 'http://tieba.baidu.com/p/*',
     next: 'li.l_pager a:contains("下一页")',
-    content: 'div.core',
+    content: 'div.left_section',
     style: 'div.lp-sep {' +
            '    margin: 10px 0 0 0;' +
            '    border: 1px solid #CCCCCC;' +
-           '}'
+           '}',
+    separateInside: false
 },
 {
     title: '天涯',
@@ -61,3 +62,4 @@ if (site !== null) {
     var control = light_pager(site);
     register_menus_cn(control);
 }
+
