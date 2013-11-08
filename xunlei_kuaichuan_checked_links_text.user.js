@@ -36,8 +36,11 @@ var replaceButton = function() {
     orignalButton.parentNode.replaceChild(newButton, orignalButton);
 };
 
-// 需要用到这个脚本都不需要显示「高速下载」和「离线的按钮」，隐藏掉。
-var fileCSS = 'a.high_btn, .operation, .adb_txt { display: none; }';
+// 需要用到这个脚本都不需要显示「高速下载」按钮，隐藏掉。
+var fileCSS = 'a.high_btn, .adb_txt { display: none; }';
+
+// 干掉「离线下载」按钮的菜单
+document.querySelector('.oper_list').remove();
 
 addStyle(fileCSS);
 replaceButton();
