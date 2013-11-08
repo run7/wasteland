@@ -5,7 +5,6 @@
 // @grant       GM_xmlhttpRequest
 // @grant       GM_addStyle
 // @grant       GM_registerMenuCommand
-// @grant       GM_info
 // @include     http:///localhost/*
 // ==/UserScript==
 
@@ -176,7 +175,6 @@ var light_pager = function(site) {
             var position_node = querySelectorLast(document, site.position);
         } else {
             var last_content_node = querySelectorLast(document, site.content);
-            unsafeWindow.console.log(last_content_node);
             var position_node = last_content_node.nextSibling;
         }
         return position_node;
@@ -236,7 +234,13 @@ var light_pager = function(site) {
         } else {
             var position_node = get_separate_position_node();
         }
-        position_node.parentNode.insertBefore( separate_node, position_node);
+        if (position_node === null) {
+            querySelectorLast(document, site.content).parentNode
+                .appendChild(separate_node);
+        } else {
+            position_node.parentNode
+                .insertBefore(separate_node, position_node);
+        }
     };
 
     var add_loaded_separate_node = function(temp_content_nodes) {
@@ -246,7 +250,13 @@ var light_pager = function(site) {
         } else {
             var position_node = get_separate_position_node();
         }
-        position_node.parentNode.insertBefore( separate_node, position_node);
+        if (position_node === null) {
+            querySelectorLast(document, site.content).parentNode
+                .appendChild(separate_node);
+        } else {
+            position_node.parentNode
+                .insertBefore(separate_node, position_node);
+        }
     }
 
     var add_order_classname = function() {
@@ -299,8 +309,14 @@ var light_pager = function(site) {
         for (i = 0; i < temp_content_nodes.length; i += 1) {
             temp_content_node = temp_content_nodes[i];
             temp_content_node.classList.add("lp-last");
-            position_node.parentNode.insertBefore(temp_content_node,
-                                                  position_node);
+
+            if (position_node === null) {
+                querySelectorLast(document, site.content).parentNode
+                    .appendChild(temp_content_node);
+            } else {
+                position_node.parentNode
+                    .insertBefore(temp_content_node, position_node);
+            }
         }
 
         runtime.appended_count += 1;
@@ -424,15 +440,3 @@ var register_menus = function(control) {
     GM_registerMenuCommand("Continue", control.continue_paging, "c");
     GM_registerMenuCommand("Stop", control.stop_paging, "t");
 };
-
-// only run as main file
-if (GM_info.script.name === 'Light Pager') {
-    var site = select_site(SITES);
-    if (site !== null) {
-        if (typeof GLOBAL !== "undefined") {
-            setup_site_global(site, GLOBAL);
-        }
-        var control = light_pager(site);
-        register_menus(control);
-    }
-}
