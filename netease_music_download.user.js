@@ -47,7 +47,7 @@ var pages = [
         var downloadLine = this.createDownloadLine(songId);
 
         var innerFrameDoc = innerFrame.contentWindow.document;
-        var albumNode = innerFrameDoc.querySelector('p[class="s-fc4"]');
+        var albumNode = innerFrameDoc.querySelectorAll('p.des.s-fc4')[1];
         var parentNode = albumNode.parentNode;
         parentNode.insertBefore(downloadLine, albumNode.nextElementSibling);
     },
