@@ -2,99 +2,136 @@
 // @name        Niconvert Commnet Link
 // @namespace   qixinglu.com
 // @description 显示 Acfun 和 Bilibili 的弹幕评论地址
-// @grant       GM_xmlhttpRequest
+// @grant       none
 // @include     http://www.bilibili.tv/video/*
-// @include     http://bilibili.kankanews.com/video/*
-// @include     http://bilibili.smgbb.cn/video/*
 // @include     http://www.acfun.tv/v/*
 // ==/UserScript==
 
-var createCommentLink = function(commentUrl) {
-    var link = document.createElement('a');
-    link.href = commentUrl;
-    link.text = '评论地址';
-    return link;
+'use strict';
+
+let $ = document.querySelector.bind(document);
+let $e = document.createElement.bind(document);
+
+let LinkCreater = {
+
+    comment: function(url) {
+        let link = $e('a');
+        link.href = url;
+        link.text = '评论地址';
+        link.target = '_blank';
+        return link;
+    },
+
+    convert: function(url) {
+        let url = encodeURIComponent(url);
+        let link = $e('a');
+        link.href = 'http://niconvert.appspot.com/?url=' + url;
+        link.text = '转换弹幕';
+        link.target = '_blank';
+        return link;
+    },
+
+    assist: function(url) {
+        let link = $e('a');
+        link.href = url;
+        link.text = '辅助地址';
+        link.target = '_blank';
+        return link;
+    },
+
 };
 
-var createConvertLink = function() {
-    var url = encodeURIComponent(location.href);
-    var link = document.createElement('a');
-    link.href = 'http://niconvert.appspot.com/?url=' + url;
-    link.text = '转换弹幕';
-    return link;
-}
+let pages = [
+{
+    url: 'http://www.bilibili.tv/video/',
+    handle: function() {
+        let aidReg = new RegExp('/av([0-9]+)/');
+        let cidReg = new RegExp("cid=([0-9]+)|cid:'(.+?)'");
+        let h1Reg = new RegExp('<h2 title="(.+?)">');
 
-var bilibili = function() {
-    var innerHTML = document.documentElement.innerHTML;
-    var matches = innerHTML.match(/flashvars="(.+?)"/i);
-    if (matches === null) {
-        matches = innerHTML.match(/\/secure,(.+?)"/i);
-    }
-    if (matches === null) {
-        matches = innerHTML.match(/var flashvars = {vid:'.+?',cid:'(.+?)'}/);
-    }
-    var infoArgs = matches[1].replace(/&amp;/g, '&');
-    var infoUrl = 'http://interface.bilibili.tv/player?' + infoArgs;
+        let html = $('body').innerHTML;
+        let aid = html.match(aidReg)[1];
+        let cid = html.match(cidReg).filter((x) => x !== undefined)[1];
+        let h1 = html.match(h1Reg)[1];
 
-    GM_xmlhttpRequest({
-        method: 'GET',
-        url: infoUrl,
-        onload: function(response) {
-            var prefix = 'http://comment.bilibili.tv/';
-            var reg = /<chatid>(.+?)<\/chatid>/;
-            var matches = response.responseText.match(reg);
-            var commentUid = matches ? matches[1] : infoArgs;
-            var commentUrl = prefix + commentUid + '.xml';
-            var commentLink = createCommentLink(commentUrl);
-            var convertLink = createConvertLink();
+        let commentUrl = 'http://comment.bilibili.tv/' + cid + '.xml';
+        let commentLink = LinkCreater.comment(commentUrl);
+        let assistUrl = 'b://aid=' + aid + ',cid=' + cid + ',h1=' + h1;
+        let assistLink = LinkCreater.assist(assistUrl);
+        let convertUrl = location.href;
+        let convertLink = LinkCreater.convert(convertUrl);
 
+        assistLink.style.marginLeft = '13px';
+        convertLink.style.marginLeft = '13px';
+
+        let wrap = $e('div');
+        wrap.style.marginTop = '3px';
+        wrap.style.float = 'left';
+        wrap.appendChild(commentLink);
+        wrap.appendChild(assistLink);
+        wrap.appendChild(convertLink);
+
+        $('.tminfo').appendChild(wrap);
+        $('.sf').style.marginTop = '24px';
+    },
+},
+{
+    url: 'http://www.acfun.tv/v/',
+    handle: function() {
+        let self = this;
+        let req = new XMLHttpRequest();
+        req.open('GET', location.href, true);
+        req.onload = this.onload;
+        req.send();
+    },
+    onload: function(event) {
+        let aidReg = new RegExp('/ac([0-9]+)');
+        let vidReg = new RegExp('\\[video\\](.+?)\\[/video\\]', 'i');
+        let h1Reg = new RegExp('system.title = "(.+?)";');
+
+        let html = event.target.responseText;
+        let aid = html.match(aidReg)[1];
+        let vid = html.match(vidReg)[1];
+        let h1 = html.match(h1Reg)[1];
+
+        let vidUrl = 'http://www.acfun.tv/api/getVideoByID.aspx?vid=' + vid;
+        let req = new XMLHttpRequest();
+        req.open('GET', vidUrl, true);
+        req.onload = function() {
+            let cid = JSON.parse(this.responseText).cid;
+            let commentUrl =  'http://comment.acfun.tv/' + cid + '.json';
+            let assistUrl = 'a://aid=' + aid + ',cid=' + cid +
+                            ',vid=' + vid + ',h1=' + h1;
+            let convertUrl = location.href;
+
+            let commentLink = LinkCreater.comment(commentUrl);
+            let assistLink = LinkCreater.assist(assistUrl);
+            let convertLink = LinkCreater.convert(convertUrl);
+
+            assistLink.style.marginLeft = '13px';
             convertLink.style.marginLeft = '13px';
-            var wrapContainer = document.createElement('div');
-            wrapContainer.style.marginTop = '3px';
-            wrapContainer.style['float'] = 'left';
-            wrapContainer.appendChild(commentLink);
-            wrapContainer.appendChild(convertLink);
 
-            document.querySelector('.tminfo').appendChild(wrapContainer);
-            document.querySelector('.sf').style.marginTop = '24px';
-        }
-    });
-};
+            let styleNode = $e('style');
+            styleNode.scoped = true;
+            styleNode.textContent = 'a { color: #999999; }';
 
-var acfun = function() {
-    var innerHTML = document.documentElement.innerHTML;
-    var matches = innerHTML.match(/\[Video\](.+?)\[\/Video\]/i);
-    if (matches === null) {
-        matches = innerHTML.match(/value="vid=(.+?)&/i);
+            let wrap = $e('div');
+            wrap.style.marginTop = '3px';
+            wrap.style.float = 'left';
+            wrap.appendChild(styleNode);
+            wrap.appendChild(commentLink);
+            wrap.appendChild(assistLink);
+            wrap.appendChild(convertLink);
+
+            $('#subtitle-article').appendChild(wrap);
+        };
+        req.send();
+    },
+},
+];
+
+for (let page of pages) {
+    if (location.href.startsWith(page.url)) {
+        page.handle();
     }
-    var infoArgs = matches[1];
-    var infoUrl = 'http://www.acfun.tv/api/player/vids/' + infoArgs + '.aspx';
-
-    GM_xmlhttpRequest({
-        method: 'GET',
-        url: infoUrl,
-        onload: function(response) {
-            var prefix = 'http://comment.acfun.tv/';
-            var commentUid = JSON.parse(response.responseText).cid;
-            if (commentUid === undefined) {
-                commentUid = infoArgs;
-            }
-            var commentUrl = prefix + commentUid + '.json';
-            var commentLink = createCommentLink(commentUrl);
-            var convertLink = createConvertLink();
-
-            commentLink.style.marginLeft = '12px';
-            convertLink.style.marginLeft = '12px';
-            var position = document.querySelector('#subtitle-article');
-            position.appendChild(commentLink);
-            position.appendChild(convertLink);
-        }
-    });
-
 };
-
-if (location.href.indexOf('http://www.acfun.tv') === 0) {
-    window.addEventListener('load', acfun);
-} else {
-    bilibili();
-}
