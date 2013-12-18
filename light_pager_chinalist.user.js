@@ -45,7 +45,7 @@ var SITES = [
     url: 'http://bbs.tianya.cn/post-*.shtml',
     next: 'a.js-keyboard-next',
     content: 'div.atl-main',
-}
+},
 ];
 
 var register_menus_cn = function(control) {
@@ -60,4 +60,3 @@ if (site !== null) {
     var control = light_pager(site);
     register_menus_cn(control);
 }
-

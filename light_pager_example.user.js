@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        Light Pager Example
 // @namespace   qixinglu.com
-// @description A example for Light Pager
+// @description An example for Light Pager
 // @grant       GM_xmlhttpRequest
 // @grant       GM_addStyle
 // @grant       GM_registerMenuCommand
@@ -63,4 +63,3 @@ if (site !== null) {
     var control = light_pager(site);
     register_menus(control);
 }
-

@@ -98,4 +98,3 @@ if (location.href.indexOf('http://www.acfun.tv') === 0) {
 } else {
     bilibili();
 }
-

@@ -2,8 +2,8 @@
 // @name        Pretty JSON
 // @namespace   qixinglu.com
 // @description Make JSON text look better
-// @include     http://*/*.json
 // @grant       none
+// @include     http://*/*.json
 // ==/UserScript==
 
 var format = function(text) {

@@ -70,4 +70,3 @@ if (location.href.indexOf('http://kuai.xunlei.com/s/') === 0) {
     fullName();
     swapSizePriviewInfo();
 }
-

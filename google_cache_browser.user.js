@@ -30,4 +30,3 @@ if (document.title === 'Error 404 (Not Found)!!1') {
 } else {
     convertCacheLinks(url);
 }
-

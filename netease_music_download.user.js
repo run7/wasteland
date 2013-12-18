@@ -2,8 +2,8 @@
 // @name        Netease Music Download
 // @namespace   qixinglu.com
 // @description 网易云音乐下载地址
-// @include     http://music.163.com/*
 // @grant       none
+// @include     http://music.163.com/*
 // ==/UserScript==
 
 var api = {
