@@ -8,7 +8,7 @@ url-prefix("https://groups.google.com/forum/") {
  * can't find meaningful css selectors, so just use "body".
  */
 body {
-    font-family: "Consolas", "Bitstream Vera Sans Mono", "Courier New", Courier, monospace !important;
+    font-family: monospace !important;
 }
 
 }

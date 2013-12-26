@@ -2,5 +2,5 @@
 
 pre, code, textarea {
     -moz-tab-size: 4;
-    font-family: "Consolas", "Bitstream Vera Sans Mono", "Courier New", Courier, monospace !important;
+    font-family: monospace !important;
 }

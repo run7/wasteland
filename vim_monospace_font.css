@@ -3,7 +3,8 @@
 @-moz-document domain("www.vim.org") {
 
 p, td {
-    font-family: "Consolas", "Bitstream Vera Sans Mono", "Courier New", Courier, monospace !important;
+    font-size: 1.1em !important;
+    font-family: monospace !important;
 }
 
 }
