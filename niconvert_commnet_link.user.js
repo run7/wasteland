@@ -1,9 +1,10 @@
 // ==UserScript==
-// @name        Niconvert Commnet Link
+// @name        Niconvert Comment Link
 // @namespace   qixinglu.com
 // @description 显示 Acfun 和 Bilibili 的弹幕评论地址
 // @grant       none
 // @include     http://www.bilibili.tv/video/*
+// @include     http://bilibili.kankanews.com/video/*
 // @include     http://www.acfun.tv/v/*
 // ==/UserScript==
 
@@ -43,7 +44,8 @@ let LinkCreater = {
 
 let pages = [
 {
-    url: 'http://www.bilibili.tv/video/',
+    urls: ['http://www.bilibili.tv/video/',
+           'http://bilibili.kankanews.com/video/'],
     handle: function() {
         let aidReg = new RegExp('/av([0-9]+)/');
         let cidReg = new RegExp("cid=([0-9]+)|cid:'(.+?)'");
@@ -76,7 +78,7 @@ let pages = [
     },
 },
 {
-    url: 'http://www.acfun.tv/v/',
+    urls: ['http://www.acfun.tv/v/'],
     handle: function() {
         let self = this;
         let req = new XMLHttpRequest();
@@ -86,8 +88,8 @@ let pages = [
     },
     onload: function(event) {
         let aidReg = new RegExp('/ac([0-9]+)');
-        let vidReg = new RegExp('\\[video\\](.+?)\\[/video\\]', 'i');
-        let h1Reg = new RegExp('system.title = "(.+?)";');
+        let vidReg = new RegExp('active" data-vid="(.+?)"');
+        let h1Reg = new RegExp('<h1>(.+?)</h1>');
 
         let html = event.target.responseText;
         let aid = html.match(aidReg)[1];
@@ -123,7 +125,9 @@ let pages = [
             wrap.appendChild(assistLink);
             wrap.appendChild(convertLink);
 
-            $('#subtitle-article').appendChild(wrap);
+            let wrapParent = $('#subtitle-article');
+            wrapParent.style.marginBottom = '20px';
+            wrapParent.appendChild(wrap);
         };
         req.send();
     },
@@ -131,7 +135,9 @@ let pages = [
 ];
 
 for (let page of pages) {
-    if (location.href.startsWith(page.url)) {
-        page.handle();
+    for (let url of page.urls) {
+        if (location.href.startsWith(url)) {
+            page.handle();
+        }
     }
 };
