@@ -4,6 +4,7 @@
 // @description 改进迅雷云播的播放器页面
 // @grant       none
 // @include     http://vod.xunlei.com/iplay.html?*
+// @include     http://vod.xunlei.com/nplay.html?*
 // ==/UserScript==
 
 var addStyle = function(cssText) {
@@ -41,7 +42,12 @@ var changeDownloadArea = function() {
     copyBtn.replaceChild(downLink, document.querySelector('#copyer'));
 };
 
-addStyle('body { width: auto !important;');
-changePlayerArea();
-window.addEventListener('resize', changePlayerArea);
-setTimeout(changeDownloadArea, 2000);
+var isOldVersion = location.pathname == '/iplay.html';
+if (isOldVersion) {
+    addStyle('body { width: auto !important;');
+    changePlayerArea();
+    window.addEventListener('resize', changePlayerArea);
+    setTimeout(changeDownloadArea, 2000);
+} else {
+    location.href = location.href.replace('/nplay.html', '/iplay.html');
+}
