@@ -58,7 +58,7 @@ let pages = [
 
         let commentUrl = 'http://comment.bilibili.tv/' + cid + '.xml';
         let commentLink = LinkCreater.comment(commentUrl);
-        let assistUrl = 'b://aid=' + aid + ',cid=' + cid + ',h1=' + h1;
+        let assistUrl = 'b://aid=' + aid + ',cid=' + cid;
         let assistLink = LinkCreater.assist(assistUrl);
         let convertUrl = location.href;
         let convertLink = LinkCreater.convert(convertUrl);
@@ -80,56 +80,84 @@ let pages = [
 {
     urls: ['http://www.acfun.tv/v/'],
     handle: function() {
-        let self = this;
+        let url = location.href;
         let req = new XMLHttpRequest();
-        req.open('GET', location.href, true);
-        req.onload = this.onload;
+        req.open('GET', url, true);
+
+        let onloadFunc = function() {
+            let aidReg = new RegExp('/ac([0-9]+)');
+            let vidReg = new RegExp('active" data-vid="(.+?)"');
+            let h1Reg = new RegExp('<h1>(.+?)</h1>');
+
+            let html = req.responseText;
+            let aid = html.match(aidReg)[1];
+            let vid = html.match(vidReg)[1];
+            let h1 = html.match(h1Reg)[1];
+
+            this.reqCid1(aid, vid);
+        };
+
+        req.onload = onloadFunc.bind(this);
         req.send();
     },
-    onload: function(event) {
-        let aidReg = new RegExp('/ac([0-9]+)');
-        let vidReg = new RegExp('active" data-vid="(.+?)"');
-        let h1Reg = new RegExp('<h1>(.+?)</h1>');
-
-        let html = event.target.responseText;
-        let aid = html.match(aidReg)[1];
-        let vid = html.match(vidReg)[1];
-        let h1 = html.match(h1Reg)[1];
-
-        let vidUrl = 'http://www.acfun.tv/api/getVideoByID.aspx?vid=' + vid;
+    reqCid1: function(aid, vid) {
+        let url = 'http://www.acfun.tv/api/getVideoByID.aspx?vid=' + vid;
         let req = new XMLHttpRequest();
-        req.open('GET', vidUrl, true);
-        req.onload = function() {
-            let cid = JSON.parse(this.responseText).cid;
-            let commentUrl =  'http://comment.acfun.tv/' + cid + '.json';
-            let assistUrl = 'a://aid=' + aid + ',cid=' + cid +
-                            ',vid=' + vid + ',h1=' + h1;
-            let convertUrl = location.href;
+        req.open('GET', url, true);
 
-            let commentLink = LinkCreater.comment(commentUrl);
-            let assistLink = LinkCreater.assist(assistUrl);
-            let convertLink = LinkCreater.convert(convertUrl);
-
-            assistLink.style.marginLeft = '13px';
-            convertLink.style.marginLeft = '13px';
-
-            let styleNode = $e('style');
-            styleNode.scoped = true;
-            styleNode.textContent = 'a { color: #999999; }';
-
-            let wrap = $e('div');
-            wrap.style.marginTop = '3px';
-            wrap.style.float = 'left';
-            wrap.appendChild(styleNode);
-            wrap.appendChild(commentLink);
-            wrap.appendChild(assistLink);
-            wrap.appendChild(convertLink);
-
-            let wrapParent = $('#subtitle-article');
-            wrapParent.style.marginBottom = '20px';
-            wrapParent.appendChild(wrap);
+        let onloadFunc = function() {
+            let cid = JSON.parse(req.responseText).cid;
+            if (cid) {
+                this.appendLinks(aid, vid, cid);
+            } else {
+                this.reqCid2(aid, vid);
+            }
         };
+
+        req.onload = onloadFunc.bind(this);
         req.send();
+    },
+    reqCid2: function(aid, vid) {
+        let url = 'http://www.acfun.tv/video/getVideo.aspx?id=' + vid;
+        let req = new XMLHttpRequest();
+        req.open('GET', url, true);
+
+        let onloadFunc = function() {
+            let cid = JSON.parse(req.responseText).danmakuId;
+            this.appendLinks(aid, vid, cid);
+        };
+
+        req.onload = onloadFunc.bind(this);
+        req.send();
+    },
+    appendLinks: function(aid, vid, cid) {
+        let commentUrl =  'http://comment.acfun.tv/' + cid + '.json';
+        let assistUrl = 'a://aid=' + aid + ',cid=' + cid +
+                        ',vid=' + vid;
+        let convertUrl = location.href;
+
+        let commentLink = LinkCreater.comment(commentUrl);
+        let assistLink = LinkCreater.assist(assistUrl);
+        let convertLink = LinkCreater.convert(convertUrl);
+
+        assistLink.style.marginLeft = '13px';
+        convertLink.style.marginLeft = '13px';
+
+        let styleNode = $e('style');
+        styleNode.scoped = true;
+        styleNode.textContent = 'a { color: #999999; }';
+
+        let wrap = $e('div');
+        wrap.style.marginTop = '3px';
+        wrap.style.float = 'left';
+        wrap.appendChild(styleNode);
+        wrap.appendChild(commentLink);
+        wrap.appendChild(assistLink);
+        wrap.appendChild(convertLink);
+
+        let wrapParent = $('#subtitle-article');
+        wrapParent.style.marginBottom = '20px';
+        wrapParent.appendChild(wrap);
     },
 },
 ];
