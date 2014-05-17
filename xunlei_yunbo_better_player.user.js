@@ -44,7 +44,11 @@ var changeDownloadArea = function() {
 
 var isOldVersion = location.pathname == '/iplay.html';
 if (isOldVersion) {
-    addStyle('body { width: auto !important;');
+    addStyle('' +
+        'body { width: auto !important; }' +
+        '.src { height: 31px; max-width: 1000px;' +
+        '       text-overflow: ellipsis; word-break: keep-all; }'
+    );
     changePlayerArea();
     window.addEventListener('resize', changePlayerArea);
     setTimeout(changeDownloadArea, 2000);
