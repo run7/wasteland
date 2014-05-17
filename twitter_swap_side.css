@@ -2,16 +2,14 @@
 
 @-moz-document domain("twitter.com") {
 
-.content-main, .profile-header {
-    float: left !important;
+.dashboard.dashboard-left  {
+    position: absolute;
+    right: 302px;
 }
 
-.dashboard {
-    float: right !important;
-}
-
-#suggested-users {
-    clear: left !important;
+.dashboard.dashboard-right {
+    position: absolute;
+    right: 0;
 }
 
 }
