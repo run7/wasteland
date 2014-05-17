@@ -132,8 +132,7 @@ let pages = [
     },
     appendLinks: function(aid, vid, cid) {
         let commentUrl =  'http://comment.acfun.tv/' + cid + '.json';
-        let assistUrl = 'a://aid=' + aid + ',cid=' + cid +
-                        ',vid=' + vid;
+        let assistUrl = 'a://aid=' + aid + ',cid=' + cid + ',vid=' + vid;
         let convertUrl = location.href;
 
         let commentLink = LinkCreater.comment(commentUrl);
