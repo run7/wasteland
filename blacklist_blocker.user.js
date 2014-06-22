@@ -48,8 +48,20 @@ let BlacklistBlocker = function(rules) {
         }
     };
 
-    let rules = rules.filter((e) => re(e.urls).test(location.href));
-    let run = () => rules.forEach(applyRule);
+    let isMatchUrls = function(urls) {
+        if (typeof(urls) === 'string') {
+            urls = [urls];
+        }
+        for (let url of urls) {
+            if (re(url).test(location.href)) {
+                return true;
+            }
+        }
+        return false;
+    };
+
+    let avaiableRules = rules.filter((e) => isMatchUrls(e.urls));
+    let run = () => avaiableRules.forEach(applyRule);
 
     let exports = {
         run: run,
