@@ -3,7 +3,7 @@
 // @namespace   qixinglu.com
 // @description 显示 Acfun 和 Bilibili 的弹幕评论地址
 // @grant       none
-// @include     http://www.bilibili.tv/video/*
+// @include     http://www.bilibili.com/video/*
 // @include     http://bilibili.kankanews.com/video/*
 // @include     http://www.acfun.tv/v/*
 // ==/UserScript==
@@ -44,7 +44,7 @@ let LinkCreater = {
 
 let pages = [
 {
-    urls: ['http://www.bilibili.tv/video/',
+    urls: ['http://www.bilibili.com/video/',
            'http://bilibili.kankanews.com/video/'],
     handle: function() {
         let aidReg = new RegExp('/av([0-9]+)/');
@@ -56,7 +56,7 @@ let pages = [
         let cid = html.match(cidReg).filter((x) => x !== undefined)[1];
         let h1 = html.match(h1Reg)[1];
 
-        let commentUrl = 'http://comment.bilibili.tv/' + cid + '.xml';
+        let commentUrl = 'http://comment.bilibili.com/' + cid + '.xml';
         let commentLink = LinkCreater.comment(commentUrl);
         let assistUrl = 'b://aid=' + aid + ',cid=' + cid;
         let assistLink = LinkCreater.assist(assistUrl);
