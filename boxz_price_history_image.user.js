@@ -14,9 +14,7 @@
 // @include     http://product.dangdang.com/Product.aspx?product_id=*
 // @include     http://product.dangdang.com/product.aspx?product_id=*
 // @include     http://item.yixun.com/item-*
-// @include     http://www.suning.com/emall/prd_10052_10051_-7_*.html*
-// @include     http://www.suning.com/emall/snupgbpv_10052_10051_*_.html
-// @include     http://www.suning.com/emall/sngbv_10052_10051_*_.html
+// @include     http://product.suning.com/*.html*
 // @include     http://www.gome.com.cn/ec/homeus/jump/product/*.html*
 // @include     http://www.lusen.com/Product/ProductInfo.aspx?Id=*
 // @include     http://www.efeihu.com/Product/*.html*
@@ -220,23 +218,14 @@ var sites = [{
     domain : 'suning.com',
     get_history_url: function() {
         var reg, mess, product_uid, history_url;
-        // 真恶心的url设计
-        reg = new RegExp('http://www.suning.com/emall/(.+?).html');
-        mess = url.match(reg)[1].split('_');
-        if (mess[0] === 'prd') {
-            product_uid = mess[4];
-        }
-        else {
-            product_uid = mess[3];
-        }
+        product_uid = unsafeWindow.sn.productId;
         history_url = create_product_history_url('suning', product_uid);
         return history_url;
     },
     request_callback: function(response) {
         var image_node, place_node;
         image_node = create_history_image_node(response);
-        // 真混乱
-        place_node = document.querySelector('.product_view, .groupViewContent, .show');
+        place_node = document.querySelector('#productChooseBox');
         place_node.parentNode.insertBefore(image_node, place_node.nextElementSibling);
     }
 }, {
