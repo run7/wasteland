@@ -5,6 +5,7 @@
 .rwbox .w09, .namelink {
     width: intrinsic !important; /* chrome */
     width: -moz-max-content !important;
+    font-family: monospace;
 }
 
 .rwbox .w05 {
@@ -27,4 +28,3 @@
 }
 
 }
-
