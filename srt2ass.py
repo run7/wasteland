@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 # -*- coding: utf8 -*-
 
 # ----------
@@ -6,37 +6,40 @@
 # ----------
 
 import sys
-import chardet
 import aeidon
 
-header = '''[Script Info]
+header = '''
+[Script Info]
 ScriptType: v4.00+
 Collisions: Normal
 PlayResX: 1920
 PlayResY: 1080
 
 [V4+ Styles]
-Format: Name, Fontname, Fontsize, PrimaryColour, BackColour, OutlineColour, Bold, Italic, Alignment, BorderStyle, Outline, Shadow, MarginL, MarginR, MarginV
-Style: Default,WenQuanYi Micro Hei,54,&H00ffffff,&H00000000,&H00000000,0,0,2,1,2,0,20,20,140
-Style: Alternate,WenQuanYi Micro Hei,36,&H00ffffff,&H00000000,&H00000000,0,0,2,1,2,0,20,20,104'''
+Format: Name, Fontname, Fontsize, PrimaryColour, SecondaryColour, OutlineColour, BackColour, Bold, Italic, Underline, StrikeOut, ScaleX, ScaleY, Spacing, Angle, BorderStyle, Outline, Shadow, Alignment, MarginL, MarginR, MarginV, Encoding
+Style: Default,WenQuanYi Micro Hei,54,&H00FFFFFF,&H00FFFFFF,&H00000000,&H00000000,0,0,0,0,100,100,0.00,0.00,1,2.00,0.00,2,30,30,120,0
+Style: Alternate,WenQuanYi Micro Hei,36,&H00FFFFFF,&H00FFFFFF,&H00000000,&H00000000,0,0,0,0,100,100,0.00,0.00,1,2.00,0.00,2,30,30,84,0
+Style: Danmaku,WenQuanYi Micro Hei,32,&H00FFFFFF,&H00FFFFFF,&H00000000,&H00000000,0,0,0,0,100,100,0.00,0.00,1,1.00,0.00,2,30,30,30,0
+'''
+
 
 def convert(input_filename, output_filename):
 
-    # detect file encodings
-    encoding = chardet.detect(open(input_filename).read())['encoding']
-
     # create aeidon project
     project = aeidon.Project()
-    project.open_main(input_filename, encoding)
+    project.open_main(input_filename, 'UTF-8')
 
     # setup output format
-    output_format = aeidon.files.new(aeidon.formats.ASS, output_filename, 'utf_8')
-    output_format.header = header
+    output_format = aeidon.files.new(aeidon.formats.ASS,
+                                     output_filename, 'utf_8')
+    output_format.header = header.strip()
 
     project.save_main(output_format)
 
+
 def usage():
-    print './srt2ass subtitle.srt'
+    print('./srt2ass subtitle.srt')
+
 
 def main():
     if len(sys.argv) != 2:
@@ -51,6 +54,7 @@ def main():
     else:
         output_filename = input_filename + '.ass'
     convert(input_filename, output_filename)
+
 
 if __name__ == '__main__':
     main()

@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 # -*- coding: utf8 -*-
 
 # ----------
@@ -6,8 +6,8 @@
 # ----------
 
 import sys
-import chardet
 import aeidon
+
 
 def to_seconds(hms):
     nums = hms.split(':')
@@ -15,6 +15,7 @@ def to_seconds(hms):
     for i in range(len(nums)):
         seconds += int(nums[-i - 1]) * (60 ** i)
     return seconds
+
 
 def shift_amount(hms_list):
     amount = 0
@@ -27,15 +28,17 @@ def shift_amount(hms_list):
             amount += seconds
     return amount
 
+
 def shift_positions(filename, amount):
-    encoding = chardet.detect(open(filename).read())['encoding']
     project = aeidon.Project()
-    project.open_main(filename, encoding)
+    project.open_main(filename, 'UTF-8')
     project.shift_positions(None, float(amount))
     project.save_main()
 
+
 def usage():
-    print './shiftsub ass_file HH:MM:SS ...'
+    print('./shiftsub ass_file HH:MM:SS ...')
+
 
 def main():
     if len(sys.argv) < 3:
