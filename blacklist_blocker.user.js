@@ -6,13 +6,13 @@
 // @include     http://nowhere/
 // ==/UserScript==
 
-'ues strict';
+'use strict';
 
-let BlacklistBlocker = function(rules) {
+window.BlacklistBlocker = function(rules) {
 
     let re = (p) => new RegExp(p);
     let mixin = function(target, mixinObject) {
-        for (let [name, prop] of Iterator(mixinObject)) {
+        for (let [name, prop] of window.Iterator(mixinObject)) {
             target[name] = prop;
         }
     };
@@ -48,6 +48,20 @@ let BlacklistBlocker = function(rules) {
         }
     };
 
+    let watchDomChange = function(rule) {
+        if (!rule.watch) {
+            return;
+        }
+
+        let target = document.querySelector(rule.watch);
+        let observer = new MutationObserver(() => {
+            applyRule(rule);
+        });
+
+        let config = {childList: true};
+        observer.observe(target, config);
+    };
+
     let isMatchUrls = function(urls) {
         if (typeof(urls) === 'string') {
             urls = [urls];
@@ -61,10 +75,12 @@ let BlacklistBlocker = function(rules) {
     };
 
     let avaiableRules = rules.filter((e) => isMatchUrls(e.urls));
+    avaiableRules.forEach(watchDomChange);
+
     let run = () => avaiableRules.forEach(applyRule);
 
     let exports = {
         run: run,
-    }
+    };
     return exports;
 };
