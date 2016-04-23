@@ -1,0 +1,4 @@
+                let splitSize = Math.floor(biggest.remainder / 10);
+                let limitSize = 50 * 1024 * 1024;
+                let chunkSize = splitSize > limitSize ? limitSize : splitSize;
+				biggest.end = biggest.start + biggest.written + chunkSize;
