@@ -64,7 +64,7 @@ var shortenUrlWithHistory = function(longUrl) {
         var request = new XMLHttpRequest();
         request.open('GET', url, true);
         request.onload  = function() {
-            var tokenReg = /id="security_token" type="hidden" value="([^"]+)"/;
+            var tokenReg = /name="security_token" type="hidden" value="([^"]+)"/;
             var match = request.responseText.match(tokenReg);
             if (match === null) {
                 FireGestures.setStatusText(
