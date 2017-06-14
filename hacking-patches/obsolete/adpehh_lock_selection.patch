@@ -1,0 +1,69 @@
+diff --git a/chrome/elemhidehelper/content/aardvark.js b/chrome/elemhidehelper/content/aardvark.js
+index c4799ed..6e40e73 100644
+--- a/chrome/elemhidehelper/content/aardvark.js
++++ b/chrome/elemhidehelper/content/aardvark.js
+@@ -35,7 +35,8 @@ var ehhAardvark = {
+ 	mouseY: -1,
+ 	commandLabelTimeout: 0,
+ 	borderElems: null,
+-	labelElem: null
++	labelElem: null,
++	isLocked: false
+ };
+ 
+ ehhAardvark.start = function(browser) {
+@@ -163,6 +164,10 @@ ehhAardvark.onMouseOver = function(event) {
+ 	while (aardvarkLabel && !("ehhAardvarkLabel" in aardvarkLabel))
+ 		aardvarkLabel = aardvarkLabel.parentNode;
+ 
++    if (this.isLocked) {
++        return;
++    }
++
+ 	if (elem == null || aardvarkLabel)
+ 	{
+ 		this.clearBox ();
+@@ -439,6 +444,7 @@ ehhAardvark.commands = [
+ 	"select",
+ 	"wider",
+ 	"narrower",
++	"lock",
+ 	"quit",
+ 	"blinkElement",
+ 	"viewSource",
+@@ -493,6 +499,14 @@ ehhAardvark.narrower = function (elem)
+ }
+ 	
+ //------------------------------------------------------------
++ehhAardvark.lock = function (elem)
++{
++	if (elem)
++        this.isLocked = !this.isLocked;
++	return false;
++}
++
++//------------------------------------------------------------
+ ehhAardvark.quit = function ()
+ {
+ 	if (!this.browser)
+@@ -510,6 +524,7 @@ ehhAardvark.quit = function ()
+ 	this.selectedElem = null;
+ 	this.browser = null;
+ 	this.commentElem = null;
++	this.isLocked = false;
+ 	delete this.widerStack;
+ 	return true;
+ }
+diff --git a/chrome/elemhidehelper/locale/en-US/global.properties b/chrome/elemhidehelper/locale/en-US/global.properties
+index 0c5d2d3..eb8d2cc 100644
+--- a/chrome/elemhidehelper/locale/en-US/global.properties
++++ b/chrome/elemhidehelper/locale/en-US/global.properties
+@@ -4,6 +4,8 @@ command.wider.key=w
+ command.wider.label=wider
+ command.narrower.key=n
+ command.narrower.label=narrower
++command.lock.key=l
++command.lock.label=lock
+ command.quit.key=q
+ command.quit.label=quit selection
+ command.blinkElement.key=b

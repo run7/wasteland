@@ -1,0 +1,44 @@
+diff -r -U 5 source/content/firegestures/browser.js modified/content/firegestures/browser.js
+--- source/content/firegestures/browser.js	2010-04-16 01:02:34.000000000 +0800
++++ modified/content/firegestures/browser.js	2010-04-16 17:08:49.528943517 +0800
+@@ -456,10 +456,18 @@
+ 
+ 	getSelectedText: function() {
+ 		return this.focusedWindow.getSelection().toString();
+ 	},
+ 
++	getInfoPanel: function() {
++		return document.getElementById("firegesturesInfoPanel");
++	},
++
++	getInfoPanelText: function() {
++		return document.getElementById("firegesturesInfoPanelText");
++	},
++
+ 	gatherLinkURLsInSelection: function() {
+ 		var win = this.focusedWindow;
+ 		var sel = win.getSelection();
+ 		if (!sel || sel.isCollapsed)
+ 			return null;
+diff -r -U 5 source/content/firegestures/browser.xul modified/content/firegestures/browser.xul
+--- source/content/firegestures/browser.xul	2009-04-12 23:41:08.000000000 +0800
++++ modified/content/firegestures/browser.xul	2010-04-16 17:08:00.026017637 +0800
+@@ -1,8 +1,18 @@
+ <?xml version="1.0"?>
+ 
+ <overlay id="FireGesturesBrowserOverlay"
+          xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+ 
++<window id="main-window">
++    <panel id="firegesturesInfoPanel" align="stretch" noautofocus="true" 
++           style="max-width: 315px !important;  padding: 6px;  background-color: rgb(235, 239, 248) !important;  border-width: 2px !important;  border-color: rgb(102, 162, 223) !important;">
++        <hbox id="firegesturesInfoPanelBox" align="start">
++            <image id="firegesturesInfoPanelImage" width="16px" height="16px" style="list-style-image: url('chrome://firegestures/skin/google_favicon.png');"/>
++            <description id="firegesturesInfoPanelText" flex="1" style="color: black;  margin-left: 6px !important;  margin-right: 0px !important;  margin-top: 0px !important;  margin-bottom: 0px !important;"/>
++        </hbox>
++    </panel>
++</window>
++
+ 	<script type="application/x-javascript" src="chrome://firegestures/content/browser.js" />
+ 
+ </overlay>

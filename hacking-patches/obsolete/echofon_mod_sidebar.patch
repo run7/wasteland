@@ -1,0 +1,839 @@
+diff --git a/chrome/Echofon/content/classic.css b/chrome/Echofon/content/classic.css
+new file mode 100644
+index 0000000..bdbc461
+--- /dev/null
++++ b/chrome/Echofon/content/classic.css
+@@ -0,0 +1,243 @@
++/*
++   Classic Theme for TwitterFox
++
++   Copyright (c) 2009 Kazuho Okui / naan studio, Inc. ALL RIGHTS RESERVED.
++*/
++
++#twitternotifier-popup { 
++}
++
++#twitternotifier-main-window { 
++}
++
++#twitternotifier-window-container {
++  background-color: #9ae4e8;
++  padding: 0px 2px !important;
++}
++
++#twitternotifier-content-shadow { 
++  height: 12px;
++  margin: 0px;
++}
++
++#twitternotifier-popup-logo { 
++  list-style-image: url("chrome://twitternotifier/content/images/mac/logo.png") !important;
++  margin-top: 0px !important;
++  -moz-image-region: rect(0px, 52px, 11px, 0px);
++}
++
++#twitternotifier-popup-logo:hover { 
++  -moz-image-region: rect(11px, 52px, 22px, 0px);
++}
++
++.twitternotifier-popup-logo-box { 
++  border-bottom: 1px solid #a8a9b7;
++}
++
++#twitternotifier-resizer { 
++  list-style-image: url("chrome://twitternotifier/content/images/vista/resizer.png");
++}
++
++.twitternotifier-status {
++  background: #d8ffff;
++  color: #000;
++  border-color: #fff;
++}
++
++.twitternotifier-status[unread="true"]
++{ 
++  background: #9ae4e8;
++}
++
++.twitternotifier-status[highlighted="true"] { 
++  background: #E0FDDD;
++  background: #E3ffdd;
++}
++
++.twitternotifier-status[attr="replies"] {
++	background: #d8ffd9;
++}
++
++.twitternotifier-status[attr="replies"][unread="true"] {
++	background: #bee89b;
++}
++
++.twitternotifier-status[attr="messages"] {
++	background: #Feedd9;
++}
++
++.twitternotifier-status[attr="messages"][unread="true"] {
++	background: #e8c69b;
++}
++
++.twitternotifier-status-info,
++.twitternotifier-permalink,
++.twitternotifier-source-link { 
++  color: #616161 !important;
++}
++
++.twitternotifier-permalink:hover,
++.twitternotifier-source-link:hover { 
++  text-decoration: underline !important;
++
++}
++
++.twitternotifier-status-borderline { 
++  border-color: #ffffff !important;
++}
++
++.twitternotifier-status-borderline[combined_top="true"] { 
++  border-color: #ffffff !important;
++}
++
++.twitternotifier-scrollbox { 
++  border: 3px solid #fff;
++  background: #fff;
++}
++
++.twitternotifier-scrollbar { 
++  background: url("chrome://twitternotifier/content/images/vista/scrollbox.png") repeat-y top left;
++}
++
++.twitternotifier-scroll-thumb { 
++  background-color: #BABBBF;
++}
++
++.twitternotifier-scroll-thumb:hover {
++  background-color: #999;
++}
++
++.twitternotifier-scroll-thumb:active { 
++  background-color: #888;
++}
++
++.twitternotifier-link-tooltip,
++.twitternotifier-link-tooltip:hover { 
++  margin: 0px;
++  padding: 0px;
++  text-decoration: none;
++}
++
++#twitternotifier-link-button { 
++  list-style-image: url("chrome://twitternotifier/content/images/mac/link.png") !important;
++}
++
++#twitternotifier-error-message { 
++  color: #333;
++  border: 1px solid #a26d6c;
++  background: #E89C9A;
++}
++
++.twitternotifier-current-account { 
++  color: #000;
++  text-shadow: #e0e0e0 0 1px 0;
++  margin-top: 0px;
++}
++
++.twitternotifier-current-account-name { 
++}
++
++.twitternotifier-current-account-name:hover,
++.twitternotifier-current-account-name:active { 
++  color: #333;
++}
++
++.twitternotifier-tab {
++  color: #4aa;
++  background-color: #bbeef0 !important;
++  border-top: 1px solid #7dd;
++  border-left: 1px solid #7dd;
++  border-right: 1px solid #7dd;
++  border-bottom: 1px solid #7dd;
++  font-weight: normal !important;
++}
++
++.twitternotifier-tab:hover {
++  background-color: #bbeef0 !important;
++}
++
++.twitternotifier-tab[attr="active"] {
++  color: #222;
++  background: #fff !important;
++  border-top: 1px solid #fff;
++  border-left: 1px solid #6cc;
++  border-right: 1px solid #6cc;
++  border-bottom: 1px solid #6cc;
++  text-shadow: none;
++  font-weight: bold !important;
++}
++
++.twitternotifier-tab[unread="true"] { 
++  font-weight: bold !important;
++}
++
++#twitternotifier-message-input { 
++  border: 1px solid #fff !important;
++  background-color: #fff !important;
++  color: #000 !important;
++}
++
++#twitternotifier-message-input > .textbox-input,
++#twitternotifier-message-input > .textbox-input-box,
++#twitternotifier-message-input > .textbox-input:focus,
++#twitternotifier-message-input > .textbox-input-box:focus { 
++  border: 1px solid #fff !important;
++  background: #fff !important;
++}
++
++.twitternotifier-charcount {
++  border: solid 1px #fff;
++  background: #fff;
++  color: #000;
++}
++
++.twitternotifier-charcount[charover="1"] {
++  color: #c00;
++}
++
++.twitternotifier-recipient-kind,
++.twitternotifier-recipient-name {
++  color: #000;
++  text-shadow: #e0e0e0 0 1px 0;
++}
++
++.twitternotifier-status-user {
++  color: #000;
++}
++
++.twitternotifier-status-sender-label {
++  color: #666;
++}
++
++#twitternotifier-close-button,
++#twitternotifier-recipient-close-button {
++  list-style-image: url("chrome://twitternotifier/content/images/vista/close.png") !important;
++  margin-top: 0px !important;
++}
++
++.twitternotifier-status-reply,
++.twitternotifier-status-favorite,
++#twitternotifier-close-button,
++#twitternotifier-linkbutton,
++#twitternotifier-recipient-close-button {
++  opacity: 1;
++}
++
++/*
++   message body
++*/
++.twitternotifier-message-body { 
++}
++
++.twitternotifier-hyperlink { 
++  color: #1269c5 !important;
++}
++
++.twitternotifier-hyperlink:hover { 
++  text-decoration: underline !important;
++}
++
++.twitternotifier-notice {
++  background: #d7efff;
++  color: #000;
++}
+diff --git a/chrome/Echofon/content/images/google_favicon.png b/chrome/Echofon/content/images/google_favicon.png
+new file mode 100644
+index 0000000..8fc693b
+Binary files /dev/null and b/chrome/Echofon/content/images/google_favicon.png differ
+diff --git a/chrome/Echofon/content/images/google_favicon_gray.png b/chrome/Echofon/content/images/google_favicon_gray.png
+new file mode 100644
+index 0000000..f0825c9
+Binary files /dev/null and b/chrome/Echofon/content/images/google_favicon_gray.png differ
+diff --git a/chrome/Echofon/content/images/icon.png b/chrome/Echofon/content/images/icon.png
+old mode 100644
+new mode 100755
+index d46e69b..d5468cf
+Binary files a/chrome/Echofon/content/images/icon.png and b/chrome/Echofon/content/images/icon.png differ
+diff --git a/chrome/Echofon/content/images/statusbar.png b/chrome/Echofon/content/images/statusbar.png
+old mode 100644
+new mode 100755
+index 2d34555..e488b69
+Binary files a/chrome/Echofon/content/images/statusbar.png and b/chrome/Echofon/content/images/statusbar.png differ
+diff --git a/chrome/Echofon/content/preference.xul b/chrome/Echofon/content/preference.xul
+index f24aec8..f517aba 100755
+--- a/chrome/Echofon/content/preference.xul
++++ b/chrome/Echofon/content/preference.xul
+@@ -78,6 +78,7 @@
+ 	        <menuitem label="Windows Vista / 7" value="vista" />
+ 	        <menuitem label="Mac" value="mac" />
+ 	        <menuitem label="Black" value="black"/>
++	        <menuitem label="Classic" value="classic"/>
+ 	      </menupopup>
+ 	    </menulist>
+ 	  </row>
+@@ -103,14 +104,10 @@
+             <hbox align="center">
+               <label control="refresh-interval" value="&twitternotifier.refreshInterval;" />
+             </hbox>
+-            <menulist id="refresh-interval" preference="_refresh-interval">
+-	      <menupopup>
+-	        <menuitem label="&twitternotifier.everyminute;" value="1" />
+-	        <menuitem label="&twitternotifier.every2minutes;" value="2" />
+-	        <menuitem label="&twitternotifier.every3minutes;" value="3" />
+-	        <menuitem label="&twitternotifier.every5minutes;" value="5"/>
+-	      </menupopup>
+-	    </menulist>
++            <hbox align="center">
++              <textbox id="refresh-interval" flex="1" type="number" size="2" value="5" preference="_refresh-interval"/>
++              <label control="refresh-interval" value="&twitternotifier.minutes;" />
++            </hbox>
+ 	  </row>
+           <!-- popup interval -->
+ 	  <row>
+diff --git a/chrome/Echofon/content/tweetbox.xml b/chrome/Echofon/content/tweetbox.xml
+index 5fe8045..0dab848 100644
+--- a/chrome/Echofon/content/tweetbox.xml
++++ b/chrome/Echofon/content/tweetbox.xml
+@@ -34,6 +34,12 @@
+       <xul:menupopup id="twitternotifier-status-menupopup">
+         <xul:menuitem label="&twitternotifier.copyTweet;" oncommand="gTwitterNotifier.copyTweet(this)"/>
+ 	<xul:menuseparator/>
++        <xul:menuitem label="&twitternotifier.translateTweetToZh-CN;" oncommand="gTwitterNotifier.translateTweet(this, 'zh-CN')"/>
++        <xul:menuitem label="&twitternotifier.translateTweetToZh-TW;" oncommand="gTwitterNotifier.translateTweet(this, 'zh-TW')"/>
++        <xul:menuitem label="&twitternotifier.translateTweetToEn;" oncommand="gTwitterNotifier.translateTweet(this, 'en')"/>
++        <xul:menuitem label="&twitternotifier.translateTweetToJa;" oncommand="gTwitterNotifier.translateTweet(this, 'ja')"/>
++	<xul:menuseparator/>
++        <xul:menuitem label="&twitternotifier.getReplyTweet;" oncommand="gTwitterNotifier.getReplyTweet(this)"/>
+         <xul:menuitem label="&twitternotifier.retweet;" oncommand="gTwitterNotifier.retweet(this)"/>
+         <xul:menuitem label="&twitternotifier.retweetWithComment;" oncommand="gTwitterNotifier.retweetWithComment(this)"/>
+         <xul:menuitem label="&twitternotifier.replyAll;" oncommand="gTwitterNotifier.replyAll(this)"/>
+diff --git a/chrome/Echofon/content/twitterfox.css b/chrome/Echofon/content/twitterfox.css
+index 7a53959..6858d7b 100755
+--- a/chrome/Echofon/content/twitterfox.css
++++ b/chrome/Echofon/content/twitterfox.css
+@@ -189,11 +189,18 @@
+   margin: 0px 3px 0px 1px;
+ }
+ 
+-#twitternotifier-link-button:hover { 
++#twitternotifier-translate-button { 
++  list-style-image: url("chrome://twitternotifier/content/images/google_favicon_gray.png");
++  display: -moz-box;
++  -moz-image-region: rect(0px, 17px, 16px, 0px);
++  margin: 0px 3px 0px 1px;
++}
++
++#twitternotifier-link-button:hover, #twitternotifier-translate-button:hover { 
+   -moz-image-region: rect(16px, 17px, 32px, 0px);
+ }
+ 
+-#twitternotifier-link-button:active { 
+++#twitternotifier-link-button:active, #twitternotifier-translate-button:active { 
+   -moz-image-region: rect(32px, 17px, 48px, 0px);
+ }
+ 
+diff --git a/chrome/Echofon/content/twitterfox.js b/chrome/Echofon/content/twitterfox.js
+index d9c3b16..af52000 100755
+--- a/chrome/Echofon/content/twitterfox.js
++++ b/chrome/Echofon/content/twitterfox.js
+@@ -273,7 +273,7 @@ TwitterNotifier.prototype = {
+       if (data) {
+         msg += " (" + data + ")";
+       }
+-      prompt.alert(window, "Echofon", msg);
++      //prompt.alert(window, "Echofon", msg);
+       this.logout();
+     }
+     else {
+@@ -289,13 +289,13 @@ TwitterNotifier.prototype = {
+ 
+   alertMessage: function(data) {
+     var prompt = this.Cc["@mozilla.org/embedcomp/prompt-service;1"].getService(this.Ci.nsIPromptService);
+-    prompt.alert(window, "Echofon", data);
++    //prompt.alert(window, "Echofon", data);
+   },
+ 
+   alertMessageWithPlatform: function(msg) {
+     var abi = Components.classes["@mozilla.org/xre/app-info;1"].getService(Components.interfaces.nsIXULRuntime).XPCOMABI;
+     var prompt = this.Cc["@mozilla.org/embedcomp/prompt-service;1"].getService(this.Ci.nsIPromptService);
+-    prompt.alert(window, "Echofon", msg + " (" + navigator.platform + " / " + abi + ")");
++    //prompt.alert(window, "Echofon", msg + " (" + navigator.platform + " / " + abi + ")");
+   },
+ 
+   onTimeoutBalloon: function() {
+@@ -479,7 +479,10 @@ TwitterNotifier.prototype = {
+     this._window.windowWidth = this._util.pref().getIntPref("windowWidth");
+     this._window.windowHeight = this._util.pref().getIntPref("windowHeight");
+ 
+-    this._window.show();
++    var echofonPanel = document.getElementById("twitternotifier-main-window");
++    var echofonPanelSplitter = document.getElementById("twitternotifier-splitter");
++    echofonPanelSplitter.collapsed = echofonPanel.collapsed = false
++    this.$("twitternotifier-main-window").resizeWindow();
+ 
+     if (navigator.platform.match("Mac")) {
+       this._window.input.style.padding = "0px";
+@@ -488,6 +491,14 @@ TwitterNotifier.prototype = {
+     this._window.setActiveTab(data);
+   },
+ 
++  resizePanel: function() {
++    this._window = this.$("twitternotifier-main-window");
++    this._util.pref().setIntPref("windowWidth", this._window.width);
++    this._util.pref().setIntPref("windowHeight", this._window.height);
++    this._window.windowWidth = this._window.width
++    this._window.resizeWindow();
++  },
++
+   receiveNextPage: function(data) {
+     if (!this.isActiveWindow()) {
+       return;
+@@ -507,11 +518,14 @@ TwitterNotifier.prototype = {
+ 
+   closePopup: function(force) {
+ 
+-    if (this._window.isOpen) {
++    var echofonPanel = document.getElementById("twitternotifier-main-window");
++    var echofonPanelSplitter = document.getElementById("twitternotifier-splitter");
++
++    if (!echofonPanel.collapsed) {
+       this._util.notify("markRead", {type: this._window.activeTab});
+       this.showUnreadCount(0);
+       if (force) {
+-        this._window.hide();
++        echofonPanelSplitter.collapsed = echofonPanel.collapsed = true
+       }
+     }
+   },
+@@ -608,6 +622,12 @@ TwitterNotifier.prototype = {
+                                           "in reply to " + msg.in_reply_to_screen_name,
+                                           "twitternotifier-source-link");
+         info.appendChild(reply);
++        elem.setAttribute("in_reply_to_screen_name", msg.in_reply_to_screen_name);
++        elem.setAttribute("in_reply_to_status_id", msg.in_reply_to_status_id);
++        elem.setAttribute("is_reply_tweet", 1);
++      }
++      else {
++        elem.setAttribute("is_reply_tweet", 0);
+       }
+ 
+       if (msg.latitude && msg.longitude) {
+@@ -866,18 +886,24 @@ TwitterNotifier.prototype = {
+     this._messageQueue = new Array();
+     this.showUnreadCount(0);
+ 
++    var echofonPanel = document.getElementById("twitternotifier-main-window");
++    var echofonPanelSplitter = document.getElementById("twitternotifier-splitter");
+ 
+-    if (this._window.isOpen) {
+-      this.closePopup(true);
++    if (!echofonPanel.collapsed) {
++      echofonPanelSplitter.collapsed = echofonPanel.collapsed = true
+     }
+     else {
+       this._util.notify("getRecent", {type:"timeline"});
+     }
++    this.$("twitternotifier-main-window").setAttribute("noautohide", true);
+   },
+ 
+   changeTab: function(name) {
+-    this._util.notify("markRead", {type: this._window.activeTab});
++    if (this._window.activeTab == name || this._window.activeTab != 'timeline') {
++        this._util.notify("markRead", {type: this._window.activeTab});
++    }
+     this._util.notify("getRecent", {type: name});
++    this._window.resizeWindow();
+   },
+ 
+   onRevertText: function(text) {
+@@ -916,6 +942,55 @@ TwitterNotifier.prototype = {
+ 
+   },
+ 
++  translateInputText: function(lang) {
++    var text = this.$("twitternotifier-message-input");
++    if (!text) {
++      return;
++    }
++
++    if (!this._window.isOpen) {
++      this.displayWindow({type:'timeline','unread':0});
++      this._util.notify("getRecent", {type:"timeline"});
++    }
++
++    if (lang == "original"){
++        if (typeof(text.original) != "undefined") {
++            text.value = text.original;
++        }
++        return;
++    } else {
++        if (text.value == "") {
++            return;
++        } else {
++            text.original = text.value;
++        }
++    }
++
++    var url_prefix = "http://ajax.googleapis.com/ajax/services/language/translate?v=1.0&format=text&langpair=%7C" + lang + "&q=";
++    var url = url_prefix + encodeURIComponent(text.original);
++    var request = new XMLHttpRequest();
++    request.open("GET", url, true);
++    request.onload  = function() {
++      var response_json = JSON.parse(request.responseText);
++      if (!response_json.responseData || response_json.responseStatus !== 200) {
++        var result_text = "Oh, something wrong, translate fail.";
++        var t = document.createTextNode(result_text);
++        var p = document.getElementById("translateTweetPanel");
++        var f = document.getElementById("translateTweetPanelText");
++        while (f.hasChildNodes()) {
++            f.removeChild(f.lastChild);
++        }
++        f.appendChild(t);
++        p.openPopup(text.parentNode.parentNode, "start_before", 0, -30, false, false);
++      } else {
++            var result_text = decodeURIComponent(response_json.responseData.translatedText);
++            text.focus();
++            text.value = result_text;
++      }
++    };
++    request.send(null);
++  },
++
+   onBalloonClick: function(e) {
+     var node = e.target;
+     if (e.button != 2) {
+@@ -939,24 +1014,30 @@ TwitterNotifier.prototype = {
+       }
+       menu.node = node;
+ 
+-      menu.childNodes[2].disabled = false;
+-      menu.childNodes[3].disabled = false;
+-      menu.childNodes[4].disabled = false;
++      menu.childNodes[8].disabled = false;
++      menu.childNodes[9].disabled = false;
++      menu.childNodes[10].disabled = false;
+       menu.lastChild.disabled = true;
+ 
+       if (!node.getAttribute("text").match(/@[A-Za-z0-9_]+/g)) {
+-        menu.childNodes[4].disabled = true;
++        menu.childNodes[10].disabled = true;
++      }
++
++      if (node.getAttribute("is_reply_tweet") == 0) {
++        menu.childNodes[7].disabled = true;
++      } else {
++        menu.childNodes[7].disabled = false;
+       }
+ 
+       if (node.getAttribute("protected") == 1) {
+-        menu.childNodes[2].disabled = true;
++        menu.childNodes[8].disabled = true;
+       }
+ 
+       if (this._window.activeTab == 'messages') {
+         menu.lastChild.disabled = false;
+-        menu.childNodes[2].disabled = true;
+-        menu.childNodes[3].disabled = true;
+-        menu.childNodes[4].disabled = true;
++        menu.childNodes[9].disabled = true;
++        menu.childNodes[10].disabled = true;
++        menu.childNodes[11].disabled = true;
+       }
+       if (this._username.toLowerCase() == node.getAttribute("screen_name").toLowerCase()) {
+         menu.lastChild.disabled = false;
+@@ -984,6 +1065,85 @@ TwitterNotifier.prototype = {
+     var tweet = node;
+     clipboard.copyString(tweet.getAttribute("text"));
+   },
++ 
++  translateTweet: function(target, lang) {
++
++    var clipboard = this.Cc["@mozilla.org/widget/clipboardhelper;1"].getService(this.Ci.nsIClipboardHelper);
++
++    var node = target.parentNode.node;
++    while (node) {
++      var id = node.id;
++      if (node.id && node.id.match(/tooltip-balloon/)) break;
++      node = node.parentNode;
++    }
++    if (node == null) return;
++    var tweet = node;
++
++    var url_prefix = "http://ajax.googleapis.com/ajax/services/language/translate?v=1.0&format=text&langpair=%7C" + lang + "&q=";
++    var url = url_prefix + encodeURIComponent(tweet.getAttribute("text"));
++    var request = new XMLHttpRequest();
++    request.open("GET", url, true);
++    request.onload  = function() {
++      var response_json = JSON.parse(request.responseText);
++      if (!response_json.responseData || response_json.responseStatus !== 200) {
++        var result_text = "Oh, something wrong, translate fail.";
++      } else {
++        var result_text = decodeURIComponent(response_json.responseData.translatedText);
++      }
++      clipboard.copyString(result_text);
++      //alert(result_text);
++      //tweet.setAttribute("text", result_text);
++      var t = document.createTextNode(result_text);
++      var p = document.getElementById("translateTweetPanel");
++      var f = document.getElementById("translateTweetPanelText");
++      while (f.hasChildNodes()) {
++        f.removeChild(f.lastChild);
++      }
++      f.appendChild(t);
++      p.openPopup(tweet, "start_before", 0, 0, false, false);
++    };
++    request.send(null);
++  },
++
++  getReplyTweet: function(target) {
++
++    var clipboard = this.Cc["@mozilla.org/widget/clipboardhelper;1"].getService(this.Ci.nsIClipboardHelper);
++
++    var node = target.parentNode.node;
++    while (node) {
++      var id = node.id;
++      if (node.id && node.id.match(/tooltip-balloon/)) break;
++      node = node.parentNode;
++    }
++    if (node == null) return;
++    var tweet = node;
++
++    var screen_name = tweet.getAttribute("in_reply_to_screen_name")
++    var max_id = tweet.getAttribute("in_reply_to_status_id")
++    url = "http://api.twitter.com/statuses/user_timeline.json?screen_name=" + screen_name + "&max_id=" + max_id +"&count=1"
++    var request = new XMLHttpRequest();
++    request.open("GET", url, true);
++    request.onload  = function() {
++      var response_json = JSON.parse(request.responseText);
++      if (!response_json[0].text) {
++        var result_text = "Oh, something wrong, get tweet fail.";
++      } else {
++        var result_text = response_json[0].text;
++      }
++      clipboard.copyString(result_text);
++      //alert(result_text);
++      //tweet.setAttribute("text", result_text);
++      var t = document.createTextNode(result_text);
++      var p = document.getElementById("translateTweetPanel");
++      var f = document.getElementById("translateTweetPanelText");
++      while (f.hasChildNodes()) {
++        f.removeChild(f.lastChild);
++      }
++      f.appendChild(t);
++      p.openPopup(tweet, "start_before", 0, 0, false, false);
++    };
++    request.send(null);
++  },
+ 
+   retweet: function(target) {
+     var node = target.parentNode.node;
+diff --git a/chrome/Echofon/content/twitterfox.xul b/chrome/Echofon/content/twitterfox.xul
+index f3fd24f..3b4b5b3 100755
+--- a/chrome/Echofon/content/twitterfox.xul
++++ b/chrome/Echofon/content/twitterfox.xul
+@@ -35,7 +35,6 @@
+       <label id="twitternotifier-statusbar-text" style="margin: 1px"/>
+     </statusbarpanel>
+     <hbox id="twitternotifier-popup-container">
+-      <panel id="twitternotifier-main-window" noautofocus="true" noautohide="true"/>
+       <panel id="twitternotifier-popup" noautofocus="true" noautohide="true"/>
+     </hbox>
+ 
+@@ -60,6 +59,21 @@
+ 
+  </statusbar>
+ 
++  <window id="main-window">
++    <panel id="translateTweetPanel" align="stretch" noautofocus="true" style="max-width: 315px !important;">
++        <hbox id="translateTweetPanelBox" align="start" style="padding: 6px; background-color: white !important; border-width: 2px !important; border-color: white !important;">
++            <image id="translateTweetPanelImage" width="16px" height="16px" style="list-style-image: url('chrome://twitternotifier/content/images/google_favicon.png');"/>
++            <description id="translateTweetPanelText" flex="1" style="color: black;  margin-left: 6px !important; margin-right: 0px !important; margin-top: 0px !important; margin-bottom: 0px !important;"/>
++        </hbox>
++    </panel>
++  </window>
++
++  <vbox id="browser">
++      <splitter id="twitternotifier-splitter" style="max-width: 3px; min-width: 3px;" collapsed="true" flex="1" persist="width" 
++          onclick="gTwitterNotifier.resizePanel()" />
++       <vbox id="twitternotifier-main-window" collapsed="true" persist="height" />
++  </vbox>
++
+   <!-- include javascript -->
+   <script src="utility.js"/>
+   <script src="twitterfox.js"/>
+diff --git a/chrome/Echofon/content/window.xml b/chrome/Echofon/content/window.xml
+index c1a85b7..ee915c7 100644
+--- a/chrome/Echofon/content/window.xml
++++ b/chrome/Echofon/content/window.xml
+@@ -21,6 +21,18 @@
+ 	<xul:image id="twitternotifier-link-button" 
+ 		   tooltiptext="&twitternotifier.linkButton.tooltip;"
+ 		   onclick="gTwitterNotifier.onInsertURL()"/>
++	<xul:popupset>
++	    <xul:menupopup id="twitternotifier-translate-popup" >
++        <xul:menuitem label="&twitternotifier.translateTweetToZh-CN;" oncommand="gTwitterNotifier.translateInputText('zh-CN')"/>
++        <xul:menuitem label="&twitternotifier.translateTweetToZh-TW;" oncommand="gTwitterNotifier.translateInputText('zh-TW')"/>
++        <xul:menuitem label="&twitternotifier.translateTweetToEn;" oncommand="gTwitterNotifier.translateInputText('en')"/>
++        <xul:menuitem label="&twitternotifier.translateTweetToJa;" oncommand="gTwitterNotifier.translateInputText('ja')"/>
++        <xul:menuitem label="&twitternotifier.resetTweetToOriginal;" oncommand="gTwitterNotifier.translateInputText('original')"/>
++	    </xul:menupopup>
++	</xul:popupset>
++	<xul:image id="twitternotifier-translate-button"
++		   tooltiptext="&twitternotifier.translateButton.tooltip;" 
++		   menu="twitternotifier-translate-popup"/>
+ 	<xul:description anonid="timeline" class="twitternotifier-tab"
+ 			 tooltiptext="&twitternotifier.recent.tooltip;"
+ 			 defaultvalue="Friends"
+@@ -158,14 +170,6 @@
+       ]]>
+       </handler>
+ 
+-      <handler event="draggesture">
+-        if (event.originalTarget.id == "twitternotifier-resizer") {
+-            this.isDragWindow = true;
+-            this.startX = event.clientX;
+-            this.startY = event.clientY;
+-        }
+-      </handler>
+-
+     </handlers>
+ 
+     <implementation>
+@@ -275,11 +279,6 @@
+           this.startX = event.clientX;
+           this.startY = event.clientY;
+ 
+-          var pref = Components.classes['@mozilla.org/preferences-service;1']
+-                       .getService(Components.interfaces.nsIPrefService).getBranch("extensions.twitternotifier.");
+-          pref.setIntPref("windowWidth", this.windowWidth);
+-          pref.setIntPref("windowHeight", this.windowHeight);
+-
+           this.resizeWindow();
+ 
+ 	]]></body>
+@@ -303,7 +302,7 @@
+             if (m) {
+               var mb = m.firstChild;
+               if (mb)
+-                mb.style.width = (this.windowWidth - 80) + "px";
++                mb.style.width = (this.windowWidth - 95) + "px";
+             }
+           }
+           
+@@ -315,7 +314,7 @@
+         <body>
+           var mb = elem.firstChild;
+           if (mb) {
+-            mb.style.width = (this.windowWidth - 80) + "px";
++            mb.style.width = (this.windowWidth - 95) + "px";
+           }
+         </body>
+       </method>
+diff --git a/chrome/Echofon/locale/en-US/twitternotifier.dtd b/chrome/Echofon/locale/en-US/twitternotifier.dtd
+index 267a588..08d6fe7 100644
+--- a/chrome/Echofon/locale/en-US/twitternotifier.dtd
++++ b/chrome/Echofon/locale/en-US/twitternotifier.dtd
+@@ -15,6 +15,13 @@
+ <!ENTITY twitternotifier.changeAccount.tooltip "Click to change account">
+ <!ENTITY twitternotifier.closeButton.tooltip "Close window">
+ <!ENTITY twitternotifier.copyTweet "Copy">
++<!ENTITY twitternotifier.translateButton.tooltip "Translate to other language">
++<!ENTITY twitternotifier.translateTweetToZh-CN "Translate to Simplified Chinese">
++<!ENTITY twitternotifier.translateTweetToZh-TW "Translate to Traditional Chinese">
++<!ENTITY twitternotifier.translateTweetToEn "Translate to English">
++<!ENTITY twitternotifier.translateTweetToJa "Translate to Japanese">
++<!ENTITY twitternotifier.resetTweetToOriginal "Reset to original">
++<!ENTITY twitternotifier.getReplyTweet "Get reply tweet">
+ <!ENTITY twitternotifier.retweet "Retweet...">
+ <!ENTITY twitternotifier.retweetWithComment "Retweet with Comment">
+ <!ENTITY twitternotifier.replyAll "Reply All">
+diff --git a/chrome/Echofon/locale/en-US/twitternotifier.pref.dtd b/chrome/Echofon/locale/en-US/twitternotifier.pref.dtd
+index 8662e43..c3c7623 100644
+--- a/chrome/Echofon/locale/en-US/twitternotifier.pref.dtd
++++ b/chrome/Echofon/locale/en-US/twitternotifier.pref.dtd
+@@ -6,9 +6,10 @@
+ <!ENTITY twitternotifier.editAccount "Edit account...">
+ <!ENTITY twitternotifier.removeAccount "Remove account...">
+ <!ENTITY twitternotifier.preferences "Preferences">
+-<!ENTITY twitternotifier.refreshInterval "Get tweets">
++<!ENTITY twitternotifier.refreshInterval "Get tweets every">
+ <!ENTITY twitternotifier.theme "Theme">
+ <!ENTITY twitternotifier.fontSize "Font size">
++<!ENTITY twitternotifier.minutes "minutes">
+ <!ENTITY twitternotifier.everyminute "Every minute">
+ <!ENTITY twitternotifier.every2minutes "Every 2 minutes">
+ <!ENTITY twitternotifier.every3minutes "Every 3 minutes">
+diff --git a/chrome/Echofon/locale/zh-CN/twitternotifier.dtd b/chrome/Echofon/locale/zh-CN/twitternotifier.dtd
+index 5e7209c..e330bf4 100644
+--- a/chrome/Echofon/locale/zh-CN/twitternotifier.dtd
++++ b/chrome/Echofon/locale/zh-CN/twitternotifier.dtd
+@@ -15,6 +15,13 @@
+ <!ENTITY twitternotifier.changeAccount.tooltip "按一下以更换用户">
+ <!ENTITY twitternotifier.closeButton.tooltip "关闭窗口">
+ <!ENTITY twitternotifier.copyTweet "复制">
++<!ENTITY twitternotifier.translateButton.tooltip "翻译到其它语言">
++<!ENTITY twitternotifier.translateTweetToZh-CN "翻译到简体中文">
++<!ENTITY twitternotifier.translateTweetToZh-TW "翻译到繁体中文">
++<!ENTITY twitternotifier.translateTweetToEn "翻译到英文">
++<!ENTITY twitternotifier.translateTweetToJa "翻译到日文">
++<!ENTITY twitternotifier.resetTweetToOriginal "恢复到原文">
++<!ENTITY twitternotifier.getReplyTweet "获取回复推">
+ <!ENTITY twitternotifier.retweet "回推">
+ <!ENTITY twitternotifier.retweetWithComment "附评论回推">
+ <!ENTITY twitternotifier.replyAll "回覆全部">
+diff --git a/chrome/Echofon/locale/zh-CN/twitternotifier.pref.dtd b/chrome/Echofon/locale/zh-CN/twitternotifier.pref.dtd
+index 2cdfb18..d04c6f4 100644
+--- a/chrome/Echofon/locale/zh-CN/twitternotifier.pref.dtd
++++ b/chrome/Echofon/locale/zh-CN/twitternotifier.pref.dtd
+@@ -6,9 +6,10 @@
+ <!ENTITY twitternotifier.editAccount "编集用户">
+ <!ENTITY twitternotifier.removeAccount "删除用户">
+ <!ENTITY twitternotifier.preferences "设置">
+-<!ENTITY twitternotifier.refreshInterval "取得信息">
++<!ENTITY twitternotifier.refreshInterval "取得信息每隔">
+ <!ENTITY twitternotifier.theme "主题">
+ <!ENTITY twitternotifier.fontSize "字型大小">
++<!ENTITY twitternotifier.minutes "分钟">
+ <!ENTITY twitternotifier.everyminute "每1分钟">
+ <!ENTITY twitternotifier.every2minutes "每2分钟">
+ <!ENTITY twitternotifier.every3minutes "每3分钟">
+diff --git a/chrome/Echofon/locale/zh-TW/twitternotifier.dtd b/chrome/Echofon/locale/zh-TW/twitternotifier.dtd
+index d4448ff..21b1004 100644
+--- a/chrome/Echofon/locale/zh-TW/twitternotifier.dtd
++++ b/chrome/Echofon/locale/zh-TW/twitternotifier.dtd
+@@ -15,6 +15,13 @@
+ <!ENTITY twitternotifier.changeAccount.tooltip "按一下以更換帳號">
+ <!ENTITY twitternotifier.closeButton.tooltip "關閉視窗">
+ <!ENTITY twitternotifier.copyTweet "複製">
++<!ENTITY twitternotifier.translateButton.tooltip "翻譯到其它語言">
++<!ENTITY twitternotifier.translateTweetToZh-CN "翻譯到簡體中文">
++<!ENTITY twitternotifier.translateTweetToZh-TW "翻譯到繁體中文">
++<!ENTITY twitternotifier.translateTweetToEn "翻譯到英文">
++<!ENTITY twitternotifier.translateTweetToJa "翻譯到日文">
++<!ENTITY twitternotifier.resetTweetToOriginal "恢復到原文">
++<!ENTITY twitternotifier.getReplyTweet "獲取回覆推">
+ <!ENTITY twitternotifier.retweet "回推">
+ <!ENTITY twitternotifier.retweetWithComment "與評論一起回推">
+ <!ENTITY twitternotifier.replyAll "回覆全部">
+diff --git a/chrome/Echofon/locale/zh-TW/twitternotifier.pref.dtd b/chrome/Echofon/locale/zh-TW/twitternotifier.pref.dtd
+index 764c169..3e5aa18 100644
+--- a/chrome/Echofon/locale/zh-TW/twitternotifier.pref.dtd
++++ b/chrome/Echofon/locale/zh-TW/twitternotifier.pref.dtd
+@@ -6,9 +6,10 @@
+ <!ENTITY twitternotifier.editAccount "編輯帳號">
+ <!ENTITY twitternotifier.removeAccount "移除帳號">
+ <!ENTITY twitternotifier.preferences "設定">
+-<!ENTITY twitternotifier.refreshInterval "取得訊息間隔">
++<!ENTITY twitternotifier.refreshInterval "取得訊息每隔">
+ <!ENTITY twitternotifier.theme "佈景">
+ <!ENTITY twitternotifier.fontSize "字型大小">
++<!ENTITY twitternotifier.minutes "分鐘">
+ <!ENTITY twitternotifier.everyminute "每1分鐘">
+ <!ENTITY twitternotifier.every2minutes "每2分鐘">
+ <!ENTITY twitternotifier.every3minutes "每3分鐘">

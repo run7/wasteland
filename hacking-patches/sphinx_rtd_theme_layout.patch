@@ -1,0 +1,174 @@
+diff --git a/sphinx_rtd_theme/breadcrumbs.html b/sphinx_rtd_theme/breadcrumbs.html
+index 7c2ce5c..0299c1d 100644
+--- a/sphinx_rtd_theme/breadcrumbs.html
++++ b/sphinx_rtd_theme/breadcrumbs.html
+@@ -8,7 +8,7 @@
+ 
+ <div role="navigation" aria-label="breadcrumbs navigation">
+   <ul class="wy-breadcrumbs">
+-    <li><a href="{{ pathto(master_doc) }}">Docs</a> &raquo;</li>
++    <li><a href="{{ pathto(master_doc) }}">首页</a> &raquo;</li>
+       {% for doc in parents %}
+         <li><a href="{{ doc.link|e }}">{{ doc.title }}</a> &raquo;</li>
+       {% endfor %}
+@@ -20,9 +20,9 @@
+         {% elif display_bitbucket %}
+           <a href="https://bitbucket.org/{{ bitbucket_user }}/{{ bitbucket_repo }}/src/{{ bitbucket_version}}{{ conf_py_path }}{{ pagename }}{{ suffix }}" class="fa fa-bitbucket"> Edit on Bitbucket</a>
+         {% elif show_source and source_url_prefix %}
+-          <a href="{{ source_url_prefix }}{{ pagename }}{{ suffix }}">View page source</a>
++          <a href="{{ source_url_prefix }}{{ pagename }}{{ suffix }}">查看源码</a>
+         {% elif show_source and has_source and sourcename %}
+-          <a href="{{ pathto('_sources/' + sourcename, true)|e }}" rel="nofollow"> View page source</a>
++          <a href="{{ pathto('_sources/' + sourcename, true)|e }}" rel="nofollow"> 查看源码</a>
+         {% endif %}
+       {% endif %}
+     </li>
+diff --git a/sphinx_rtd_theme/footer.html b/sphinx_rtd_theme/footer.html
+index f4396ee..80c6219 100644
+--- a/sphinx_rtd_theme/footer.html
++++ b/sphinx_rtd_theme/footer.html
+@@ -2,10 +2,10 @@
+   {% if next or prev %}
+     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+       {% if next %}
+-        <a href="{{ next.link|e }}" class="btn btn-neutral float-right" title="{{ next.title|striptags|e }}" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
++        <a href="{{ next.link|e }}" class="btn btn-neutral float-right" title="{{ next.title|striptags|e }}" accesskey="n">下一页 <span class="fa fa-arrow-circle-right"></span></a>
+       {% endif %}
+       {% if prev %}
+-        <a href="{{ prev.link|e }}" class="btn btn-neutral" title="{{ prev.title|striptags|e }}" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
++        <a href="{{ prev.link|e }}" class="btn btn-neutral" title="{{ prev.title|striptags|e }}" accesskey="p"><span class="fa fa-arrow-circle-left"></span> 上一页</a>
+       {% endif %}
+     </div>
+   {% endif %}
+diff --git a/sphinx_rtd_theme/layout.html b/sphinx_rtd_theme/layout.html
+index c34fa58..7002980 100644
+--- a/sphinx_rtd_theme/layout.html
++++ b/sphinx_rtd_theme/layout.html
+@@ -38,6 +38,10 @@
+     <link rel="stylesheet" href="{{ pathto('_static/' + style, 1) }}" type="text/css" />
+   {% endif %}
+ 
++  {# custom #}
++  <link rel="stylesheet" href="{{ pathto('_static/css/custom-layout.css', 1) }}" type="text/css" />
++  <link rel="stylesheet" href="{{ pathto('_static/css/custom-sidebar.css', 1) }}" type="text/css" />
++
+   {% for cssfile in css_files %}
+     <link rel="stylesheet" href="{{ pathto(cssfile, 1) }}" type="text/css" />
+   {% endfor %}
+@@ -121,13 +125,8 @@
+ 
+         <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+           {% block menu %}
+-            {% set toctree = toctree(maxdepth=4, collapse=theme_collapse_navigation, includehidden=True) %}
+-            {% if toctree %}
+-                {{ toctree }}
+-            {% else %}
+-                <!-- Local TOC -->
+-                <div class="local-toc">{{ toc }}</div>
+-            {% endif %}
++            <!-- Local TOC -->
++            <div class="local-toc">{{ toc }}</div>
+           {% endblock %}
+         </div>
+       </div>
+diff --git a/sphinx_rtd_theme/searchbox.html b/sphinx_rtd_theme/searchbox.html
+index 35ad52c..d8a0e6f 100644
+--- a/sphinx_rtd_theme/searchbox.html
++++ b/sphinx_rtd_theme/searchbox.html
+@@ -1,7 +1,7 @@
+ {%- if builder != 'singlehtml' %}
+ <div role="search">
+   <form id="rtd-search-form" class="wy-form" action="{{ pathto('search') }}" method="get">
+-    <input type="text" name="q" placeholder="Search docs" />
++    <input type="text" name="q" placeholder="搜索" />
+     <input type="hidden" name="check_keywords" value="yes" />
+     <input type="hidden" name="area" value="default" />
+   </form>
+diff --git a/sphinx_rtd_theme/static/css/custom-layout.css b/sphinx_rtd_theme/static/css/custom-layout.css
+new file mode 100644
+index 0000000..5a0c1c2
+--- /dev/null
++++ b/sphinx_rtd_theme/static/css/custom-layout.css
+@@ -0,0 +1,28 @@
++.wy-side-nav-search {
++    background-color: #4F9A37;
++}
++
++.wy-side-nav-search .version {
++    display: none;
++}
++
++.wy-nav-side {
++    background-color: #0F1B00;
++}
++
++.wy-nav-content {
++    max-width: 1140px;
++}
++
++.wy-nav-content h2 {
++    border-bottom: 1px dashed #ddd;
++    padding-bottom: 8px;
++}
++
++.wy-nav-content img {
++    margin-bottom: 24px;
++}
++
++.wy-table-responsive table {
++    width: 100%;
++}
+diff --git a/sphinx_rtd_theme/static/css/custom-sidebar.css b/sphinx_rtd_theme/static/css/custom-sidebar.css
+new file mode 100644
+index 0000000..7c76c1e
+--- /dev/null
++++ b/sphinx_rtd_theme/static/css/custom-sidebar.css
+@@ -0,0 +1,48 @@
++.wy-table-responsive table {
++    width: 100%;
++}
++
++.wy-nav-top i {
++    line-height: 50px;
++}
++
++.wy-menu-vertical .local-toc {
++    background-color: #E3E3E3;
++}
++
++.wy-menu-vertical .local-toc .toctree-expand {
++    display: none;
++}
++
++.wy-menu-vertical .local-toc > ul > li > a {
++    background-color: #FCFCFC;
++    border-style: solid none;
++    border-width: 1px medium;
++    border-color: #C9C9C9;
++    color: #404040;
++    font-weight: bold;
++}
++
++.wy-menu-vertical .local-toc > ul > li > a:hover,
++.wy-menu-vertical .local-toc > ul > li > a:active,
++.wy-menu-vertical .local-toc > ul > li > a:focus {
++    background-color: #FCFCFC;
++    color: #404040;
++}
++
++.wy-menu-vertical .local-toc ul > li > ul > li a {
++    padding-left: 40px;
++    color: #808080;
++    border-right: 1px solid #C9C9C9;
++}
++
++.wy-menu-vertical .local-toc ul > li > ul > li a:hover,
++.wy-menu-vertical .local-toc ul > li > ul > li a:active,
++.wy-menu-vertical .local-toc ul > li > ul > li a:focus {
++    color: #808080;
++    background-color: #D6D6D6;
++}
++
++.wy-menu-vertical .local-toc ul > li > ul > li > ul > li a {
++    padding-left: 60px;
++}

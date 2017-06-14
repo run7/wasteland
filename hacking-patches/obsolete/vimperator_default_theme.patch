@@ -1,0 +1,119 @@
+diff --git a/chrome/vimperator/common/content/buffer.js b/chrome/vimperator/common/content/buffer.js
+index 505bfcb..33af460 100644
+--- a/chrome/vimperator/common/content/buffer.js
++++ b/chrome/vimperator/common/content/buffer.js
+@@ -286,6 +286,7 @@ const Buffer = Module("buffer", {
+             setTimeout(function () { statusline.updateUrl(); }, 100);
+         },
+         setOverLink: function (link, b) {
++            document.getElementById("statusbar-display").label = link;
+             let ssli = options["showstatuslinks"];
+             if (link && ssli) {
+                 if (ssli == 1)
+diff --git a/chrome/vimperator/common/content/liberator.xul b/chrome/vimperator/common/content/liberator.xul
+index 21f39ff..fbf6ce2 100644
+--- a/chrome/vimperator/common/content/liberator.xul
++++ b/chrome/vimperator/common/content/liberator.xul
+@@ -22,7 +22,7 @@
+ 
+     <script type="application/x-javascript;version=1.8" src="&liberator.content;liberator-overlay.js"/>
+ 
+-    <window id="&liberator.mainWindow;">
++    <vbox id="appcontent">
+         <stringbundleset id="liberator-stringbundles">
+             <stringbundle id="liberator-charset-bundle"
+                 src="chrome://global/locale/charsetTitles.properties"/>
+@@ -82,21 +82,18 @@
+                 onblur="window.liberator &and; liberator.modules.commandline.onMultilineInputEvent(event);"/>
+         </vbox>
+ 
+-    </window>
+-
+-    <statusbar id="status-bar" liberator:highlight="StatusLine">
+-        <hbox insertbefore="&liberator.statusBefore;" insertafter="&liberator.statusAfter;"
+-              id="liberator-statusline" flex="1" hidden="false" align="center">
+-            <textbox class="plain" id="liberator-statusline-field-url" readonly="false" flex="1" crop="end"/>
+-            <label class="plain" id="liberator-statusline-field-inputbuffer"    flex="0"/>
+-            <label class="plain" id="liberator-statusline-field-progress"       flex="0"/>
+-            <label class="plain" id="liberator-statusline-field-tabcount"       flex="0"/>
+-            <label class="plain" id="liberator-statusline-field-bufferposition" flex="0"/>
+-        </hbox>
+-        <!-- just hide them since other elements expect them -->
+-        <statusbarpanel id="statusbar-display" hidden="true"/>
+-        <statusbarpanel id="statusbar-progresspanel" hidden="true"/>
+-    </statusbar>
++        <panel liberator:highlight="StatusLine">
++            <hbox insertbefore="&liberator.statusBefore;" insertafter="&liberator.statusAfter;"
++                  id="liberator-statusline" flex="1" hidden="false" align="center">
++                <textbox class="plain" id="liberator-statusline-field-url" readonly="false" flex="1" crop="end"/>
++                <label class="plain" id="liberator-statusline-field-inputbuffer"    flex="0"/>
++                <label class="plain" id="liberator-statusline-field-progress"       flex="0"/>
++                <label class="plain" id="liberator-statusline-field-tabcount"       flex="0"/>
++                <label class="plain" id="liberator-statusline-field-bufferposition" flex="0"/>
++            </hbox>
++        </panel>
++
++    </vbox>
+ 
+ </overlay>
+ 
+diff --git a/chrome/vimperator/common/content/modes.js b/chrome/vimperator/common/content/modes.js
+index 9aa3d1d..eda433e 100644
+--- a/chrome/vimperator/common/content/modes.js
++++ b/chrome/vimperator/common/content/modes.js
+@@ -163,6 +163,7 @@ const Modes = Module("modes", {
+         if (options["showmode"])
+             msg = this._getModeMessage();
+ 
++        document.getElementById("statusbar-display").label = msg;
+         commandline.echo(msg, "ModeMsg", commandline.FORCE_SINGLELINE);
+     },
+ 
+diff --git a/chrome/vimperator/common/content/style.js b/chrome/vimperator/common/content/style.js
+index 9d125eb..684c8ee 100644
+--- a/chrome/vimperator/common/content/style.js
++++ b/chrome/vimperator/common/content/style.js
+@@ -73,7 +73,6 @@ Highlights.prototype.CSS = <![CDATA[
+     LineNr      color: orange; background: white;
+     Question    color: green; background: white; font-weight: bold;
+ 
+-    StatusLine          color: white; background: black;
+     StatusLineBroken    color: black; background: #FFa0a0 /* light-red */
+     StatusLineSecure    color: black; background: #a0a0FF /* light-blue */
+     StatusLineExtended  color: black; background: #a0FFa0 /* light-green */
+diff --git a/chrome/vimperator/common/skin/liberator.css b/chrome/vimperator/common/skin/liberator.css
+index 0b8ad66..2c95b1c 100644
+--- a/chrome/vimperator/common/skin/liberator.css
++++ b/chrome/vimperator/common/skin/liberator.css
+@@ -81,16 +81,6 @@
+     /*-moz-appearance: none !important; /* prevent an ugly 3D border */
+ }
+ 
+-/* fixes the min-height: 22px from firefox */
+-#status-bar,
+-statusbarpanel {
+-    -moz-appearance: none !important;
+-	min-height: 18px !important;
+-    border: none !important;
+-    font-weight: bold;
+-    font-family: monospace;
+-}
+-
+ #liberator-statusline {
+     font-family: monospace;
+     margin: 0px;
+@@ -106,14 +96,6 @@ statusbarpanel {
+     color: inherit;
+ }
+ 
+-/* no longer at the window's bottom right corner */
+-.statusbar-resizerpanel {
+-    display: none;
+-}
+-#statusbar-display, #statusbar-progresspanel {
+-    display: none;
+-}
+-
+ #liberator-commandline-prompt {
+     background-color: inherit;
+     margin: 0px;
