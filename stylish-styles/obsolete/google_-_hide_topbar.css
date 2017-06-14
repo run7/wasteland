@@ -1,0 +1,11 @@
+@namespace url(http://www.w3.org/1999/xhtml);
+
+@-moz-document 
+url-prefix("http://www.google.com/reader/"),
+url-prefix("https://www.google.com/reader/") {
+
+#gb {
+    display: none;
+}
+
+}

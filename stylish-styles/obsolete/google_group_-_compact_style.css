@@ -1,0 +1,121 @@
+@namespace url(http://www.w3.org/1999/xhtml);
+
+@-moz-document domain("groups.google.com") {
+
+/* remove top bar buttons and background */
+#gbz {
+    display: none !important;
+}
+#gbx3 {
+    display: none !important;
+}
+
+/* remove google+ buttons */
+#gbu {
+    display:none !important;
+}
+
+/* move search form to right */
+#gbq2 {
+    float: right !important;
+    padding: 5px 0 !important;
+    margin-left:0 !important;
+}
+
+/* remove search bar background */
+#gbx1 {
+    display: none !important;
+}
+
+/* move control buttons to left */
+#groups-banner-link+div {
+    float: left !important;
+}
+
+/* remove "google group" text */
+#groups-banner-link {
+    display: none !important;
+}
+
+/* move main content to top */
+#gb {
+    height: 0 !important;
+}
+#gbq {
+    top: 0 !important;
+    z-index: auto !important;
+}
+
+/* some control bar size tune */
+.GA4IQDWDMOB {
+    height: 29px !important;
+    padding-top: 4px !important;
+    padding-bottom: 5px !important;
+}
+#groups-banner-link+div {
+    margin-top: 0 !important;
+}
+#f-h {
+    padding-bottom: 5px !important;
+    padding-top: 5px !important;
+}
+.GMS-XE1BHKB {
+    margin-top: 1px !important;
+}
+
+/* google logo position */
+#gbqlw {
+    height: 40px !important;
+}
+
+/* search bar button position */
+#gbqfbw {
+    display: block !important;
+    width: 74px !important;
+}
+#gbqff, #gbqfbw {
+    float: left !important;
+}
+#gbqf {
+    min-width: 290px !important;
+}
+#gbqfbw {
+    margin-left: 8px !important;
+    margin-right: 8px !important;
+}
+
+/* buttons margin */
+#po-1, #po-2 {
+    width: 0 !important;
+}
+#f-tl+div {
+    float: left !important;
+    margin-top: 6px !important;
+}
+.GMS-XE1BAP {
+    margin-right: 8px !important;
+}
+.GMS-XE1BFP {
+    margin-right: 0 !important;
+}
+.GMS-XE1BKGB {
+    padding-left: 0 !important;
+}
+.GA4IQDWDKO {
+    float: right !important;
+}
+
+/* content area */
+.GMS-XE1BA2 {
+    width: 720px !important;
+}
+.gux-confirm-panel .gux-confirm-panel-c {
+    margin-top: 17px !important;
+}
+
+/* message area position */
+.GMS-XE1BJ3 .gux-confirm-panel-c {
+    display: none !important;
+}
+
+}

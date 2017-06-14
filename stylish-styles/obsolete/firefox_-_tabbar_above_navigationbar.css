@@ -1,0 +1,28 @@
+@namespace url(http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul);
+
+@-moz-document url("chrome://browser/content/browser.xul") {
+
+#nav-bar {
+    margin-top: 29px !important;
+}
+
+.tabbrowser-strip{
+    margin-left: 0px;
+    top: 29px;
+    position: fixed;
+}
+
+.tabbrowser-tabs, .tabbrowser-strip, .tabbrowser-strip > vbox  {
+    width: 100%;
+}
+
+.tab-drop-indicator-bar, .tab-drop-indicator {
+    margin-top: -89px;
+    z-index: 1;
+}
+
+.tab-drop-indicator {
+    margin-left: 4px;
+}
+
+}

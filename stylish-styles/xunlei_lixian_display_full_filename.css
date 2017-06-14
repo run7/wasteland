@@ -1,0 +1,30 @@
+@namespace url(http://www.w3.org/1999/xhtml);
+
+@-moz-document url-prefix("http://dynamic.cloud.vip.xunlei.com/") {
+
+.rwbox .w09, .namelink {
+    width: intrinsic !important; /* chrome */
+    width: -moz-max-content !important;
+    font-family: monospace;
+}
+
+.rwbox .w05 {
+    float: right !important;
+}
+
+.subrwinfo .subw05 {
+    float: right !important;
+    margin-right: 15px !important;
+}
+
+.rwbox .w07 {
+    float: right !important;
+    margin-right: 25px !important;
+}
+
+.subrwinfo .subw03 {
+    float: right !important;
+    width: 165px !important;
+}
+
+}

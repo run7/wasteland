@@ -1,0 +1,10 @@
+@namespace url(http://www.w3.org/1999/xhtml);
+
+@-moz-document url-prefix("http://www.google.com/notebook/"),
+url-prefix("https://www.google.com/notebook/") {
+
+.fh, .gh, .editable {
+    font-family: "Consolas","Bitstream Vera Sans Mono","Courier New",Courier,monospace !important;
+}
+
+}

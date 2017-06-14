@@ -1,0 +1,84 @@
+@namespace url(http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul);
+
+#twitternotifier-window-container {
+	background-color: #9ae4e8;
+	padding: 0px 2px !important;
+}
+
+#twitternotifier-content-shadow {
+	background: none;
+}
+
+.twitternotifier-popup-logo-box {
+	background: none;
+}
+
+.twitternotifier-status {
+	background: #d8ffff;
+}
+
+.twitternotifier-status[unread="true"] {
+	background: #9ae4e8;
+}
+
+.twitternotifier-status[attr="replies"] {
+	background: #d8ffd9;
+}
+
+.twitternotifier-status[attr="replies"][unread="true"] {
+	background: #bee89b;
+}
+
+.twitternotifier-status[attr="messages"] {
+	background: #Feedd9;
+}
+
+.twitternotifier-status[attr="messages"][unread="true"] {
+	background: #e8c69b;
+}
+
+.twitternotifier-status-borderline {
+	border-color: #ffffff !important;
+}
+
+.twitternotifier-status-borderline[combined_top="true"] {
+	border-color: #ffffff !important;
+}
+
+.twitternotifier-scrollbox {
+	border: 3px solid #fff;
+}
+
+.twitternotifier-current-account {
+	font-weight: normal !important;
+}
+
+.twitternotifier-tab {
+	color: #4aa;
+	background: #bbeef0 !important;
+	border-top: 1px solid #7dd;
+	border-left: 1px solid #7dd;
+	border-right: 1px solid #7dd;
+	border-bottom: 1px solid #7dd;
+	text-shadow: none;
+	font-weight: normal !important;
+}
+
+.twitternotifier-tab:hover {
+	background-color: #bbeef0 !important;
+}
+
+.twitternotifier-tab[attr="active"] {
+	color: #222;
+	background: #fff !important;
+	border-top: 1px solid #fff;
+	border-left: 1px solid #6cc;
+	border-right: 1px solid #6cc;
+	border-bottom: 1px solid #6cc;
+	text-shadow: none;
+	font-weight: bold !important;
+}
+
+.twitternotifier-tab[unread="true"] {
+	font-weight: bold !important;
+}
